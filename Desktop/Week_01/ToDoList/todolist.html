@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To Do List</title>
+    <link rel="stylesheet" href="todolist.css">
+</head>
+<body>
+    <div class="header">
+        <h1>UMC Study Plan</h1>
+    </div>
+    <div class="input">
+        <input type="text" id="inputField" onkeyup="addToDo(event)" placeholder="스터디 계획을 작성해보세요!">
+    </div>
+    <div class="container">
+        <header id="before"><b>해야 할 일</b></header>
+        <div id="before-inner" class="inner">
+            <!--<header id="before"><b>해야 할 일</b></header>-->
+        </div>
+        <header id="after"><b>해낸 일</b></header>
+        <div id="after-inner" class="inner">
+            <!--<header id="after"><b>해낸 일</b></header>-->
+        </div>
+    </div>
+    <script src="todolist.js"></script>
+</body>
+</html>
