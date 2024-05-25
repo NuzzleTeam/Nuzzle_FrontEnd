@@ -1,0 +1,41 @@
+/* title.jsx에 대한 css */
+.todo-title {
+    width: 100%; height: 100px;
+    top: 10%;
+    font-size: 120%;
+    border-bottom: 2px solid #E2E9F3;
+}
+
+/* inputbox.jsx에 대한 css */
+.todo-input {
+    width: 100%;
+    margin: 2.5%;
+}
+
+input {
+    width: 50%; height: 30px;
+    text-align: center;
+}
+
+input::placeholder {
+    font-style: italic;
+}
+
+
+/* list.jsx에 대한 css */
+.list-wrapper {
+    width: 100%; height: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 1px solid green;
+}
+.todo {
+    border: 1px solid red;
+    flex: 1;
+}
+.todo > p {
+    border-bottom: 2px solid #E2E9F3;
+    margin: 20px; padding: 10px;
+    font-weight: bold;
+}

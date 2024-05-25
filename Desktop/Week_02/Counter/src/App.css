@@ -1,0 +1,14 @@
+.counter-wrapper {
+    text-align: center;
+    width: 30%;
+    position: relative;
+    bottom: 40%; left: 40%;
+}
+
+.btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center; 
+    gap: 10px;
+    /* justify-content만 center가 먹히네 */
+}
