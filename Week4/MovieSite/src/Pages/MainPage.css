@@ -1,0 +1,45 @@
+body {
+    background-color: #1E2041;
+    color: white;
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+}
+
+.mainpage-wrapper {
+    width: 100%; height: 100%;
+    margin: 0; padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.mainpage-welcome {
+    background-color: black;
+    position: relative;
+    width: 100%; height: 30%;
+    text-align: center;
+}
+
+.mainpage-welcome > h2 {
+    position: relative;
+    top: 30%;
+}
+
+.mainpage-search {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.mainpage-search-find {
+    position: relative;
+    top: 30%;
+    text-align: center;
+}
+
+.searchbox {
+    border-radius: 15px;
+    height: 30px; width: 40%;
+    position: relative;
+    top: 150%; left: 30%;
+
+}
