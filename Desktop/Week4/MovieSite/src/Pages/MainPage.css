@@ -16,6 +16,7 @@ body {
     background-color: black;
     position: relative;
     width: 100%; height: 30%;
+    text-align: center;
 }
 
 .mainpage-welcome > h2 {
@@ -32,12 +33,13 @@ body {
 .mainpage-search-find {
     position: relative;
     top: 30%;
+    text-align: center;
 }
 
 .searchbox {
     border-radius: 15px;
-    height: 30px;
-    width: 50%;
+    height: 30px; width: 40%;
     position: relative;
-    top: 150%;
+    top: 150%; left: 30%;
+
 }
