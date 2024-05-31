@@ -1,10 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import Card from '../Card/Card'
-import '../Card/Card.css'
-import './Pages.css'
-
-function NowPlayingPage () {
-
+function Api () {
     const [movies, setMovies] = useState(null);
 
     useEffect(() => {
@@ -26,27 +20,7 @@ function NowPlayingPage () {
               setMovies(response.results);
             })
             .catch((err) => console.error(err));
-        }, []);
-
-    return(
-        <>
-            <div className="container">
-            {
-                movies && movies.map((item) => {
-                    return (
-                        <Card
-                        key={item.id}
-                        title={item.title}
-                        poster_path={item.poster_path}
-                        vote_average={item.vote_average}
-                        overview={item.overview}
-                        />
-                    )
-                })
-            }
-            </div>
-        </>
-    )
+        }, []);   
 }
 
-export default NowPlayingPage;
+export default Api;

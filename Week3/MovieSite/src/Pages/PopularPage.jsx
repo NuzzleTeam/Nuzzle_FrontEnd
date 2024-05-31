@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Card from '../Card/Card'
 import '../Card/Card.css'
-import { popularlist } from '../MovieList/PopularList'
+import './Pages.css'
 
 function PopularPage () {
 

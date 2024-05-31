@@ -36,6 +36,10 @@ h5 {
     color: white;
 }
 
-.nav-link.active {
-    color: red;
+.nav-link:focus {
+    color: #F9C52D;
+}
+
+.nav-link:hover {
+    color: #F9C52D;
 }

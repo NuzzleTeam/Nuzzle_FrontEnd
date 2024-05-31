@@ -7,7 +7,7 @@ function NavBar(){
     const [onLogin, setonLogin] = useState('로그인');
 
     const loginClick = () => {
-        setonLogin('로그아웃');
+        setonLogin(onLogin => onLogin === '로그인' ? '로그아웃' : '로그인');
     }
 
     return(

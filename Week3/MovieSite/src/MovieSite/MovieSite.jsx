@@ -8,6 +8,8 @@ import TopRatedPage from '../Pages/TopRatedPage.jsx'
 import UpComing from '../Pages/UpComing.jsx'
 import { Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
+import MovieDetailPage from '../Pages/MovieDetailPage.jsx'
+import NotFoundPage from '../Pages/NotFoundPage.jsx'
 
 let MovieSiteContainer = styled.div`
     height: 80%;
@@ -27,6 +29,8 @@ function MovieSite() {
                     <Route path='/popular' element={<PopularPage />} />
                     <Route path='/toprated' element={<TopRatedPage />} />
                     <Route path='/upcoming' element={<UpComing />} />
+                    <Route path='/movie/:title' element={<MovieDetailPage />} />
+                    <Route path='*' element = {<NotFoundPage/>}/>
                 </Routes>
             </MovieSiteContainer>
             {/* </div> */}
