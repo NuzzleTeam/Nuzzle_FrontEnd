@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -31,52 +31,53 @@ function Signup () {
 
     let n = 0;
 
+    const navigate = useNavigate();
+
     const handleSubmit = (e) => {
         let valid = false;
         e.preventDefault();
         if (name === '') {
             setErrorVisible(prev => ({ ...prev, name: true }));
             valid = false;
-            n += 1;
         }
         if (email === '') {
             setErrorVisible(prev => ({ ...prev, email: true }));
             valid = false;
-            n += 1;
         } else if (!email.includes('@')) {
             setErrorVisible(prev => ({ ...prev, emailFormat: true }));
             valid = false;
-            n += 1;
         }
         if (age === '') {
             setErrorVisible(prev => ({ ...prev, age: true }));
             valid = false;
-            n += 1;
         }
         if (pw === '') {
             setErrorVisible(prev => ({ ...prev, pw: true}));
             valid = false;
-            n += 1;
         }
         if (chpw === '') {
             setErrorVisible(prev => ({ ...prev, chpw: true}));
             valid = false;
-            n += 1;
         }
-        // FormData 객체 생성
-        const formData = new FormData();
+        if (n == 0) {
+            // FormData 객체 생성
+            const formData = new FormData();
 
-        // 각 입력 필드의 값을 FormData에 추가
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('age', age);
-        formData.append('pw', pw);
-        formData.append('chpw', chpw);
+            // 각 입력 필드의 값을 FormData에 추가
+            formData.append('name', name);
+            formData.append('email', email);
+            formData.append('age', age);
+            formData.append('pw', pw);
+            formData.append('chpw', chpw);
     
-        // FormData에 담긴 데이터 콘솔에 출력
-        for (const x of formData.entries()) {
-            console.log(x);
-        }; 
+            // FormData에 담긴 데이터 콘솔에 출력
+            for (const x of formData.entries()) {
+                console.log(x);
+            }; 
+
+            navigate('/login');
+
+        }
     }
 
     const [name, setName] = useState('');
@@ -90,6 +91,7 @@ function Signup () {
         const pattern_eng = /[a-zA-Z]/;	// 문자
         const pattern_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글체크
         if (pattern_eng.test(value) || pattern_kor.test(value)){
+            n += 1;
             setErrorVisible((prev) => ({ ...prev, name: false }));
         }
         else{ setErrorVisible((prev) => ({ ...prev, name: true }));}
@@ -215,7 +217,7 @@ const Title = styled.div`
     /* border: 1px solid yellow; */
 `;
 
-const SignupForm = styled.div`
+const SignupForm = styled.form`
     width: 100%; height: 75%;
     /* border: 1px solid green; */
 `;
@@ -239,7 +241,6 @@ const SubmitBtn = styled.button`
     border-radius: 20px;
     border: none;
     margin-top: 7%;
-   
 `;
 
 const ErrorMsg = styled.div`

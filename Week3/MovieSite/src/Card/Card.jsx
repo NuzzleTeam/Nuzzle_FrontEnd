@@ -29,7 +29,7 @@ function Card(props) {
                     {/* <h4>{title}</h4> */}
                     <h4>{props.title}</h4>
                     {/* <span>{vote_average}</span> */}
-                    <span>{props.vote_average}</span>
+                    <span>⭐️{props.vote_average}</span>
                 </div>
             </div>
         </div>

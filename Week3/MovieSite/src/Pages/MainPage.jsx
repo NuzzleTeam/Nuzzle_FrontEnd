@@ -11,9 +11,10 @@ function MainPage(){
                 <MainpageSearchFind>
                     <h2>Find your movies !</h2>
                 </MainpageSearchFind>
-                <div className='mainpage-searbox'>
+                <MainpageSearchBox>
                     <SearchBox type='text'></SearchBox>
-                </div>
+                </MainpageSearchBox>
+                <ResultBox></ResultBox>
             </MainpageSearch>
         </MainpageWrapper>
     )
@@ -49,20 +50,39 @@ const MainpageWelcome = styled.div`
 `;
 
 const MainpageSearch = styled.div`
-    width: 100%;
+    width: 80%; height: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
+    left: 10%;
+    border: 1px solid green;
 `;
 
 const MainpageSearchFind = styled.div`
     position: relative;
-    top: 30%;
+    top: 10%;
+    width: 100%; height: 10%;
+`;
+
+const MainpageSearchBox = styled.div`
+    position: relative;
+    top: 12%;
+    width: 100%; height: 10%;
+    border: 1px solid pink;
 `;
 
 const SearchBox = styled.input`
     border-radius: 15px;
-    height: 30px;
-    width: 50%;
+    height: 30px; width: 50%;
     position: relative;
-    top: 150%;
+    top: 7%;
+`;
+
+const ResultBox = styled.div`
+    width: 100%; height: 68%;
+    position: relative;
+    top: 12%;
+    background-color: #171A32;
+    overflow-y: scroll;
+    border: 2px solid purple;
 `;
