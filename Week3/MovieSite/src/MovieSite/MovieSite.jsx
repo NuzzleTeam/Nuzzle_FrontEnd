@@ -10,6 +10,8 @@ import { Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
 import MovieDetailPage from '../Pages/MovieDetailPage.jsx'
 import NotFoundPage from '../Pages/NotFoundPage.jsx'
+import Signup from '../Pages/Signup.jsx'
+import Login from '../Pages/Login.jsx'
 
 let MovieSiteContainer = styled.div`
     height: 80%;
@@ -25,6 +27,8 @@ function MovieSite() {
             <MovieSiteContainer>
                 <Routes>
                     <Route path='/' element={<MainPage />}/>
+                    <Route path='/signup' element={<Signup />}/>
+                    <Route path='/login' element={<Login />}/>
                     <Route path='/nowplaying' element={<NowPlayingPage />} />
                     <Route path='/popular' element={<PopularPage />} />
                     <Route path='/toprated' element={<TopRatedPage />} />

@@ -16,7 +16,8 @@ function NavBar(){
                 <Link to='/' className='nav-link'><h5 className='umc-movie'>UMC Movie</h5></Link>
             </div>
             <div className='Navbar-right'>
-                <h5 className='login' onClick={loginClick}>{onLogin}</h5>
+                {/* <h5 className='login' onClick={loginClick}>{onLogin}</h5> */}
+                <Link to='/signup' className='nav-link'><h5 className='signup'>회원가입</h5></Link>
                 <Link to='/popular' className='nav-link'><h5 className='popular'>Popular</h5></Link>
                 <Link to='/nowplaying' className='nav-link'><h5 className='now'>Now Playing</h5></Link>
                 <Link to='/toprated' className='nav-link'><h5 className='top'>Top Rated</h5></Link>
