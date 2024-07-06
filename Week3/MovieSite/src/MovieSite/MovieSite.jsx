@@ -1,22 +1,21 @@
-import { useEffect, useState } from 'react'
-// import './MovieSite.css'
+import React from 'react'
+import { Route, Routes } from 'react-router-dom'
+import styled from 'styled-components'
+import './MovieSite.css'
 import NavBar from './NavBar.jsx'
 import MainPage from '../Pages/MainPage.jsx'
 import NowPlayingPage from '../Pages/NowPlayingPage.jsx'
 import PopularPage from '../Pages/PopularPage.jsx'
 import TopRatedPage from '../Pages/TopRatedPage.jsx'
 import UpComing from '../Pages/UpComing.jsx'
-import { Route, Routes } from 'react-router-dom'
-import styled from 'styled-components'
 import MovieDetailPage from '../Pages/MovieDetailPage.jsx'
 import NotFoundPage from '../Pages/NotFoundPage.jsx'
 import Signup from '../Pages/Signup.jsx'
 import Login from '../Pages/Login.jsx'
 
-let MovieSiteContainer = styled.div`
-    height: 80%;
+const MovieSiteContainer = styled.div`
+    height: 95%;
 `
-
 
 function MovieSite() {
 
@@ -33,7 +32,7 @@ function MovieSite() {
                     <Route path='/popular' element={<PopularPage />} />
                     <Route path='/toprated' element={<TopRatedPage />} />
                     <Route path='/upcoming' element={<UpComing />} />
-                    <Route path='/movie/:title' element={<MovieDetailPage />} />
+                    <Route path='/movie/:id' element={<MovieDetailPage />} />
                     <Route path='*' element = {<NotFoundPage/>}/>
                 </Routes>
             </MovieSiteContainer>

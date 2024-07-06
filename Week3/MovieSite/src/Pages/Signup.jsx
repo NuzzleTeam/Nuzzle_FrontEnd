@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 function Signup () {
@@ -14,84 +14,66 @@ function Signup () {
 
     const [errorVisible, setErrorVisible] = useState({
         name: false,
-        email: false,
-        emailFormat: false,
-        age: false,
-        ageFormat: false,
-        agePositive: false,
-        ageDigit: false,
-        age19: false,
-        pw: false,
-        pw4: false,
-        pw12: false,
-        pwFormat: false,
-        chpw: false,
-        chpwSame: false
+        email: false, emailFormat: false,
+        age: false, ageFormat: false, agePositive: false, ageDigit: false, age19: false,
+        pw: false, pw4: false, pw12: false, pwFormat: false,
+        chpw: false, chpwSame: false
     });
-
-    let n = 0;
-
-    const navigate = useNavigate();
-
-    const handleSubmit = (e) => {
-        let valid = false;
-        e.preventDefault();
-        if (name === '') {
-            setErrorVisible(prev => ({ ...prev, name: true }));
-            valid = false;
-        }
-        if (email === '') {
-            setErrorVisible(prev => ({ ...prev, email: true }));
-            valid = false;
-        } else if (!email.includes('@')) {
-            setErrorVisible(prev => ({ ...prev, emailFormat: true }));
-            valid = false;
-        }
-        if (age === '') {
-            setErrorVisible(prev => ({ ...prev, age: true }));
-            valid = false;
-        }
-        if (pw === '') {
-            setErrorVisible(prev => ({ ...prev, pw: true}));
-            valid = false;
-        }
-        if (chpw === '') {
-            setErrorVisible(prev => ({ ...prev, chpw: true}));
-            valid = false;
-        }
-        if (n == 0) {
-            // FormData 객체 생성
-            const formData = new FormData();
-
-            // 각 입력 필드의 값을 FormData에 추가
-            formData.append('name', name);
-            formData.append('email', email);
-            formData.append('age', age);
-            formData.append('pw', pw);
-            formData.append('chpw', chpw);
-    
-            // FormData에 담긴 데이터 콘솔에 출력
-            for (const x of formData.entries()) {
-                console.log(x);
-            }; 
-
-            navigate('/login');
-
-        }
-    }
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [age, setAge] = useState('');
     const [pw, setPw] = useState('');
     const [chpw, setChpw] = useState('');
+    const [notAllow, setNowAllow] = useState(false);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(!errorVisible.name &&
+            !errorVisible.email && !errorVisible.emailFormat &&
+            !errorVisible.age && !errorVisible.ageFormat && !errorVisible.agePositive && !errorVisible.ageDigit && !errorVisible.age19 &&
+            !errorVisible.pw && !errorVisible.pw4 && !errorVisible.pw12 && !errorVisible.pwFormat &&
+            !errorVisible.chpw && !errorVisible.chpwSame) {
+            setNowAllow(false);
+            return;
+        }
+        setNowAllow(true);
+    }, [errorVisible]);
+
+    // const handleSubmit = (e) => {
+    //     let valid = false;
+    //     e.preventDefault();
+    //     if (name === '') {
+    //         setErrorVisible(prev => ({ ...prev, name: true }));
+    //         valid = false;
+    //     }
+    //     if (email === '') {
+    //         setErrorVisible(prev => ({ ...prev, email: true }));
+    //         valid = false;
+    //     } else if (!email.includes('@')) {
+    //         setErrorVisible(prev => ({ ...prev, emailFormat: true }));
+    //         valid = false;
+    //     }
+    //     if (age === '') {
+    //         setErrorVisible(prev => ({ ...prev, age: true }));
+    //         valid = false;
+    //     }
+    //     if (pw === '') {
+    //         setErrorVisible(prev => ({ ...prev, pw: true}));
+    //         valid = false;
+    //     }
+    //     if (chpw === '') {
+    //         setErrorVisible(prev => ({ ...prev, chpw: true}));
+    //         valid = false;
+    //     }
+    // }
 
     const validName = (e) => {
         const value = e.target.value;
         const pattern_eng = /[a-zA-Z]/;	// 문자
         const pattern_kor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/; // 한글체크
         if (pattern_eng.test(value) || pattern_kor.test(value)){
-            n += 1;
             setErrorVisible((prev) => ({ ...prev, name: false }));
         }
         else{ setErrorVisible((prev) => ({ ...prev, name: true }));}
@@ -158,6 +140,13 @@ function Signup () {
         setChpw(value);
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(name);
+        // 실제로 할 일 (예: 서버에 데이터 전송 등)
+        navigate('/login'); // 성공적으로 제출되면 다른 페이지로 이동하도록 예시로 설정
+    }
+
     return (
         <>
             <SignupWrapper>
@@ -166,6 +155,7 @@ function Signup () {
                     <SignupForm>
                         <InputBox type="text" placeholder="이름을 입력해주세요" value={name} onChange={validName}></InputBox>
                         <ErrorMsg style={{ display: errorVisible.name ? 'block' : 'none' }}>이름을 입력해주세요!</ErrorMsg>
+                        {/* <InputBox type="text" placeholder="아이디를 입력해주세요"></InputBox> */}
                         <InputBox type="text" placeholder="이메일을 입력해주세요" value={email} onChange={validEmail}></InputBox>
                         <ErrorMsg style={{ display: errorVisible.email ? 'block' : 'none' }}>이메일을 입력해주세요!</ErrorMsg>
                         <ErrorMsg style={{ display: errorVisible.emailFormat ? 'block' : 'none' }}>이메일 형식에 맞게 다시 입력해주세요!</ErrorMsg>
@@ -183,12 +173,14 @@ function Signup () {
                         <InputBox type="password" placeholder="비밀번호 확인" value={chpw} onChange={validChpw}></InputBox>
                         <ErrorMsg style={{ display: errorVisible.chpw ? 'block' : 'none' }}>비밀번호를 다시 입력해주세요!</ErrorMsg>
                         <ErrorMsg style={{ display: errorVisible.chpwSame ? 'block' : 'none' }}>비밀번호가 일치하지 않습니다.</ErrorMsg>
-                        <SubmitBtn type="submit" onClick={handleSubmit}>제출하기</SubmitBtn>
-                    </SignupForm>               
-                    <IdExist>
-                        <h5>이미 아이디가 있으신가요?</h5>
-                        <LinkLogin to='/' ><h5>로그인 페이지로 이동하기</h5></LinkLogin>
+                        <SubmitDiv>
+                            <SubmitBtn type="submit" onClick={handleSubmit} disabled={notAllow}>제출하기</SubmitBtn>
+                        </SubmitDiv>
+                        <IdExist>
+                            <h5>이미 아이디가 있으신가요?</h5>
+                            <LinkLogin to='/login' ><h5>로그인 페이지로 이동하기</h5></LinkLogin>
                     </IdExist>
+                    </SignupForm>               
                 </SignupContent>
             </SignupWrapper>
         </>
@@ -201,29 +193,29 @@ const SignupWrapper = styled.div`
     margin: 0; padding: 0;
     width: 100%; height: 100%;
     position: relative;
-    /* border: 1px solid red; */
 `;
 
  const SignupContent = styled.div`
+    display: flex;
+    flex-direction: column;
     position: absolute;
-    top: 45%; left: 50%;
-    width: 70%; height: 80%;
+    top: 50%; left: 50%;
+    width: 50%; height: 100%;
     transform: translate(-50%, -50%);
-    /* border: 1px solid orange; */
 `;
 
 const Title = styled.div`
+    position: relative;
     width: 100%; height: 10%;
-    /* border: 1px solid yellow; */
 `;
 
 const SignupForm = styled.form`
-    width: 100%; height: 75%;
-    /* border: 1px solid green; */
+    position: relative;
+    width: 100%; height: 90%;
 `;
 
 const InputBox = styled.input` 
-    width: 80%; height: 10%;
+    width: 80%; height: 8%;
     padding: 0 0 0 4%;
     border: none;
     border-radius: 20px;
@@ -232,15 +224,17 @@ const InputBox = styled.input`
 
 const SubmitDiv = styled.div`
     width: 100%; height: 10%;
-    /* border: 1px solid orange; */
 `;
 
-
 const SubmitBtn = styled.button`
-    width: 85%; height: 10%;
+    width: 85%; height: 70%;
     border-radius: 20px;
     border: none;
-    margin-top: 7%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    background-color: ${props => props.disabled ? '#ccc' : '#FEC623'}; 
+    color: ${props => props.disabled ? '#666' : 'black'}; 
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'};
 `;
 
 const ErrorMsg = styled.div`
@@ -252,6 +246,7 @@ const ErrorMsg = styled.div`
 `;
 
 const IdExist = styled.div`
+    margin-top: 3%;
     display: flex;
     text-align: center;
     position: absolute;
@@ -260,6 +255,7 @@ const IdExist = styled.div`
     white-space: nowrap;
     gap: 10%;
     left: 50%;
+    width: 100%;
     transform: translate(-50%, -10%);
 `
 

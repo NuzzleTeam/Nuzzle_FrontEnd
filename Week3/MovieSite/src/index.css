@@ -14,6 +14,8 @@
 
   margin: 0; padding: 0;
   width: 100%; height: 100%;
+  background-color: #1F2141;
+  /* 일단 이거 넣어서 background-color 고정해둠 */
 }
 
 html, body {

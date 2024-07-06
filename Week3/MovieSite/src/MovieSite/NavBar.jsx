@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import './NavBar.css'
 import { Link } from 'react-router-dom'
+import './NavBar.css'
 
 function NavBar(){
 
-    const [onLogin, setonLogin] = useState('로그인');
+    // const [onLogin, setonLogin] = useState('로그인');
 
-    const loginClick = () => {
-        setonLogin(onLogin => onLogin === '로그인' ? '로그아웃' : '로그인');
-    }
+    // const loginClick = () => {
+    //     setonLogin(onLogin => onLogin === '로그인' ? '로그아웃' : '로그인');
+    // }
 
     return(
         <div className='Navbar-wrapper'>

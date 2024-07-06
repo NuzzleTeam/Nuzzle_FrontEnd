@@ -6,11 +6,9 @@ function NotFoundPage() {
     return(
         <>
             <div className="error-container">
-                <h1>Oops!</h1>
-                <h3>예상치 못한 에러가 발생했습니다: '^'</h3>
-                <h3 id="error-eng">Not Found</h3>
-                <Link to='/'><h2 className='move-to-main'>메인으로 이동하기</h2></Link>
-                {/* <h2 id="move-to-main">메인으로 이동하기</h2> */}
+                <h1>해당 페이지를 찾지 못했습니다.</h1>
+                <p>주소가 잘못되었거나 더 이상 제공되지 않는 페이지입니다.</p>
+                <Link to='/' style={{ textDecoration: "none" }}><h4 className='move-to-main'>메인으로 이동하기</h4></Link>
             </div>
         </>
     )

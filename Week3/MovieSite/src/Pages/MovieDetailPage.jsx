@@ -1,30 +1,36 @@
 import React, {useEffect, useState} from "react"
 import './MovieDetailPage.css'
 import { IMG_BASE_URL } from "../Card/Card";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import LoadingSpinner from "./LoadingSpinner";
+import Credit from "../Card/Credit";
+import './Pages.css';
 
 function MovieDetailPage(){
 
-    const { title } = useParams();
+    const [credits, setCredits] = useState([]);
+
     const location = useLocation();
+    const { id } = useParams();
     const { state } = location;
-    const { poster_path, vote_average, overview } = state;
+    const { poster_path, title, vote_average, release_date , overview } = state;
     const [movieDetails, setMovieDetails] = useState(null);
 
     useEffect(() => {
         // 영화 상세 정보를 가져오는 API 호출
-        fetch(`https://api.themoviedb.org/3/search/movie?query=${title}&include_adult=false&language=en-US&api_key=052a8c757e5240c63cba8fd1816f2da9`)
+        fetch(`https://api.themoviedb.org/3/movie/${id}/credits?api_key=052a8c757e5240c63cba8fd1816f2da9`)
             .then(response => response.json())
             .then(data => {
-                setMovieDetails(data.results[0]);
+                setCredits(data.cast);
+                setMovieDetails(data);
             })
             .catch(error => {
-                console.error('Error fetching movie details:', error);
+                console.error(error);
             });
-    }, [title]); // title이 변경될 때마다 호출
+    }, [id]); // id가 변경될 때마다 호출
 
     if (!movieDetails) {
-        return <div>Loading...</div>;
+        return <LoadingSpinner />;
     }
 
     const isOverview = (overview) => {
@@ -50,12 +56,28 @@ function MovieDetailPage(){
                     <img src={IMG_BASE_URL + poster_path} alt="Movie Poster" />
                 </div>
                 <div className="main-content">
-                    <h3>{movieDetails.title}</h3>
-                    <p>평점 {stars(movieDetails.vote_average)}</p>
-                    <p>개봉일 {movieDetails.release_date}</p>
+                    <h3>{title}</h3>
+                    <p>평점 {stars(vote_average)}</p>
+                    <p>개봉일</p>
                     <p><h4>줄거리</h4></p>
-                    <p>{isOverview(movieDetails.overview)}</p>
+                    <p>{isOverview(overview)}</p>
                 </div>
+            </div>
+            {/* <div className="cast-crew-title">
+                <h4>출연진 및 제작진</h4>
+            </div> */}
+            <div className="cast-crew-container">
+                    {
+                        credits.map((item) => {
+                            return (
+                                <Credit
+                                    key={item.id}
+                                    original_name={item.original_name}
+                                    profile_path={item.profile_path}
+                                />
+                            )
+                        })
+                    }
             </div>
         </div>
         </>

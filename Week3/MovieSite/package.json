@@ -14,7 +14,9 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.5",
+    "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^6.23.0",
+    "react-spinners": "^0.14.1",
     "styled-components": "^6.1.11",
     "vite-plugin-require": "^1.1.14"
   },

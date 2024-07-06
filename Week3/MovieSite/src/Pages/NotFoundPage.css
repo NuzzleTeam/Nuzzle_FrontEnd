@@ -4,10 +4,11 @@ body {
 
 .error-container {
     position: absolute;
+    width: 100%;
     top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -60%);
 }
 
-/* #move-to-main:focus h2{
-    color: red;
-} */
+h4 {
+    color: white;
+}
