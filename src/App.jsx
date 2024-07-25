@@ -15,10 +15,9 @@ const AppContainer = styled.div`
 
 const Main = styled.main`
   flex: 1;
+  margin: 0rem 1rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #ffffff;
+  justify-content: center; /* Center the content horizontally */
 `;
 
 function App() {

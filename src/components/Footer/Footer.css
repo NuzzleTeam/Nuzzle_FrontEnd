@@ -25,3 +25,7 @@
   height: 35px;
   margin: auto;
 }
+
+.footer-item.home a {
+  color: #ff87b7;
+}

@@ -9,7 +9,7 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <footer className="footer">
-      <div className="footer-item">
+      <div className="footer-item home">
         <Link to="/">
           <img className="footer-icon" src={homeIcon} alt="Home" />
           <div>홈</div>
