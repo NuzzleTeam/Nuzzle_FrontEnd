@@ -1,0 +1,25 @@
+.header {
+  height: 6vh;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1px 20px;
+  z-index: 100; /* 다른 요소 위에 나타나도록 z-index 값 설정 */
+}
+
+.back-icon {
+  font-size: 20px;
+  margin-right: 5px;
+  color: rgba(0, 0, 0, 1);
+}
+
+.back-icon:active {
+  color: black;
+  transform: scale(1.1);
+}
