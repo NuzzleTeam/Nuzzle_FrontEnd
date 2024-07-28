@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import UploadPhoto from "./pages/UploadPhoto/UploadPhoto";
 import GlobalStyle from "./styles/GlobalStyle";
 import PastQuestionPage from "./pages/Question/PastQuestionPage";
+import TodayQuestionPage from "./pages/Question/TodayQuestionPage";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import styled from "styled-components";
@@ -30,6 +31,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/past-question" element={<PastQuestionPage />} />
+            <Route path="/today-question" element={<TodayQuestionPage />} />
             <Route path="/upload-photo" element={<UploadPhoto />} />
           </Routes>
         </Main>

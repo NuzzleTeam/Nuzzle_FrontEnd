@@ -2,21 +2,21 @@ import PropTypes from "prop-types";
 import "./PastQuestionPage.css";
 import commentIcon from "../../assets/comment.png";
 
-const TodayQuestionList = ({ questionNumber, date, detail, comments }) => (
-  <div className="today-question-list">
-    <div className="today-question-header">
-      <p className="today-question-subtitle">오늘의 질문 #{questionNumber}</p>
-      <p className="today-question-date">{date}</p>
+const PastQuestionList = ({ questionNumber, date, detail, comments }) => (
+  <div className="past-question-list">
+    <div className="past-question-header">
+      <p className="past-question-subtitle">오늘의 질문 #{questionNumber}</p>
+      <p className="past-question-date">{date}</p>
       <div className="number-of-comment">
         <img src={commentIcon} alt="comment" className="comment-icon" />
         {comments}
       </div>
     </div>
-    <p className="today-question-detail">{detail}</p>
+    <p className="past-question-detail">{detail}</p>
   </div>
 );
 
-TodayQuestionList.propTypes = {
+PastQuestionList.propTypes = {
   questionNumber: PropTypes.number.isRequired,
   date: PropTypes.string.isRequired,
   detail: PropTypes.string.isRequired,
@@ -59,11 +59,11 @@ function PastQuestionPage() {
 
   return (
     <div className="past-question-page">
-      <div className="today-questions-title">
+      <div className="past-questions-title">
         <h3>오늘의 질문들</h3>
       </div>
       {questions.map((question, index) => (
-        <TodayQuestionList
+        <PastQuestionList
           key={index}
           questionNumber={index + 1}
           date={question.date}

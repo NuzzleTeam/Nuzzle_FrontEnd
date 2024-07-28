@@ -4,7 +4,7 @@ h3 {
   margin: 0;
 }
 
-.today-questions-title {
+.past-questions-title {
   text-align: center;
   margin: 20px 0;
 }
@@ -13,28 +13,28 @@ h3 {
   width: 100%;
 }
 
-.today-question-list {
+.past-question-list {
   padding: 10px;
 }
 
-.today-question-header {
+.past-question-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.today-question-subtitle {
+.past-question-subtitle {
   font-size: 14px;
   color: #ff87b7;
   margin: 0;
 }
 
-.today-question-date,
+.past-question-date,
 .number-of-comment {
   margin: 0;
 }
 
-.today-question-date {
+.past-question-date {
   padding-right: 125px;
   font-size: 12px;
 }
@@ -51,7 +51,7 @@ h3 {
   margin-right: 5px;
 }
 
-.today-question-detail {
+.past-question-detail {
   font-size: 16px;
   margin: 5px 0;
   background-color: #ffe6f0;
