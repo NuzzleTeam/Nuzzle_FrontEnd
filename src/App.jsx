@@ -5,13 +5,13 @@ import {
   useLocation,
 } from "react-router-dom";
 import Home from "./pages/Home";
-import UploadPhoto from "./pages/UploadPhoto/UploadPhoto";
 import GlobalStyle from "./styles/GlobalStyle";
 import PastQuestionPage from "./pages/Question/PastQuestionPage";
 import TodayQuestionPage from "./pages/Question/TodayQuestionPage";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import styled from "styled-components";
+import PhotoCapturePage from "./pages/UploadPhoto/PhotoCapturePage";
 
 const AppContainer = styled.div`
   display: flex;
@@ -40,7 +40,7 @@ const AppContent = () => {
           <Route path="/" element={<Home />} />
           <Route path="/past-question" element={<PastQuestionPage />} />
           <Route path="/today-question" element={<TodayQuestionPage />} />
-          <Route path="/upload-photo" element={<UploadPhoto />} />
+          <Route path="/photo-capture" element={<PhotoCapturePage />} />
         </Routes>
       </Main>
       <Footer />
