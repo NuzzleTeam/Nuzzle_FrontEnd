@@ -1,3 +1,17 @@
+.today-question-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.question-card {
+  position: relative; /* 내부 요소들이 절대 위치를 사용할 수 있도록 설정 */
+  width: 100%;
+  max-width: 400px; /* 최대 너비 설정 */
+  padding: 10px;
+}
+
 .question-section {
   position: relative; /* 내부 요소들이 절대 위치를 사용할 수 있도록 설정 */
   background-color: #f3f3f3;
@@ -75,6 +89,7 @@ hr {
   width: 24px;
   height: 24px;
   padding: 10px;
+  cursor: pointer;
 }
 
 .answer-info {
@@ -85,4 +100,27 @@ hr {
   font-weight: bold;
   margin-bottom: 5px;
   font-size: 16px;
+}
+
+.user-input {
+  display: flex;
+  align-items: center;
+}
+
+.user-input-field {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  width: 200px; /* 너비 조정 */
+  margin-right: 10px;
+}
+
+.upload-button {
+  cursor: pointer;
+}
+
+.upload-icon {
+  width: 24px;
+  height: 24px;
 }
