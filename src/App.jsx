@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Home from "./pages/Home";
 import UploadPhoto from "./pages/UploadPhoto/UploadPhoto";
 import GlobalStyle from "./styles/GlobalStyle";
@@ -16,29 +21,42 @@ const AppContainer = styled.div`
 
 const Main = styled.main`
   flex: 1;
-  margin: 0rem 1rem;
   display: flex;
   justify-content: center; /* Center the content horizontally */
 `;
 
-function App() {
+const AppContent = () => {
+  const location = useLocation();
+
+  // 특정 경로에 따라 extraClass를 설정
+  const headerExtraClass =
+    location.pathname === "/today-question" ? "custom-header-bg" : "";
+
+  return (
+    <>
+      <Header extraClass={headerExtraClass} />
+      <Main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/past-question" element={<PastQuestionPage />} />
+          <Route path="/today-question" element={<TodayQuestionPage />} />
+          <Route path="/upload-photo" element={<UploadPhoto />} />
+        </Routes>
+      </Main>
+      <Footer />
+    </>
+  );
+};
+
+const App = () => {
   return (
     <AppContainer>
       <GlobalStyle />
       <Router>
-        <Header />
-        <Main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/past-question" element={<PastQuestionPage />} />
-            <Route path="/today-question" element={<TodayQuestionPage />} />
-            <Route path="/upload-photo" element={<UploadPhoto />} />
-          </Routes>
-        </Main>
-        <Footer />
+        <AppContent />
       </Router>
     </AppContainer>
   );
-}
+};
 
 export default App;

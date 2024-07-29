@@ -1,55 +1,88 @@
-.question-card {
-  max-width: 400px;
-  /* margin: 0 auto; */
-  padding: 10px;
-  border-radius: 10px;
+.question-section {
+  position: relative; /* 내부 요소들이 절대 위치를 사용할 수 있도록 설정 */
+  background-color: #f3f3f3;
+}
+
+.question-card-img {
+  padding: 0 0.5rem; /* 이미지 양쪽에 여백 추가 */
+}
+
+.question-card-img img {
+  width: 100%; /* 양쪽 여백을 제외한 너비 설정 */
+}
+
+.question-header,
+.question-content,
+.main-avatar {
+  position: absolute;
+  /* 이미지 위에 요소를 배치하기 위해 절대 위치 사용 */
+}
+
+.question-header,
+.question-content {
+  padding-left: 1rem;
+  padding-top: 1.5rem;
 }
 
 .question-header {
+  top: 10px;
+  left: 20px;
   margin-bottom: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #333;
+  font-size: 14px;
+  margin: 0;
 }
 
 .question-content {
-  margin-bottom: 20px;
-  font-size: 18px;
+  top: 40px;
+  left: 20px;
+  font-size: 20px;
   font-weight: bold;
-  color: #000;
+}
+
+.main-avatar {
+  bottom: 0px;
+  left: 40px;
+}
+
+.main-avatar img {
+  width: 143px;
+  height: 117px;
+}
+
+hr {
+  width: 320px;
+  height: 4px;
+  background-color: black;
+  margin-bottom: 0;
 }
 
 .answer-section {
   display: flex;
-  align-items: center;
+  padding: 10px;
+  flex-wrap: nowrap;
+  align-content: center;
   margin-bottom: 10px;
+  background-color: #fcfdf5;
 }
 
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 10px;
+.sub-avatar img {
+  width: 42px;
+  height: 42px;
+  padding: 10px;
 }
 
-.avatar img {
+.write-button img {
   width: 24px;
   height: 24px;
+  padding: 10px;
+}
+
+.answer-info {
+  padding: 10px;
 }
 
 .user-name {
   font-weight: bold;
   margin-bottom: 5px;
-}
-
-.user-answer {
-  color: #555;
-}
-
-.separator {
-  border: none;
-  margin: 20px 0;
+  font-size: 16px;
 }

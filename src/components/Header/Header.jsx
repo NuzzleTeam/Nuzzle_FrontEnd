@@ -1,9 +1,10 @@
 import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import "./Header.css";
 
-function Header() {
+function Header({ extraClass }) {
   let navigate = useNavigate();
 
   let goBack = () => {
@@ -11,7 +12,7 @@ function Header() {
   };
 
   return (
-    <header className="header">
+    <header className={`header ${extraClass}`}>
       <div className="back">
         <FontAwesomeIcon
           icon={faAngleLeft}
@@ -22,5 +23,9 @@ function Header() {
     </header>
   );
 }
+
+Header.propTypes = {
+  extraClass: PropTypes.string,
+};
 
 export default Header;

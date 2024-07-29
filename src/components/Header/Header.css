@@ -23,3 +23,7 @@
   color: black;
   transform: scale(1.1);
 }
+
+.header.custom-header-bg {
+  background-color: #f3f3f3;
+}
