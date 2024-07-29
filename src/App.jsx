@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Page1 from './pages/Page1';
+import PastQuestionPage from "./pages/Question/PastQuestionPage";
+import TodayQuestionPage from "./pages/Question/TodayQuestionPage";
+import PhotoCapturePage from "./pages/UploadPhoto/PhotoCapturePage";
+import Page1 from './pages/Page1'; // merge 하는 과정에서 Header, Footer추가안함 필요없는 페이지도 있어서
 import Page2 from './pages/Page2';
 import Page3 from './pages/Page3';
 import Page4 from './pages/Page4';
@@ -15,7 +17,6 @@ import ChaNameComplete from './pages/MakingCharacter/ChaNameComplete';
 
 
 function App() {
-  const [selectedColor, setSelectedColor] = useState('');
   return (
     <Router>
       <Container>
@@ -24,10 +25,13 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/ChaName" element={<ChaName />} />
             <Route path="/ChaNameComplete" element={<ChaNameComplete />} />
-            <Route path="/ChaColor" element={<ChaColor setColor={setSelectedColor}/>} />
-            <Route path="/ChaMake1" element={<ChaMake1 selectedColor={selectedColor}/>} />
-            <Route path="/ChaComplete" element={<ChaComplete selectedColor={selectedColor}/>} />
+            <Route path="/ChaColor" element={<ChaColor />} />
+            <Route path="/ChaMake1" element={<ChaMake1 />} />
+            <Route path="/ChaComplete" element={<ChaComplete/>} />
             <Route path="/Keyword" element={<Keyword />} />
+            <Route path="/past-question" element={<PastQuestionPage />} /> 
+            <Route path="/today-question" element={<TodayQuestionPage />} />
+            <Route path="/photo-capture" element={<PhotoCapturePage />} />
             <Route path="/peek" element={<Page1 />} />
             <Route path="/piggybank" element={<Page2 />} />
             <Route path="/calendar" element={<Page3 />} />

@@ -1,0 +1,126 @@
+.today-question-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.question-card {
+  position: relative; /* 내부 요소들이 절대 위치를 사용할 수 있도록 설정 */
+  width: 100%;
+  max-width: 400px; /* 최대 너비 설정 */
+  padding: 10px;
+}
+
+.question-section {
+  position: relative; /* 내부 요소들이 절대 위치를 사용할 수 있도록 설정 */
+  background-color: #f3f3f3;
+}
+
+.question-card-img {
+  padding: 0 0.5rem; /* 이미지 양쪽에 여백 추가 */
+}
+
+.question-card-img img {
+  width: 100%; /* 양쪽 여백을 제외한 너비 설정 */
+}
+
+.question-header,
+.question-content,
+.main-avatar {
+  position: absolute;
+  /* 이미지 위에 요소를 배치하기 위해 절대 위치 사용 */
+}
+
+.question-header,
+.question-content {
+  padding-left: 1rem;
+  padding-top: 1.5rem;
+}
+
+.question-header {
+  top: 10px;
+  left: 20px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  margin: 0;
+}
+
+.question-content {
+  top: 40px;
+  left: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.main-avatar {
+  bottom: 0px;
+  left: 40px;
+}
+
+.main-avatar img {
+  width: 143px;
+  height: 117px;
+}
+
+hr {
+  width: 320px;
+  height: 4px;
+  background-color: black;
+  margin-bottom: 0;
+}
+
+.answer-section {
+  display: flex;
+  padding: 10px;
+  flex-wrap: nowrap;
+  align-content: center;
+  margin-bottom: 10px;
+  background-color: #fcfdf5;
+}
+
+.sub-avatar img {
+  width: 42px;
+  height: 42px;
+  padding: 10px;
+}
+
+.write-button img {
+  width: 24px;
+  height: 24px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.answer-info {
+  padding: 10px;
+}
+
+.user-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+.user-input {
+  display: flex;
+  align-items: center;
+}
+
+.user-input-field {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  width: 200px; /* 너비 조정 */
+  margin-right: 10px;
+}
+
+.upload-button {
+  cursor: pointer;
+}
+
+.upload-icon {
+  width: 24px;
+  height: 24px;
+}

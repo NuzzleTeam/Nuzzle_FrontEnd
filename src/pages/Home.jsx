@@ -119,3 +119,4 @@ const CharacterImage = styled.img`
   width: 50%; 
   cursor: pointer;
 `;
+
