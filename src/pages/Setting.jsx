@@ -1,6 +1,4 @@
-
-
-const Page4 = () => {
+const Setting = () => {
   return (
     <div>
       <h2> Our page / 환경설정 </h2>
@@ -9,4 +7,4 @@ const Page4 = () => {
   );
 };
 
-export default Page4;
+export default Setting;

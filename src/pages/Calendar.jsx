@@ -1,6 +1,4 @@
-
-
-const Page3 = () => {
+const Calendar = () => {
   return (
     <div>
       <h2> 달력 </h2>
@@ -9,4 +7,4 @@ const Page3 = () => {
   );
 };
 
-export default Page3;
+export default Calendar;

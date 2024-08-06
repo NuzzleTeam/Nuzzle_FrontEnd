@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import styled from 'styled-components';
+import { useState } from "react";
+import styled from "styled-components";
 
-const Page1 = () => {
+const Peek = () => {
   const initialEmojis = ["😘", "😢", "😡"];
   const allEmojis = ["😘", "😢", "😡", "❤️", "👍", "❓", "🌸", "💤", "🎉"];
-  
+
   const [showAll, setShowAll] = useState(false); // 이름 수정 필요 (겹침)
   const [fallingEmojis, setFallingEmojis] = useState([]); // state 수정 예정
 
@@ -22,17 +22,17 @@ const Page1 = () => {
       emoji,
       id: Date.now() + index,
       left: Math.random() * 100, // 화면 너비 퍼센트 단위로 랜덤 위치 설정해서 떨어뜨림
-      duration: Math.random() * 1 + 1 // 1초에서 2초 사이 지속 시간으로 설정
+      duration: Math.random() * 1 + 1, // 1초에서 2초 사이 지속 시간으로 설정
     }));
     setFallingEmojis(newFallingEmojis);
-    // 일정 시간 후 이모지 리스트를 비워 화면 정리 
+    // 일정 시간 후 이모지 리스트를 비워 화면 정리
     setTimeout(() => setFallingEmojis([]), 2000);
   };
 
   return (
     <Container>
       <ImageContainer>
-        <div>이미지가 들어가야 할 자리입니다.</div> 
+        <div>이미지가 들어가야 할 자리입니다.</div>
       </ImageContainer>
       <EmojiContainer>
         {(showAll ? allEmojis : initialEmojis).map((emoji, index) => (
@@ -53,7 +53,7 @@ const Page1 = () => {
   );
 };
 
-export default Page1;
+export default Peek;
 
 const Container = styled.div`
   display: flex;
@@ -93,7 +93,9 @@ const EmojiButton = styled.button`
 // FallingEmoji 컴포넌트 추후 분리 예정
 const FallingEmoji = ({ emoji, left, duration }) => {
   return (
-    <FallingEmojiContainer style={{ left: `${left}vw`, animationDuration: `${duration}s` }}>
+    <FallingEmojiContainer
+      style={{ left: `${left}vw`, animationDuration: `${duration}s` }}
+    >
       {emoji}
     </FallingEmojiContainer>
   );

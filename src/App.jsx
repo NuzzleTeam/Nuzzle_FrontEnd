@@ -5,17 +5,26 @@ import {
   useLocation,
 } from "react-router-dom";
 
+// import components/Footer
+// import component/Header
+// Added Header and Footer because they are used on more pages.
+// Pages not using these components will be handled as exceptions.
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 
+// import Home page that is Naming Character page
 import Home from "./pages/Home";
+
+// import Question and Photo pages
 import PastQuestionPage from "./pages/Question/PastQuestionPage";
 import TodayQuestionPage from "./pages/Question/TodayQuestionPage";
 import PhotoCapturePage from "./pages/UploadPhoto/PhotoCapturePage";
-import Page1 from "./pages/Page1"; // merge 하는 과정에서 Header, Footer추가안함 필요없는 페이지도 있어서
-import Page2 from "./pages/Page2";
-import Page3 from "./pages/Page3";
-import Page4 from "./pages/Page4";
+
+// import Character pages
+import Peek from "./pages/Peek";
+import Piggybank from "./pages/Piggybank";
+import Calendar from "./pages/Calendar";
+import Setting from "./pages/Setting";
 import ChaName from "./pages/MakingCharacter/ChaName";
 import Keyword from "./pages/MakingCharacter/Keyword";
 import ChaMake1 from "./pages/MakingCharacter/ChaMake1";
@@ -75,10 +84,10 @@ const AppContent = () => {
           <Route path="/past-question" element={<PastQuestionPage />} />
           <Route path="/today-question" element={<TodayQuestionPage />} />
           <Route path="/photo-capture" element={<PhotoCapturePage />} />
-          <Route path="/peek" element={<Page1 />} />
-          <Route path="/piggybank" element={<Page2 />} />
-          <Route path="/calendar" element={<Page3 />} />
-          <Route path="/setting" element={<Page4 />} />
+          <Route path="/peek" element={<Peek />} />
+          <Route path="/piggybank" element={<Piggybank />} />
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/setting" element={<Setting />} />
 
           <Route path="/firstpage" element={<FirstPage />}></Route>
           <Route path="/login" element={<Login />}></Route>

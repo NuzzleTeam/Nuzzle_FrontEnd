@@ -1,6 +1,4 @@
-
-
-const Page2 = () => {
+const Piggybank = () => {
   return (
     <div>
       <h2> 저금통 페이지 </h2>
@@ -9,4 +7,4 @@ const Page2 = () => {
   );
 };
 
-export default Page2;
+export default Piggybank;
