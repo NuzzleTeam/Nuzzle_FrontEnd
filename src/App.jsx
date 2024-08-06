@@ -15,6 +15,22 @@ import ChaColor from './pages/MakingCharacter/ChaColor';
 import ChaComplete from './pages/MakingCharacter/ChaComplete';
 import ChaNameComplete from './pages/MakingCharacter/ChaNameComplete';
 
+import FirstPage from './pages/RegisterAndConnect/FirstPage'; // 여기부터 login
+import Login from './pages/RegisterAndConnect/Login';
+import FindId from './pages/RegisterAndConnect/FindId';
+import FindAccount from './pages/RegisterAndConnect/FindAccount';
+import NoAccount from './pages/RegisterAndConnect/NoAccount';
+
+import SignUp from './pages/RegisterAndConnect/SignUp'
+import FindPw from './pages/RegisterAndConnect/FindPw';
+import ChangePw from './pages/RegisterAndConnect/ChangePw';
+
+import Policy from './pages/RegisterAndConnect/Policy';
+import KakaoLogin from './pages/RegisterAndConnect/KakaoLogin';
+import Connect from './pages/RegisterAndConnect/Connect';
+import EmailSignUp from './pages/RegisterAndConnect/EmailSignUp';
+import ConnectComplete from './pages/RegisterAndConnect/ConnectComplete';
+import SharedLink from './pages/RegisterAndConnect/SharedLink';
 
 function App() {
   return (
@@ -36,6 +52,21 @@ function App() {
             <Route path="/piggybank" element={<Page2 />} />
             <Route path="/calendar" element={<Page3 />} />
             <Route path="/setting" element={<Page4 />} />
+
+            <Route path='/firstpage' element={<FirstPage/>}></Route>
+            <Route path='/login' element={<Login/>}></Route>
+            <Route path='/help/findid' element={<FindId/>}></Route>
+            <Route path='/help/findpw' element={<FindPw/>}></Route>
+            <Route path='/help/changepw' element={<ChangePw/>}></Route>
+            <Route path='/signup' element={<SignUp/>}></Route>
+            <Route path='/signup/email' element={<EmailSignUp/>}></Route>
+            <Route path='/policy' element={<Policy/>}></Route>
+            <Route path='/sharedlink' element={<SharedLink/>}></Route>
+            <Route path='/connect' element={<Connect/>}></Route>
+            <Route path='/connect/complete' element={<ConnectComplete/>}></Route>
+            <Route path='/login/kakao' element={<KakaoLogin/>}></Route>
+            <Route path='/help/findaccount' element={<FindAccount/>}></Route>
+            <Route path='/help/noaccount' element={<NoAccount/>}></Route>
           </Routes>
         </Content>
         
