@@ -1,19 +1,24 @@
-import { useNavigate } from 'react-router-dom';
-import { useSelector , useDispatch } from 'react-redux';
-import { setCharacterImage, resetCharacterImage } from '../features/characterSlice';
-import Footer from '../components/Footer/Footer';
-import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setCharacterImage,
+  resetCharacterImage,
+} from "../features/characterSlice";
+import Footer from "../components/Footer/Footer";
+import styled from "styled-components";
 
 const Home = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const characterImage = useSelector((state) => state.character.characterImage);
-  const characterImages = useSelector((state) => state.character.characterImages);
+  const characterImages = useSelector(
+    (state) => state.character.characterImages
+  );
   const name = useSelector((state) => state.name.name);
 
   const handleChaClick = () => {
-    if (characterImage === '') {
-      navigate('/Keyword');
+    if (characterImage === "") {
+      navigate("/Keyword");
     } else {
       const nextImage = characterImages[characterImage]; // key  value 값 사용해서 업데이트 하기 때문에 눈 반짝일 때 클릭하면 초기 이미지로 넘어가버리는 걸 방지
       if (nextImage && nextImage !== characterImage) {
@@ -26,7 +31,7 @@ const Home = () => {
   };
 
   const getImageSrc = () => {
-    return characterImage || '/src/assets/firstCha.gif';
+    return characterImage || "/src/assets/firstCha.gif";
   };
 
   return (
@@ -34,13 +39,26 @@ const Home = () => {
       <CircleButton>+</CircleButton>
       <MainContent>
         <ImageContainer>
-        {characterImage !== '' && <BackgroundImage src='src/assets/homeBackground.png' alt="Home Background" />}
-          <CharacterImage src={getImageSrc()} alt="애착이" onClick={handleChaClick} />
+          {characterImage !== "" && (
+            <BackgroundImage
+              src="src/assets/homeBackground.png"
+              alt="Home Background"
+            />
+          )}
+          <CharacterImage
+            src={getImageSrc()}
+            alt="애착이"
+            onClick={handleChaClick}
+          />
         </ImageContainer>
-        {name == '' && <StyledButton onClick={() => navigate('/ChaName')}>이름지어주기</StyledButton> }
+        {name == "" && (
+          <StyledButton onClick={() => navigate("/ChaName")}>
+            이름지어주기
+          </StyledButton>
+        )}
         <p>
-          {name}이와 함께하는 너즐의 기본적인 홈페이지입니다.
-          이동하려면 네비게이션이나 화면을 클릭하세요
+          {name}이와 함께하는 너즐의 기본적인 홈페이지입니다. 이동하려면
+          네비게이션이나 화면을 클릭하세요
         </p>
       </MainContent>
       <Footer></Footer>
@@ -99,8 +117,8 @@ const StyledButton = styled.button`
 
 const ImageContainer = styled.div`
   position: relative;
-  width: 500px;  
-  height: 500px; 
+  width: 500px;
+  height: 500px;
 `;
 
 const BackgroundImage = styled.img`
@@ -116,7 +134,6 @@ const CharacterImage = styled.img`
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: 50%; 
+  width: 50%;
   cursor: pointer;
 `;
-
