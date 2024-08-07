@@ -34,7 +34,7 @@ const Home = () => {
   };
 
   return (
-    <div className="home-page">
+    <HomePage>
       <AddButton>+</AddButton>
       <ImageContainer>
         {characterImage !== "" && (
@@ -49,17 +49,22 @@ const Home = () => {
           onClick={handleChaClick}
         />
       </ImageContainer>
-      {name == "" && (
-        <MakeName onClick={() => navigate("/ChaName")}>이름지어주기</MakeName>
+      {name === "" && (
+        <MakeNameButton onClick={() => navigate("/ChaName")}>
+          애착이 이름지어주기
+        </MakeNameButton>
       )}
-    </div>
+    </HomePage>
   );
 };
 
+const HomePage = styled.div`
+  padding: 1rem;
+  width: 100%;
+  display: flex;
+`;
+
 const AddButton = styled.div`
-  position: absolute;
-  top: 20px;
-  left: 20px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -72,7 +77,7 @@ const AddButton = styled.div`
   font-size: 24px;
 `;
 
-const MakeName = styled.button`
+const MakeNameButton = styled.button`
   background-color: #ffcccb;
   color: black;
   border: none;
@@ -84,13 +89,13 @@ const MakeName = styled.button`
 `;
 
 const ImageContainer = styled.div`
-  position: relative;
+  // position: absolute;
   width: 500px;
   height: 500px;
 `;
 
 const BackgroundImage = styled.img`
-  position: absolute;
+  // position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -98,7 +103,7 @@ const BackgroundImage = styled.img`
 `;
 
 const CharacterImage = styled.img`
-  position: absolute;
+  // position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
