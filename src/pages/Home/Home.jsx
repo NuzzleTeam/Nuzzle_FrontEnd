@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setCharacterImage,
   resetCharacterImage,
-} from "../features/characterSlice";
-import Footer from "../components/Footer/Footer";
+} from "../../features/characterSlice";
 import styled from "styled-components";
 
 const Home = () => {
@@ -35,76 +34,45 @@ const Home = () => {
   };
 
   return (
-    <Container>
-      <CircleButton>+</CircleButton>
-      <MainContent>
-        <ImageContainer>
-          {characterImage !== "" && (
-            <BackgroundImage
-              src="src/assets/homeBackground.png"
-              alt="Home Background"
-            />
-          )}
-          <CharacterImage
-            src={getImageSrc()}
-            alt="애착이"
-            onClick={handleChaClick}
+    <div className="home-page">
+      <AddButton>+</AddButton>
+      <ImageContainer>
+        {characterImage !== "" && (
+          <BackgroundImage
+            src="src/assets/homeBackground.png"
+            alt="Home Background"
           />
-        </ImageContainer>
-        {name == "" && (
-          <StyledButton onClick={() => navigate("/ChaName")}>
-            이름지어주기
-          </StyledButton>
         )}
-        <p>
-          {name}이와 함께하는 너즐의 기본적인 홈페이지입니다. 이동하려면
-          네비게이션이나 화면을 클릭하세요
-        </p>
-      </MainContent>
-      <Footer></Footer>
-    </Container>
+        <CharacterImage
+          src={getImageSrc()}
+          alt="애착이"
+          onClick={handleChaClick}
+        />
+      </ImageContainer>
+      {name == "" && (
+        <MakeName onClick={() => navigate("/ChaName")}>이름지어주기</MakeName>
+      )}
+    </div>
   );
 };
 
-export default Home;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #f8f8f8;
-  padding: 20px;
-`;
-
-const CircleButton = styled.button`
+const AddButton = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 20px;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   background-color: #ffcccb;
   color: black;
-  border: none;
-  outline: none;
   cursor: pointer;
-  position: absolute;
-  top: 25px;
-  left: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
 `;
 
-const MainContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex: 1;
-  justify-content: center;
-`;
-
-const StyledButton = styled.button`
+const MakeName = styled.button`
   background-color: #ffcccb;
   color: black;
   border: none;
@@ -137,3 +105,5 @@ const CharacterImage = styled.img`
   width: 50%;
   cursor: pointer;
 `;
+
+export default Home;

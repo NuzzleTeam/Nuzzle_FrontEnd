@@ -13,7 +13,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 
 // import Home page that is Naming Character page
-import Home from "./pages/Home";
+import Home from "./pages/Home/Home";
 
 // import Question and Photo pages
 import PastQuestionPage from "./pages/Question/PastQuestionPage";
@@ -65,13 +65,20 @@ const Main = styled.main`
 const AppContent = () => {
   const location = useLocation();
 
+  const noHeaderPaths = ["/"];
+
+  const noFooterPaths = ["/Peek", "/Login"];
+
+  const showHeader = !noHeaderPaths.includes(location.pathname);
+  const showFooter = !noFooterPaths.includes(location.pathname);
+
   // 특정 경로에 따라 extraClass를 설정
   const headerExtraClass =
     location.pathname === "/today-question" ? "custom-header-bg" : "";
 
   return (
     <>
-      <Header extraClass={headerExtraClass} />
+      {showHeader && <Header extraClass={headerExtraClass} />}
       <Main>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -105,7 +112,7 @@ const AppContent = () => {
           <Route path="/help/noaccount" element={<NoAccount />}></Route>
         </Routes>
       </Main>
-      <Footer />
+      {showFooter && <Footer />}
     </>
   );
 };
