@@ -21,8 +21,7 @@ const ChaMake1 = () => {
 
   return (
     <Container>
-      <SpeechBubble>{selectedColor ? "애착이로 변신중..." : "우리 가족 키워드를 바탕으로 애착 인형을 고르는 중..."}</SpeechBubble>
-      <CharacterImage src="src/assets/ChaMaking.png" alt="애착이" />
+      {selectedColor ? <CharacterImage src="src/assets/make1.png" alt="애착이변신1" /> : <CharacterImage src="src/assets/make2.png" alt="애착이 변신2" />}
       <CharacterColor color={selectedColor} />
     </Container>
   );
@@ -39,27 +38,6 @@ const Container = styled.div`
   background: linear-gradient(to bottom, pink, yellow);
 `;
 
-const SpeechBubble = styled.div`
-  background: white;
-  padding: 10px 20px;
-  border-radius: 20px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-  font-size: 18px;
-  text-align: center;
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 10px;
-    border-style: solid;
-    border-color: white transparent transparent transparent;
-  }
-`;
 
 const CharacterColor = styled.div`
   width: 200px;
@@ -75,8 +53,7 @@ const CharacterColor = styled.div`
 `;
 
 const CharacterImage = styled.img`
-  width: 250px;
+  width: 350px;
   height: auto;
   object-fit: cover;
-  border-radius: 50%;
 `;

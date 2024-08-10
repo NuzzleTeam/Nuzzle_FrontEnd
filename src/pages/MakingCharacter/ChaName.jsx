@@ -102,10 +102,10 @@ const Input = styled.input`
   padding: 10px;
   margin: 10px 0;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 10px;
   width: 100%;
   max-width: 300px;
-  background-color: ${props => (props.hastext === "true" ? '#ffcccb' : '#fff')};
+  background-color: ${props => (props.hastext === "true" ? '#ffcccb' : '#E6E6E6')};
 `;
 
 const ImageContainer = styled.div`

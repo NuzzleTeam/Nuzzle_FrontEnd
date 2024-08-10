@@ -30,7 +30,8 @@ const ChaColor = () => {
       <Title>애착이의 색상을 선택해보세요</Title>
       <Subtitle>색상은 수정이 불가능하니 신중하게 골라주세요!</Subtitle>
       <CharacterContainer color={selectedColor || '#808080'}>
-        <CharacterImage src="src/assets/firstCha.gif" alt="애착이" />
+        <EyeImage1 src="src/assets/eyes.png" alt="애착이" />
+        <EyeImage2 src="src/assets/eyes.png" alt="애착이" />
       </CharacterContainer>
       <ColorOptions>
         {colors.map((color) => (
@@ -72,7 +73,7 @@ const Title = styled.h1`
 `;
 
 const Subtitle = styled.p`
-  color: #ff0000;
+  color: pink;
   margin-bottom: 20px;
 `;
 
@@ -88,12 +89,17 @@ const CharacterContainer = styled.div`
   position: relative;
 `;
 
-const CharacterImage = styled.img`
-  width: 100%;
-  height: 100%;
+const EyeImage1 = styled.img`
+  width: 10%;
+  height: auto;
   object-fit: cover;
-  border-radius: 50%;
 `;
+
+const EyeImage2 = styled.img`
+  width: 10%;
+  height: auto;
+  object-fit: cover;
+ `;
 
 const ColorOptions = styled.div`
   display: flex;
@@ -107,7 +113,7 @@ const ColorButton = styled.button`
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  border: ${(props) => (props.isselected === "true" ? '3px solid red' : '3px solid transparent')};
+  border: ${(props) => (props.isselected === "true" ? '3px solid black' : '3px solid transparent')};
   background-color: ${(props) => props.color};
   cursor: pointer;
 
@@ -122,9 +128,9 @@ const SelectButton = styled.button`
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 20px;
   margin-bottom: 20px;
-
+  width: 30%;
   &:disabled {
     cursor: not-allowed;
   }

@@ -14,16 +14,17 @@ const Home = () => {
   const handleChaClick = () => {
     if (characterImage === '') {
       navigate('/Keyword');
-    } else {
-      const nextImage = characterImages[characterImage]; // key  value 값 사용해서 업데이트 하기 때문에 눈 반짝일 때 클릭하면 초기 이미지로 넘어가버리는 걸 방지
+    } 
+  };
+  const handleBtnClick = () => {
+    const nextImage = characterImages[characterImage]; // key  value 값 사용해서 업데이트 하기 때문에 눈 반짝일 때 클릭하면 초기 이미지로 넘어가버리는 걸 방지
       if (nextImage && nextImage !== characterImage) {
         dispatch(setCharacterImage(nextImage));
         setTimeout(() => {
           dispatch(resetCharacterImage());
         }, 3000);
       }
-    }
-  };
+  }
 
   const getImageSrc = () => {
     return characterImage || '/src/assets/firstCha.gif';
@@ -37,11 +38,7 @@ const Home = () => {
         {characterImage !== '' && <BackgroundImage src='src/assets/homeBackground.png' alt="Home Background" />}
           <CharacterImage src={getImageSrc()} alt="애착이" onClick={handleChaClick} />
         </ImageContainer>
-        {name == '' && <StyledButton onClick={() => navigate('/ChaName')}>이름지어주기</StyledButton> }
-        <p>
-          {name}이와 함께하는 너즐의 기본적인 홈페이지입니다.
-          이동하려면 네비게이션이나 화면을 클릭하세요
-        </p>
+        {name == '' ? <StyledButton onClick={() => navigate('/ChaName')}> 애착이 이름지어주기 </StyledButton> : <StyledButton onClick={handleBtnClick}> 애착이 쓰다듬어주기 </StyledButton>}
       </MainContent>
       <Footer></Footer>
     </Container>
@@ -76,6 +73,7 @@ const CircleButton = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 24px;
+  z-index: 10;
 `;
 
 const MainContent = styled.div`
@@ -93,14 +91,16 @@ const StyledButton = styled.button`
   padding: 10px 20px;
   cursor: pointer;
   margin-top: 20px;
-  border-radius: 10px;
+  border-radius: 20px;
   font-size: 16px;
+  z-index: 10;
 `;
 
 const ImageContainer = styled.div`
   position: relative;
   width: 500px;  
   height: 500px; 
+  z-index: 1;
 `;
 
 const BackgroundImage = styled.img`
@@ -108,15 +108,15 @@ const BackgroundImage = styled.img`
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 88%;
+  z-index: 1;
 `;
 
 const CharacterImage = styled.img`
   position: absolute;
-  bottom: 0;
+  bottom: 20;
   left: 50%;
   transform: translateX(-50%);
-  width: 50%; 
-  cursor: pointer;
+  width: 70%; 
+  z-index: 1;
 `;
-

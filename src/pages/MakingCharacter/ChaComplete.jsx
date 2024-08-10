@@ -42,14 +42,14 @@ const ChaComplete = () => {
     } else {
       navigate('/');
     }
-  }, [selectedColor]); // 수정해야하나
+  }); 
 
   return (
     <Container>
+      <SpeechBubble>
+        만나서 반가워요! 행복한 시간을 보낼 수 있게 제가 도와드릴게요!
+      </SpeechBubble>
       <Content>
-        <SpeechBubble>
-          만나서 반가워요! 행복한 시간을 보낼 수 있게 제가 도와드릴게요!
-        </SpeechBubble>
         <CharacterSpotlight>
           <CharacterImage 
             src={characterImage} 
@@ -72,42 +72,46 @@ const Container = styled.div`
   height: 100vh;
   background-color: #000000;
   padding: 20px;
+  position: relative;
 `;
 
 const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  margin-top: 60px; 
 `;
 
 const SpeechBubble = styled.div`
   background: #fff;
   border-radius: 20px;
   padding: 15px 20px;
-  margin-bottom: 20px;
-  position: absolute;
-  top: 20px;
+  position: fixed;
+  top: 80px;
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
   max-width: 300px;
-  z-index: 1;
+  z-index: 2;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 `;
 
 const CharacterSpotlight = styled.div`
-  width: 200px;
-  height: 300px;
-  background: #ffd700;
-  border-radius: 100px;
+  width: 320px;
+  height: 620px;
+  background: radial-gradient(circle at top, #ffd700, transparent 70%);
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   position: relative;
 `;
 
 const CharacterImage = styled.img`
-  width: 100%;
+  width: 60%;
   height: auto;
+  z-index: 1;
 `;
 
 const SelectButton = styled.button`
@@ -116,6 +120,8 @@ const SelectButton = styled.button`
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  border-radius: 4px;
-  margin-top: 20px;
+  border-radius: 20px;
+  bottom: 100px;
+  z-index: 2;
+  position : fixed;
 `;
