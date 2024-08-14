@@ -60,7 +60,7 @@ function PastQuestionPage() {
   return (
     <div className="past-question-page">
       <div className="past-questions-title">
-        <h3>오늘의 질문들</h3>
+        <h3>지난 오늘의 질문들</h3>
       </div>
       {questions.map((question, index) => (
         <PastQuestionList

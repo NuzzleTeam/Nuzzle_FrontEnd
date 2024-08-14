@@ -143,7 +143,8 @@ function EmailSignUp() {
 export default EmailSignUp;
 
 const SignUpWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 400px; 
+    height: 840px;
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
@@ -157,13 +158,16 @@ const SignUpContentWrapper = styled.div`
     transform: translate(3.8%, 2%);
 `;
 
+
+
 const BackBtn = styled.button`
     background-color: #FCFDF5;
     width: 44px;
     font-size: large;
     text-align: center;
     top: 50%; left: 50%;
-    transform: translate(-330%, 30%);
+    transform: translate(-20%, 30%);
+    margin-bottom: 10px;
 `;
 
 const Title = styled.div`

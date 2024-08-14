@@ -92,7 +92,8 @@ function ChangePw() {
 export default ChangePw;
 
 const PageWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 400px; 
+    height: 840px;
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
@@ -114,6 +115,7 @@ const BackBtn = styled.button`
     text-align: center;
     top: 50%; left: 50%;
     transform: translate(10%, 30%);
+    margin-bottom : 20px;
 `;
 
 const Title = styled.div`

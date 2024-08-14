@@ -18,11 +18,23 @@ const ChaMake1 = () => {
 
     return () => clearTimeout(timeout);
   }, [selectedColor, navigate]);
+//<CharacterColor color={selectedColor} />
+/* const CharacterColor = styled.div`
+  width: 200px;
+  height: 200px;
+  background-color: ${(props) => props.color};
+  border-radius: 50%;
+  animation: spin 4s linear infinite;
 
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+`;*/
   return (
     <Container>
-      {selectedColor ? <CharacterImage src="src/assets/make1.png" alt="애착이변신1" /> : <CharacterImage src="src/assets/make2.png" alt="애착이 변신2" />}
-      <CharacterColor color={selectedColor} />
+      {selectedColor ? <CharacterImage src="src/assets/chaMaking1.png" alt="애착이변신1" /> : <CharacterImage src="src/assets/chaMaking2.png" alt="애착이 변신2" />}
+      
     </Container>
   );
 };
@@ -39,18 +51,7 @@ const Container = styled.div`
 `;
 
 
-const CharacterColor = styled.div`
-  width: 200px;
-  height: 200px;
-  background-color: ${(props) => props.color};
-  border-radius: 50%;
-  animation: spin 4s linear infinite;
 
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-`;
 
 const CharacterImage = styled.img`
   width: 350px;

@@ -1,9 +1,13 @@
 import styled from "styled-components";
-
+import { useNavigate } from "react-router-dom";
 // 가족 연결 완료 페이지
 
 function ConnectComplete() {
+    const navigate = useNavigate();
 
+    const goToConnect = () => {
+        navigate("/connect");
+    };
     return (
         <>
             <ConnectWrapper>
@@ -15,9 +19,9 @@ function ConnectComplete() {
                         </ProgressBar>
                     </Top>
                     <Title><span>_____님과 </span><span>가족 연결이 완료됐습니다!</span></Title>
-                    <Img src="img/connect_complete.png"></Img>
+                    <Img src="/src/assets/img/connect_complete.png"></Img>
                     <ConnectBtnWrapper>
-                        <AddBtn>가족 추가하기</AddBtn>
+                        <AddBtn onClick={goToConnect}>가족 추가하기</AddBtn>
                         <CompleteBtn>우리 가족 완성!</CompleteBtn>
                     </ConnectBtnWrapper>
                 </ConnectContentWrapper>
@@ -29,7 +33,8 @@ function ConnectComplete() {
 export default ConnectComplete;
 
 const ConnectWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 400px; 
+    height: 840px;
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;

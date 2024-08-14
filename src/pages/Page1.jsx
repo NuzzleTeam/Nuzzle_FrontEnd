@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import Footer from '../components/Footer/Footer';
 
 const Page1 = () => {
   const initialEmojis = ["😘", "😢", "😡"];
@@ -49,6 +50,7 @@ const Page1 = () => {
       {fallingEmojis.map(({ emoji, id, left, duration }) => (
         <FallingEmoji key={id} emoji={emoji} left={left} duration={duration} />
       ))}
+      <Footer></Footer>
     </Container>
   );
 };
@@ -61,8 +63,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f8f8f8;
+  background-color: #FCFDF5;
   padding: 20px;
+  position: relative;
 `;
 
 const ImageContainer = styled.div`

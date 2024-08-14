@@ -10,7 +10,7 @@ function SharedLink() {
             <ConnectWrapper>
                 <ConnectContentWrapper>
                     <Top>
-                        <Img src="img/shared_link.png"></Img>
+                        <Img src="src/assets/img/shared_link.png"></Img>
                     </Top>
                     <Title><span>_____님이 보낸 초대장이에요. </span><span>우리 가족 일상, 함께 엿보러 가볼까요?</span></Title>
                     <ConnectBtnWrapper>
@@ -26,7 +26,8 @@ function SharedLink() {
 export default SharedLink;
 
 const ConnectWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 400px; 
+    height: 840px;
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;

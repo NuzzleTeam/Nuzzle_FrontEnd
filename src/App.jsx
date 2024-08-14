@@ -31,6 +31,7 @@ import Connect from './pages/RegisterAndConnect/Connect';
 import EmailSignUp from './pages/RegisterAndConnect/EmailSignUp';
 import ConnectComplete from './pages/RegisterAndConnect/ConnectComplete';
 import SharedLink from './pages/RegisterAndConnect/SharedLink';
+import ChaNoName from './pages/MakingCharacter/ChaNoName';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/ChaName" element={<ChaName />} />
+            <Route path="/ChaNoName" element={<ChaNoName />} />
             <Route path="/ChaNameComplete" element={<ChaNameComplete />} />
             <Route path="/ChaColor" element={<ChaColor />} />
             <Route path="/ChaMake1" element={<ChaMake1 />} />

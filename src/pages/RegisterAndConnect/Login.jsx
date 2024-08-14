@@ -107,7 +107,7 @@ function Login() {
                          disabled={btnDisabled}
                          type="submit">로그인</Btn>
                 </IdPwForm>
-                <Btn onClick={socialKakao} style={{backgroundColor:'#F7E300', color: '#371D1E'}}><Img src="img/kakao.png"></Img>카카오톡으로 로그인하기</Btn>
+                <Btn onClick={socialKakao} style={{backgroundColor:'#F7E300', color: '#371D1E'}}><Img src="src/assets/img/kakao.png"></Img>카카오톡으로 로그인하기</Btn>
                 <BtnWrapper>
                     <SmallBtn onClick={goToFindId}>아이디 찾기</SmallBtn>
                     <SmallBtn onClick={goToFindPw}>비밀번호 찾기</SmallBtn>
@@ -123,12 +123,13 @@ function Login() {
 export default Login;
 
 const PageWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 400px; 
+    height: 840px;
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
     border: 1px solid black;
-    font-family: 'Pretendard';
+    align-tiems:center;
 `;
 
 const ContentWrapper = styled.div`
@@ -140,11 +141,13 @@ const ContentWrapper = styled.div`
 
 const BackBtn = styled.button`
     background-color: #FCFDF5;
-    width: 44px;
+    width: 40px;
+    height: auto;
     font-size: large;
     text-align: center;
     top: 50%; left: 50%;
     transform: translate(10%, 30%);
+    margin-bottom: 20px;
 `;
 
 const Title = styled.div`

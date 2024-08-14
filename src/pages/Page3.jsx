@@ -1,3 +1,4 @@
+import Footer from '../components/Footer/Footer';
 
 
 const Page3 = () => {
@@ -5,6 +6,7 @@ const Page3 = () => {
     <div>
       <h2> 달력 </h2>
       <p>달력 페이지입니다!</p>
+      <Footer></Footer>
     </div>
   );
 };

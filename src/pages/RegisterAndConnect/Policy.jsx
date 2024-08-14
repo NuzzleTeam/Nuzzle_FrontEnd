@@ -72,7 +72,8 @@ function Policy() {
 export default Policy;
 
 const PageWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 400px; 
+    height: 840px;
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;

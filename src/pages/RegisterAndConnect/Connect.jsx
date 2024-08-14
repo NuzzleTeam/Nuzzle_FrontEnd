@@ -1,11 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // 가족 연결 페이지
 
 function Connect() {
-
+    const navigate = useNavigate();
     const location = useLocation();
     const baseUrl = "http://localhost:5173";
 
@@ -42,6 +43,9 @@ function Connect() {
             console.log(err);
         }
     }
+    const goToHome = () => {
+        navigate("/");
+    };
 
     return (
         <>
@@ -54,12 +58,12 @@ function Connect() {
                         </ProgressBar>
                     </Top>
                     <Title>가족 연결을 해주세요</Title>
-                    <Img src="img/connect.png"></Img>
+                    <Img src="src/assets/img/connect.png"></Img>
                     <Share>
                         <ConnectBox onClick={() => {handleCopyClipBoard(`${baseUrl}${location.pathname}`); openLinkModal();}}>
                             <ConnectTitle>링크 공유하기</ConnectTitle>
-                            <span style={{fontWeight: '400', fontSize: '12px', lineHeight: '16.8px'}}>버튼을 누르면 링크가 자동으로 복사돼요!</span>
-                            <img src="img/link_chain.png" style={{width: '44px', height: '44px', marginLeft: '135px'}}></img>
+                            <span style={{fontWeight: '400', fontSize: '12px', lineHeight: '16.8px' }}>버튼을 누르면 링크가 자동으로 복사돼요!</span>
+                            <img src="src/assets/img/link_chain.png" style={{width: '44px', height: '44px', marginLeft: '135px'}}></img>
                         </ConnectBox>
                         <ConnectBox onClick={() => {handleCopyCode(``); openCodeModal();}}>
                             <ConnectTitle>코드 공유하기</ConnectTitle>
@@ -73,7 +77,7 @@ function Connect() {
                     </Share>
                     <ConnectBtnWrapper>
                         <AddBtn>구성원 추가하기</AddBtn>
-                        <CompleteBtn>우리 가족 완성!</CompleteBtn>
+                        <CompleteBtn onClick={goToHome}>우리 가족 완성!</CompleteBtn>
                     </ConnectBtnWrapper>
                 </ConnectContentWrapper>
             </ConnectWrapper>
@@ -124,7 +128,8 @@ function Connect() {
 export default Connect;
 
 const ConnectWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 400px; 
+    height: 840px;
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;

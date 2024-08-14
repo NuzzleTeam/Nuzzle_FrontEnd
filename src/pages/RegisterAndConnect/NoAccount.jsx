@@ -16,7 +16,7 @@ function NoAccount() {
             <ContentWrapper>
                 <BackBtn onClick={backToFindId}>{'<'}</BackBtn>
                 <Title><h3>가입된 계정이 없습니다</h3></Title>
-                <Img src="/img/noaccount.png"></Img>
+                <Img src="src/assets/img/noaccount.png"></Img>
                 <BtnWrapper>
                     <Btn style={{backgroundColor: '#FFB1D0'}} onClick={goToEmailSignUp}>이메일로 회원가입하기</Btn>
                     <Btn>카카오톡으로 회원가입하기</Btn>
@@ -31,7 +31,8 @@ function NoAccount() {
 export default NoAccount;
 
 const PageWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 400px; 
+    height: 840px;
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;

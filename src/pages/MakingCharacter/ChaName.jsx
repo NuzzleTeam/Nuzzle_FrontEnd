@@ -79,8 +79,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f8f8f8;
+  background-color: #FCFDF5;
   padding: 20px;
+  position: relative;
 `;
 
 const Content = styled.div`

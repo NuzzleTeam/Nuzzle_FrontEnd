@@ -62,10 +62,13 @@ function FindId() {
 export default FindId;
 
 const PageWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 400px; 
+    height: 840px;
     background-color: #FCFDF5;
-    display: flex; flex-direction: column;
+    display: flex;
+    flex-direction: column;
     border: 1px solid black;
+    align-tiems:center;
 `;
 
 const ContentWrapper = styled.div`
@@ -82,6 +85,7 @@ const BackBtn = styled.button`
     text-align: center;
     top: 50%; left: 50%;
     transform: translate(10%, 30%);
+    margin-bottom: 20px;
 `;
 
 const Title = styled.div`

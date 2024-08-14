@@ -11,71 +11,79 @@ function FirstPage() {
     };
 
     return (
-        <>
-            <PageWrapper>
-                <ContentWrapper>
-                    <Top>
-                        <img 
-                            width={'61px'}
-                            height={'35px'}
-                            src="src/assets/img/upside_nuzzle.png"/>
-                        <img 
-                            width={'69.11px'}
-                            height={'12px'}
-                            src="src/assets/img/nuzzle.png"/>
-                    </Top>
-                    <Middle>
-                        <Bubble>하루 한 번, 우리 가족 일상 엿보기</Bubble>
-                        <img src="src/assets/img/main_character.png"/>
-                    </Middle>
-                    <Bottom>
-                        <StartBtn onClick={startNuzzle}>누즐 시작하기</StartBtn>
-                    </Bottom>
-                </ContentWrapper>
-            </PageWrapper>
-        </>
+        <PageWrapper>
+            <ContentWrapper>
+                <Top>
+                    <img 
+                        width={'64px'}
+                        height={'35px'}
+                        src="src/assets/img/upside_nuzzle.png"/>
+                    <img 
+                        width={'69.11px'}
+                        height={'12px'}
+                        src="src/assets/img/nuzzle.png"/>
+                </Top>
+                <Middle>
+                    <Bubble>하루 한 번, 우리 가족 일상 엿보기</Bubble>
+                    <img src="src/assets/img/main_character.png"/>
+                </Middle>
+                <Bottom>
+                    <StartBtn onClick={startNuzzle}>누즐 시작하기</StartBtn>
+                </Bottom>
+            </ContentWrapper>
+        </PageWrapper>
     )
 }
 
 export default FirstPage;
 
 const PageWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 400px; 
+    height: 840px;
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
     border: 1px solid black;
+    align-items: center; 
 `;
 
 const ContentWrapper = styled.div`
-    width: 348px; height: 90%;
-    top: 50%; left: 50%;
-    transform: translate(3.8%, 2%);
-    display: flex; flex-direction: column;
+    width: 348px; 
+    height: 90%;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
 `;
 
 const Top = styled.div`
-    display: flex; flex-direction: column;
+    display: flex; 
+    flex-direction: column;
     align-items: center;
     gap: 7px;
-    top: 50%; left: 50%;
-    transform: translate(0%, 70%);
+    padding-top: 40px; 
 `;
 
 const Middle = styled.div`
-    top: 50%; left: 50%;
-    transform: translate(1%, 80%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
 `;
 
 const Bottom = styled.div`
-    top: 50%; left: 50%;
-    transform: translate(0%, 550%);
+    display: flex;
+    justify-content: center;
 `;
 
 const StartBtn = styled.button`
-    width: 315px; height: 60px;
+    width: 375px; 
+    height: 60px;
     border-radius: 12px;
-    padding: 21px, 11px, 21px, 11px;
+    padding: 21px 11px; 
     background-color: #FFB1D0;
     font-family: 'Pretendard';
     font-weight: 600;
@@ -84,17 +92,19 @@ const StartBtn = styled.button`
 `;
 
 const Bubble = styled.div`
-    width: 222px; height: 40px;
+    position: relative;
+    width: 222px; 
+    height: 40px;
     border-radius: 30px;
-    background-color:#353535;
-    font-size: 12px;
-    top: 50%; left: 50%;
-    transform: translate(30%, -100%);
+    background-color: #353535;
     color: #FFB1D0;
     font-family: 'Pretendard';
     font-weight: 700;
     font-size: 12px;
     line-height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     &:after {
         content: '';
@@ -106,6 +116,6 @@ const Bubble = styled.div`
         width: 0;
         z-index: 1;
         bottom: -14px;
-        left: 100px;
+        left: calc(50% - 10px); 
     }
 `;

@@ -16,6 +16,11 @@ const Home = () => {
       navigate('/Keyword');
     } 
   };
+
+  const goToConnect = () => {
+    navigate("/connect");
+  };
+
   const handleBtnClick = () => {
     const nextImage = characterImages[characterImage]; // key  value 값 사용해서 업데이트 하기 때문에 눈 반짝일 때 클릭하면 초기 이미지로 넘어가버리는 걸 방지
       if (nextImage && nextImage !== characterImage) {
@@ -32,15 +37,15 @@ const Home = () => {
 
   return (
     <Container>
-      <CircleButton>+</CircleButton>
+      <CircleButton onClick={goToConnect}>+</CircleButton>
       <MainContent>
         <ImageContainer>
         {characterImage !== '' && <BackgroundImage src='src/assets/homeBackground.png' alt="Home Background" />}
           <CharacterImage src={getImageSrc()} alt="애착이" onClick={handleChaClick} />
         </ImageContainer>
         {name == '' ? <StyledButton onClick={() => navigate('/ChaName')}> 애착이 이름지어주기 </StyledButton> : <StyledButton onClick={handleBtnClick}> 애착이 쓰다듬어주기 </StyledButton>}
+        <Footer></Footer>
       </MainContent>
-      <Footer></Footer>
     </Container>
   );
 };
@@ -53,8 +58,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f8f8f8;
+  background-color: #FCFDF5;
   padding: 20px;
+  position: relative;
 `;
 
 const CircleButton = styled.button`
@@ -66,9 +72,9 @@ const CircleButton = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
-  position: absolute;
-  top: 25px;
-  left: 20px;
+  position: relative;
+  top: 0px;
+  left: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,8 +112,8 @@ const ImageContainer = styled.div`
 const BackgroundImage = styled.img`
   position: absolute;
   top: 0;
-  left: 0;
-  width: 100%;
+  left: 60px;
+  width: 75%;
   height: 88%;
   z-index: 1;
 `;

@@ -10,6 +10,9 @@ function FindPw() {
     const backToLogin = () => {
         navigate("/login");
     };
+    const goChangePW = () => {
+        navigate("/help/changepw");
+    };
 
     const {
         phoneNumber,
@@ -34,7 +37,7 @@ function FindPw() {
                 <Title><h3>비밀번호 찾기</h3></Title>
                 <Letter><h5>아이디</h5></Letter>
                 <ConfirmBox>
-                    <Id placeholder="01012345678"
+                    <Id placeholder="아이디를 입력하세요"
                         type="text"
                         onChange={handleChange}></Id>
                 </ConfirmBox>
@@ -51,7 +54,7 @@ function FindPw() {
                     <ConfirmNumber placeholder="인증번호 4자리" type="text" value={verificationCode}
                   onChange={handleVerificationCodeChange}></ConfirmNumber>
                 </ConfirmBox>
-                <ConfirmCompleteBtn>인증 완료</ConfirmCompleteBtn>
+                <ConfirmCompleteBtn onClick={goChangePW}>인증 완료</ConfirmCompleteBtn>
             </FindIdContentWrapper>
         </FindIdWrapper>
       </>
@@ -61,13 +64,14 @@ function FindPw() {
 export default FindPw;
 
 const FindIdWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 400px; 
+    height: 840px;
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
     border: 1px solid black;
-    font-family: 'Pretendard';
 `;
+
 
 const FindIdContentWrapper = styled.div`
     width: 348px; height: 90%;
@@ -83,6 +87,7 @@ const BackBtn = styled.button`
     text-align: center;
     top: 50%; left: 50%;
     transform: translate(10%, 30%);
+    margin-bottom: 20px;
 `;
 
 const Title = styled.div`

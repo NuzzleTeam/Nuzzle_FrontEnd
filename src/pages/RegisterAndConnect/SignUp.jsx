@@ -6,7 +6,7 @@ import { useController } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import { useState } from "react";
 import Select from "react-select"
-
+import { useNavigate } from "react-router-dom";
 // 회원가입 페이지
 
 const years = Array.from({ length: 100 }, (_, i) => ({ value: 2024 - i, label: 2024 - i }));
@@ -22,7 +22,7 @@ const CustomDatePicker = ({ selectedDate, onChange }) => {
     const [year, setYear] = useState(selectedDate.getFullYear());
     const [month, setMonth] = useState(selectedDate.getMonth() + 1);
     const [day, setDay] = useState(selectedDate.getDate());
-
+    
     const handleYearChange = (option) => {
         setYear(option.value);
         onChange(new Date(option.value, month - 1, day));
@@ -67,10 +67,12 @@ function SignUp() {
 
     const [date, setDate] = useState(new Date());
     const [btnDisabled, setBtnDisabled] = useState(true);
-    
-    const handleDateChange = (newDate) => {
-        setDate(newDate);
+    const navigate = useNavigate();
+
+    const goPolicy = () => {
+        navigate("/policy");
     };
+
 
     const {register, 
         handleSubmit, 
@@ -146,11 +148,11 @@ function SignUp() {
                                             control={control}
                                             render={({field: {onChange, value}}) => (
                                                 <FormBtnWrapper onChange={onChange} value={value}>
-                                                    <FormBtn onClick={() => onChange('F')}
+                                                    <FormBtn type="button" onClick={() => onChange('F')}
                                                              selected={value === 'F'}>여자</FormBtn>
-                                                    <FormBtn onClick={() => onChange('M')}
+                                                    <FormBtn type="button" onClick={() => onChange('M')}
                                                              selected={value === 'M'}>남자</FormBtn>
-                                                    <FormBtn onClick={() => onChange('else')}
+                                                    <FormBtn type="button" onClick={() => onChange('else')}
                                                              selected={value === 'else'}>기타</FormBtn>
                                                 </FormBtnWrapper>
                             )}></Controller>
@@ -161,11 +163,11 @@ function SignUp() {
                                             control={control}
                                             render={({field: {onChange, value}}) => (
                                                 <FormBtnWrapper onChange={onChange} value={value}>
-                                                    <FormBtn onClick={() => onChange('parent')}
+                                                    <FormBtn type="button" onClick={() => onChange('parent')}
                                                              selected={value === 'parent'}>부모</FormBtn>
-                                                    <FormBtn onClick={() => onChange('child')}
+                                                    <FormBtn type="button" onClick={() => onChange('child')}
                                                              selected={value === 'child'}>자녀</FormBtn>
-                                                    <FormBtn onClick={() => onChange('else')}
+                                                    <FormBtn type="button"onClick={() => onChange('else')}
                                                              selected={value === 'else'}>기타</FormBtn>
                                                 </FormBtnWrapper>
                             )}></Controller>
@@ -232,7 +234,7 @@ function SignUp() {
                                         validate: value => value === getValues('pw') || '비밀번호가 일치하지 않습니다.'
                             })}></FormInput>
                         </FormBox>
-                        <NextBtn type="submit" disabled={btnDisabled}>다음</NextBtn>
+                        <NextBtn type="submit" onClick={goPolicy} disabled={btnDisabled}>다음</NextBtn>
                     </SignUpForm>
                 </SignUpContentWrapper>
             </SignUpWrapper>
@@ -243,21 +245,25 @@ function SignUp() {
 export default SignUp;
 
 const SignUpWrapper = styled.div`
-    width: 375px; height: 812px;
+    width: 100%; 
+    min-height: 100vh; /* 화면 전체 높이를 사용 */
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
     border: 1px solid black;
     font-family: 'Pretendard';
     overflow: hidden;
-    overflow-y: scroll;
+    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 가능하도록 */
 `;
 
+
 const SignUpContentWrapper = styled.div`
-    width: 348px; height: 90%;
-    top: 50%; left: 50%;
-    transform: translate(3.8%, 2%);
+    width: 348px; 
+    margin: 0 auto; /* 중앙 정렬을 위해 자동 마진 */
+    padding: 20px; /* 상하좌우 여백 추가 */
+    flex-grow: 1; /* 내용이 화면에 꽉 차도록 */
 `;
+
 
 const Top = styled.div`
     display: flex;
@@ -272,6 +278,7 @@ const BackBtn = styled.button`
     text-align: center;
     top: 50%; left: 50%;
     transform: translate(-20%, 30%);
+    margin-bottom: 10px;
 `;
 
 const ProgressBar = styled.div`
