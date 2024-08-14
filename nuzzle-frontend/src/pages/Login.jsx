@@ -50,26 +50,21 @@ function Login() {
         formState: {errors},
       } = useForm();
 
-    //   const handleLogin = (data) => {
-    //     // data.preventDefault();
-    //     // 우선 username과 pw가 같을 때만 로그인 되게 설정
-    //     if (data.username != data.pw){
-    //         setErrMsg(true);
-    //     }
-    //     else {
-    //         console.log(data);
-    //         setErrMsg(false);
-    //         // dispatch(loginUser({ username: data.username, password: data.pw }));
-    //     }
-    // };
-
     const handleLogin = (data) => {
-        dispatch(login({ username: data.username, password: data.pw }));
+        // data.preventDefault();
+        if (data.username != data.pw){
+            setErrMsg(true);
+        }
+        else {
+            console.log(data);
+            dispatch(login({ username: data.username, password: data.pw }));
+            setErrMsg(false);
+        }
     };
 
     useEffect(() => {
         if (isLogin) { // isAuthenticated 대신 isLogin 사용
-            // navigate("/");
+            // navigate("/"); //거실로 이동하게 하기
             
         }
     }, [isLogin, navigate]);
@@ -108,12 +103,13 @@ function Login() {
                          disabled={btnDisabled}
                          type="submit">로그인</Btn>
                 </IdPwForm>
-                <Btn onClick={socialKakao} style={{backgroundColor:'#F7E300', color: '#371D1E'}}><Img src="img/kakao.png"></Img>카카오톡으로 로그인하기</Btn>
+                <Btn onClick={socialKakao} style={{backgroundColor:'#F7E300', color: '#371D1E'}}><Img src="img/kakao.png" style={{marginTop: '-2px'}}></Img><span>카카오톡으로 로그인하기</span></Btn>
                 <BtnWrapper>
                     <SmallBtn onClick={goToFindId}>아이디 찾기</SmallBtn>
+                    <span style={{color: '#959595', marginTop: '-4px'}}>&nbsp;|&nbsp;</span>
                     <SmallBtn onClick={goToFindPw}>비밀번호 찾기</SmallBtn>
+                    <span style={{color: '#959595', marginTop: '-4px'}}>&nbsp;|&nbsp;</span>
                     <SmallBtn onClick={goToSignUp}>회원가입</SmallBtn>
-                    {/* <span>&nbsp;|&nbsp;</span> */}
                 </BtnWrapper>
             </ContentWrapper>
         </PageWrapper>

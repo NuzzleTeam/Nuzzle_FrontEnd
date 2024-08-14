@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
-import { Form } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Controller, useForm } from "react-hook-form";
-import { useController } from "react-hook-form";
-import DatePicker from "react-datepicker";
 import { useState } from "react";
 import Select from "react-select"
+import axios from "axios";
 
 // 회원가입 페이지
 
@@ -19,9 +18,9 @@ const DatePickerWrapper = styled.div`
 `;
 
 const CustomDatePicker = ({ selectedDate, onChange }) => {
-    const [year, setYear] = useState(selectedDate.getFullYear());
-    const [month, setMonth] = useState(selectedDate.getMonth() + 1);
-    const [day, setDay] = useState(selectedDate.getDate());
+    const [year, setYear] = useState('년');
+    const [month, setMonth] = useState('월');
+    const [day, setDay] = useState('일');
 
     const handleYearChange = (option) => {
         setYear(option.value);
@@ -65,13 +64,13 @@ const CustomDatePicker = ({ selectedDate, onChange }) => {
 
 function SignUp() {
 
+    const navigate = useNavigate();
+    const backToLogin = () => { navigate('/login'); };
+    const goToPolicy = () => { navigate('/policy'); };
+
     const [date, setDate] = useState(new Date());
     const [btnDisabled, setBtnDisabled] = useState(true);
     
-    const handleDateChange = (newDate) => {
-        setDate(newDate);
-    };
-
     const {register, 
         handleSubmit, 
         control,
@@ -89,33 +88,43 @@ function SignUp() {
             mode: 'onChange'
         });
 
-        const watchFields = watch(['name', 'gender', 'role', 'email', 'pw', 'pwconfirm']);
-
-        const isFormValid = () => {
-            // Check if all required fields are filled and valid
-            return watchFields.name && watchFields.gender && watchFields.role && watchFields.email && watchFields.pw && watchFields.pwconfirm && isValid;
-        };
-    
+    const watchFields = watch(['name', 'gender', 'role', 'email', 'pw', 'pwconfirm']);
 
     const onSubmit = (data) => {
-        if (data) {
-            console.log(data);
-        } else {
-        }
+        console.log(data);
+        navigate('/policy');
     };
 
     useEffect(() => {
-        // Check if all watched fields are filled and valid
         const allFieldsFilled = Object.values(watchFields).every(value => value);
         setBtnDisabled(!isValid || !allFieldsFilled);
     }, [watchFields, isValid]);
+
+    const handleRegister = async (data) => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/auth/sign-up',{
+                "name": data.name,
+                "gender": data.gender,
+                "role": data.role,
+                "email": data.email,
+                "password": data.pw,
+                "pwconfirm": data.pwconfirm,
+            });
+            // setIsSignUp(true);
+            console.log(response);
+            } catch (error) {
+                // setIsError(error.response.data.message);
+                // console.error(error);
+                // console.log(error.response.data.message);
+            }
+    };
 
     return (
         <>
             <SignUpWrapper>
                 <SignUpContentWrapper>
                     <Top>
-                        <BackBtn>{'<'}</BackBtn>
+                        <BackBtn onClick={backToLogin}>{'<'}</BackBtn>
                         <ProgressBar>
                             <InnerProgreeBar style={{backgroundColor: '#FFB1D0'}}/><InnerProgreeBar/><InnerProgreeBar/>
                         </ProgressBar>
@@ -138,7 +147,7 @@ function SignUp() {
                                             message: '이름은 최대 6자리까지 가능합니다.'
                                         }
                             })}></FormInput>
-                            {/* {errors.name && <ErrMsg>{errors.name.message}</ErrMsg>} */}
+                            {errors.name && <ErrMsg>{errors.name.message}</ErrMsg>}
                         </FormBox>
                         <FormBox>
                             <FormTitle><span>성별</span></FormTitle>
@@ -146,12 +155,12 @@ function SignUp() {
                                             control={control}
                                             render={({field: {onChange, value}}) => (
                                                 <FormBtnWrapper onChange={onChange} value={value}>
-                                                    <FormBtn onClick={() => onChange('F')}
-                                                             selected={value === 'F'}>여자</FormBtn>
-                                                    <FormBtn onClick={() => onChange('M')}
-                                                             selected={value === 'M'}>남자</FormBtn>
-                                                    <FormBtn onClick={() => onChange('else')}
-                                                             selected={value === 'else'}>기타</FormBtn>
+                                                    <FormBtn onClick={() => onChange('여자')}
+                                                             selected={value === '여자'}>여자</FormBtn>
+                                                    <FormBtn onClick={() => onChange('남자')}
+                                                             selected={value === '남자'}>남자</FormBtn>
+                                                    <FormBtn onClick={() => onChange('기타')}
+                                                             selected={value === '기타'}>기타</FormBtn>
                                                 </FormBtnWrapper>
                             )}></Controller>
                         </FormBox>
@@ -161,32 +170,25 @@ function SignUp() {
                                             control={control}
                                             render={({field: {onChange, value}}) => (
                                                 <FormBtnWrapper onChange={onChange} value={value}>
-                                                    <FormBtn onClick={() => onChange('parent')}
-                                                             selected={value === 'parent'}>부모</FormBtn>
-                                                    <FormBtn onClick={() => onChange('child')}
-                                                             selected={value === 'child'}>자녀</FormBtn>
-                                                    <FormBtn onClick={() => onChange('else')}
-                                                             selected={value === 'else'}>기타</FormBtn>
+                                                    <FormBtn onClick={() => onChange('부모')}
+                                                             selected={value === '부모'}>부모</FormBtn>
+                                                    <FormBtn onClick={() => onChange('자녀')}
+                                                             selected={value === '자녀'}>자녀</FormBtn>
+                                                    <FormBtn onClick={() => onChange('기타')}
+                                                             selected={value === '기타'}>기타</FormBtn>
                                                 </FormBtnWrapper>
                             )}></Controller>
                         </FormBox>
                         <FormBox>
                             <FormTitle><span>생년월일</span></FormTitle>
                                 <FormBtnWrapper>
-                                    {/* <Controller
-                                        name="birthdate"
-                                        control={control}
-                                        render={({field}) => (
-                                            <CustomDatePicker value={field.value} selectedDate={date} onChange={field.onChange} />
-                                        )}>
-                                    </Controller> */}
                                     <Controller
                                         name="birthdate"
                                         control={control}
                                         render={({ field }) => (
                                             <CustomDatePicker selectedDate={date} onChange={(newDate) => {
-                                                field.onChange(newDate); // Sync with react-hook-form
-                                                setDate(newDate);       // Sync internal state
+                                                field.onChange(newDate);
+                                                setDate(newDate);
                                             }} />
                                         )}
                                     />
@@ -200,6 +202,7 @@ function SignUp() {
                                         value: /^\S+@\S+$/i,
                                         message: '올바른 이메일 형식이 아닙니다.'
                             }})}></FormInput>
+                            {errors.email && <ErrMsg>{errors.email.message}</ErrMsg>}
                         </FormBox>
                         <FormBox>
                             <FormTitle><span>비밀번호</span></FormTitle>
@@ -223,6 +226,7 @@ function SignUp() {
                                             }
                                         }
                             }})}></FormInput>
+                            {errors.pw && <ErrMsg>{errors.pw.message}</ErrMsg>}
                         </FormBox>
                         <FormBox>
                             <FormTitle><span>비밀번호 확인</span></FormTitle>
@@ -231,6 +235,7 @@ function SignUp() {
                                        {...register('pwconfirm', {required: '비밀번호를 다시 입력해주세요.', 
                                         validate: value => value === getValues('pw') || '비밀번호가 일치하지 않습니다.'
                             })}></FormInput>
+                            {errors.pwconfirm && <ErrMsg>{errors.pwconfirm.message}</ErrMsg>}
                         </FormBox>
                         <NextBtn type="submit" disabled={btnDisabled}>다음</NextBtn>
                     </SignUpForm>
@@ -349,7 +354,6 @@ const FormBtn = styled.button`
     font-size: 14px;
     line-height: 16.8px;
     padding-left: 10px;
-    color: #959595;
 `;
 
 const NextBtn = styled.button`
@@ -369,7 +373,6 @@ const ErrMsg = styled.div`
     font-size: 12px;
     line-height: 14.4px;
     text-align: left;
-    display: none;
     top: 50%; left: 50%;
-    transform: translate(0%, 0%);
+    transform: translate(2%, 50%);
 `;

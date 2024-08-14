@@ -1,9 +1,7 @@
 import React from "react";
 import { Controller, useForm, useController } from "react-hook-form";
-import { Form } from "react-router-dom";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import DatePicker from "react-datepicker";
 import Select from "react-select"
 
 
@@ -17,9 +15,9 @@ const DatePickerWrapper = styled.div`
 `;
 
 const CustomDatePicker = ({ selectedDate, onChange }) => {
-    const [year, setYear] = useState(selectedDate.getFullYear());
-    const [month, setMonth] = useState(selectedDate.getMonth() + 1);
-    const [day, setDay] = useState(selectedDate.getDate());
+    const [year, setYear] = useState('년');
+    const [month, setMonth] = useState('월');
+    const [day, setDay] = useState('일');
 
     const handleYearChange = (option) => {
         setYear(option.value);
@@ -64,11 +62,6 @@ const CustomDatePicker = ({ selectedDate, onChange }) => {
 // 사이트 접속 페이지 (첫 화면)
 
 function KakaoLogin() {
-
-    const [gender, setGender] = useState("");
-    const selectGender = (data) => {
-        setGender(data.target.value);
-    }
     const [date, setDate] = useState(new Date());
     const [btnDisabled, setBtnDisabled] = useState(true);
 
@@ -85,12 +78,10 @@ function KakaoLogin() {
             mode: 'onChange'
         });
 
-    const watchFields = watch(['name', 'gender', 'role',]);
+    const watchFields = watch(['name', 'gender', 'role', 'birthdate']);
 
     const onSubmit = (data) => {
-        if (data) {
-            console.log(data);
-        }
+        console.log(data);
     };
 
     useEffect(() => {
@@ -133,12 +124,12 @@ function KakaoLogin() {
                                             control={control}
                                             render={({field: {onChange, value}}) => (
                                                 <FormBtnWrapper onChange={onChange} value={value}>
-                                                    <FormBtn onClick={() => onChange('F')}
-                                                             selected={value === 'F'}>여자</FormBtn>
-                                                    <FormBtn onClick={() => onChange('M')}
-                                                             selected={value === 'M'}>남자</FormBtn>
-                                                    <FormBtn onClick={() => onChange('else')}
-                                                             selected={value === 'else'}>기타</FormBtn>
+                                                    <FormBtn onClick={() => onChange('여자')}
+                                                             selected={value === '여자'}>여자</FormBtn>
+                                                    <FormBtn onClick={() => onChange('남자')}
+                                                             selected={value === '남자'}>남자</FormBtn>
+                                                    <FormBtn onClick={() => onChange('기타')}
+                                                             selected={value === '기타'}>기타</FormBtn>
                                                 </FormBtnWrapper>
                             )}></Controller>
                         </FormBox>
@@ -148,12 +139,12 @@ function KakaoLogin() {
                                             control={control}
                                             render={({field: {onChange, value}}) => (
                                                 <FormBtnWrapper onChange={onChange} value={value}>
-                                                    <FormBtn onClick={() => onChange('parent')}
-                                                             selected={value === 'parent'}>부모</FormBtn>
-                                                    <FormBtn onClick={() => onChange('child')}
-                                                             selected={value === 'child'}>자녀</FormBtn>
-                                                    <FormBtn onClick={() => onChange('else')}
-                                                             selected={value === 'else'}>기타</FormBtn>
+                                                    <FormBtn onClick={() => onChange('부모')}
+                                                             selected={value === '부모'}>부모</FormBtn>
+                                                    <FormBtn onClick={() => onChange('자녀')}
+                                                             selected={value === '자녀'}>자녀</FormBtn>
+                                                    <FormBtn onClick={() => onChange('기타')}
+                                                             selected={value === '기타'}>기타</FormBtn>
                                                 </FormBtnWrapper>
                             )}></Controller>
                         </FormBox>
@@ -173,7 +164,7 @@ function KakaoLogin() {
                                 </FormBtnWrapper>
                         </FormBox>
                     </KakaoLoginForm>
-                    <NextBtn type="submit">다음</NextBtn>
+                    <NextBtn type="submit" disabled={btnDisabled}>다음</NextBtn>
                 </KakaoLoginContentWrapper>
             </KakaoLoginWrapper>
         </>
@@ -286,13 +277,12 @@ const FormBtn = styled.button`
     font-size: 14px;
     line-height: 16.8px;
     padding-left: 10px;
-    color: #959595;
 `;
 
 const NextBtn = styled.button`
     width: 315px; height: 50px;
     border-radius: 100px;
-    background-color: #DFDFDF;
+    background-color: #FFB1D0;
     top: 50%; left: 50%;
     transform: translate(0%, 450%);
     font-weight: 700;

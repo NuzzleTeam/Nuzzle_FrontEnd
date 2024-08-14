@@ -30,7 +30,7 @@ function FirstPage() {
                         <img src="img/main_character.png"/>
                     </Middle>
                     <Bottom>
-                        <StartBtn onClick={startNuzzle}>누즐 시작하기</StartBtn>
+                        <StartBtn onClick={startNuzzle}>너즐 시작하기</StartBtn>
                     </Bottom>
                 </ContentWrapper>
             </PageWrapper>

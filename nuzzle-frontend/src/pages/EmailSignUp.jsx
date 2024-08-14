@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Form } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 // 이메일 회원가입
 
@@ -9,19 +9,49 @@ function EmailSignUp() {
 
     const navigate = useNavigate();
     const backToLogin = () => { navigate('/login'); };
-    const GoToEmailSignUp = () => { navigate('/signup'); };
+    const GoToConnect = () => { navigate('/connect'); };
+
+    const {register, 
+        handleSubmit, 
+        control,
+        formState: {errors, isValid}, 
+        watch,
+        getValues} = useForm({
+            defaultValues: {
+                gender: '',
+                telecom: '',
+                birthdate: '',
+                phonenumber: '',
+            },
+            mode: 'onChange'
+        });
 
     const [mobileModalOpen, setMobileModalOpen] = useState(false);
     const [policyModalOpen, setPolicyModalOpen] = useState(false);
     const [selectedTelecom, setSelectedTelecom] = useState("");
     const [telecomInputValue, setTelecomInputValue] = useState("");
+    const [btnDisabled, setBtnDisabled] = useState(true);
+
+    const dateInputRef = useRef(null);
+    const genderInputRef = useRef(null);
+    const phonenumberRef = useRef(null);
+
+    const onSubmit = (data) => {
+        console.log(data);
+        // navigate('/');
+    };
+
+    // 6자리가 되면 성별 입력 박스로 포커스 이동
+    const handleDateChange = (e) => {
+        const { value } = e.target;
+
+        if (value.length === 6) {
+            genderInputRef.current.focus();
+        }
+    };
 
     const selectMobileOpen = () => {
         setMobileModalOpen(true);
-    }
-
-    const selectMobilePolicy = () => {
-        setPolicyModalOpen(true);
     }
 
     const handleTelecomSelect = (telecom) => {
@@ -51,6 +81,13 @@ function EmailSignUp() {
     }
 
     useEffect(() => {
+        const birthdateValue = getValues('birthdate');
+        if (birthdateValue.length === 6) {
+            genderInputRef.current.focus();
+        }
+    }, [getValues('birthdate')]);
+
+    useEffect(() => {
         if (
             checkList.includes("tos") &&
             checkList.includes("personal") &&
@@ -70,18 +107,28 @@ function EmailSignUp() {
                 <SignUpContentWrapper>
                     <BackBtn onClick={backToLogin}>{'<'}</BackBtn>
                     <Title>휴대폰 인증</Title>
-                    <SignUpForm>
+                    <SignUpForm onSubmit={handleSubmit(onSubmit)}>
                         <FormBox>
                             <FormTitle><span>이름</span></FormTitle>
-                            <FormInput placeholder="이름을 작성해 주세요"></FormInput>
+                            <FormInput placeholder="이름을 작성해 주세요"
+                                       type="text"
+                                       {...register('name', {required: '이름을 작성해 주세요', 
+                                        maxLength: {
+                                            value: 6,
+                                            message: '이름은 최대 6자리까지 가능합니다.'
+                                        }
+                            })}></FormInput>
                         </FormBox>
                         <FormBox>
                             <FormTitle><span>생년월일 및 성별</span></FormTitle>
-                            {/* <FormInput placeholder="YYMMDD"></FormInput> */}
                             <FlexContainer>
-                                <DateInput placeholder="YYMMDD"></DateInput>
+                                <DateInput placeholder="YYMMDD" ref={dateInputRef} onChange={handleDateChange}
+                                           type="text"
+                                           {...register('birthdate', {required: '생년월일을 작성해 주세요'})}></DateInput>
                                 <Seperator>-</Seperator>
-                                <GenderInput placeholder="0・・・・・・"></GenderInput>
+                                <GenderInput placeholder="0・・・・・・" ref={genderInputRef}
+                                             type="text"
+                                             {...register('gender', {required: '성별을 작성해 주세요'})}></GenderInput>
                             </FlexContainer>
                         </FormBox>
                         <FormBox>
@@ -91,14 +138,23 @@ function EmailSignUp() {
                         <FormBox>
                             <FormTitle><span>휴대폰 번호</span></FormTitle>
                             <FormInput placeholder="01012345678"
-                                       type="text"></FormInput>
+                                       type="text"
+                                       {...register('phonenumber', {required: '휴대폰 번호를 작성해 주세요',
+                                        minLength: {
+                                            value: 11
+                                        },
+                                        maxLength: {
+                                            value: 11
+                                        }
+                                       })}
+                                       ></FormInput>
                         </FormBox>
                     </SignUpForm>
-                    <NextBtn onClick={GoToEmailSignUp}>다음</NextBtn>
+                    <NextBtn disabled={false}>다음</NextBtn>
                 </SignUpContentWrapper>
             </SignUpWrapper>
             {mobileModalOpen && (
-                <ModalWrapper>
+                <ModalWrapper onClick={() => setMobileModalOpen(false)}>
                     <ModalContentWrapper onClick={(e) => e.stopPropagation()}>
                         <ModalTitle>통신사 선택</ModalTitle>
                         <ModalSelectWrapper>
@@ -113,24 +169,24 @@ function EmailSignUp() {
                 </ModalWrapper>
             )}
             {policyModalOpen && (
-                <ModalWrapper>
+                <ModalWrapper onClick={() => setPolicyModalOpen(false)}>
                     <ModalContentWrapper onClick={(e) => e.stopPropagation()}>
                         <ModalTitle>휴대폰 본인확인 약관 동의</ModalTitle>
-                        <ModalSelectWrapper>
+                        <ModalSelectWrapper style={{top: '50%', left: '50%', transform: 'translate(0%, -5%)'}}>
                             <ModalSelectBox>
-                                <span><CircleBtn style={{marginLeft: '100px', marginTop: '8px'}} type="checkbox" name="all" onChange={checkAll} checked={checkList.length === 4 ? true : false}></CircleBtn></span><span><ModalSelect>전체 동의하기</ModalSelect></span>
+                                <span><CircleBtn style={{marginLeft: '100px', marginTop: '8px', transform: 'translateX(-400%)'}} type="checkbox" name="all" onChange={checkAll} checked={checkList.length === 4 ? true : false}></CircleBtn></span><span><ModalSelect>전체 동의하기</ModalSelect></span>
                             </ModalSelectBox>
                             <ModalSelectBox>
-                            <span><CircleBtn style={{marginLeft: '100px', marginTop: '8px'}} type="checkbox" name="tos" onChange={check} checked={checkList.includes("tos") ? true : false}></CircleBtn></span><span><ModalSelect>[필수] 본인확인 서비스 이용약관 동의</ModalSelect></span>
+                            <span><SquareBtn style={{marginLeft: '100px', marginTop: '8px', transform: 'translateX(-440%)'}} type="checkbox" name="tos" onChange={check} checked={checkList.includes("tos") ? true : false}></SquareBtn></span><span><ModalSelect>[필수] 본인확인 서비스 이용약관 동의</ModalSelect></span>
                             </ModalSelectBox>
                             <ModalSelectBox>
-                            <span><CircleBtn style={{marginLeft: '95px', marginTop: '8px'}} type="checkbox" name="personal" onChange={check} checked={checkList.includes("personal") ? true : false}></CircleBtn></span><span><ModalSelect>[필수] 개인정보 수집/이용/취급 위탁 동의</ModalSelect></span>
+                            <span><SquareBtn style={{marginLeft: '95px', marginTop: '8px', transform: 'translateX(-420%)'}} type="checkbox" name="personal" onChange={check} checked={checkList.includes("personal") ? true : false}></SquareBtn></span><span><ModalSelect>[필수] 개인정보 수집/이용/취급 위탁 동의</ModalSelect></span>
                             </ModalSelectBox>
                             <ModalSelectBox>
-                            <span><CircleBtn style={{marginLeft: '95px', marginTop: '8px'}} type="checkbox" name="identity" onChange={check} checked={checkList.includes("identity") ? true : false}></CircleBtn></span><span><ModalSelect>[필수] 고유식별정보처리 동의</ModalSelect></span>
+                            <span><SquareBtn style={{marginLeft: '95px', marginTop: '8px', transform: 'translateX(-420%)'}} type="checkbox" name="identity" onChange={check} checked={checkList.includes("identity") ? true : false}></SquareBtn></span><span><ModalSelect>[필수] 고유식별정보처리 동의</ModalSelect></span>
                             </ModalSelectBox>
                             <ModalSelectBox>
-                            <span><CircleBtn style={{marginLeft: '95px', marginTop: '8px'}} type="checkbox" name="mobile" onChange={check} checked={checkList.includes("mobile") ? true : false}></CircleBtn></span><span><ModalSelect>[필수] 통신사 시용약관</ModalSelect></span>
+                            <span><SquareBtn style={{marginLeft: '95px', marginTop: '8px', transform: 'translateX(-420%)'}} type="checkbox" name="mobile" onChange={check} checked={checkList.includes("mobile") ? true : false}></SquareBtn></span><span><ModalSelect>[필수] 통신사 시용약관</ModalSelect></span>
                             </ModalSelectBox>
                         </ModalSelectWrapper>
                         <AgreeBtn onClick={closeMobilePolicy} style={{ backgroundColor: buttonColor }}>동의하기</AgreeBtn>
@@ -267,7 +323,7 @@ const AgreeBtn = styled.button`
     border-radius: 100px;
     background-color: #FFB1D0;
     top: 50%; left: 50%;
-    transform: translate(0%, 20%);
+    transform: translate(0%, 0%);
     font-weight: 700;
     font-size: 14px;
     line-height: 16.8px;
@@ -294,12 +350,15 @@ const ModalTitle = styled.div`
     font-size: 16px;
     line-height: 22.4px;
     margin: 20px;
+    padding: 0 0 15px 0;
     border-bottom: 2px solid #FFB1D0;
 `;
 
 const ModalSelectWrapper = styled.div`
     display: flex;
     flex-direction: column;
+    top: 50%; left: 50%;
+    transform: translate(25%, 0%);
 `;
 
 const ModalSelectBox = styled.div`
@@ -319,14 +378,30 @@ const ModalSelect = styled.button`
 
 const CircleBtn = styled.input`
     appearance: none;
-    width: 28px; height: 28px;
+    width: 20px; height: 20px;
     background-color: #DFDFDF;
     border-radius: 50%;
-    transform: translateX(300%);
+    transform: translateX(-450%);
 
     &:checked {
         border-color: transparent;
-        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='black' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
+        background-size: 100% 100%;
+        background-position: 50%;
+        background-repeat: no-repeat;
+        background-color: #FFB1D0;
+    }
+`;
+
+const SquareBtn = styled.input`
+    appearance: none;
+    width: 18px; height: 18px;
+    background-color: #DFDFDF;
+    transform: translateX(-450%);
+
+    &:checked {
+        border-color: transparent;
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M5.707 7.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4a1 1 0 0 0-1.414-1.414L7 8.586 5.707 7.293z'/%3e%3c/svg%3e");
         background-size: 100% 100%;
         background-position: 50%;
         background-repeat: no-repeat;
