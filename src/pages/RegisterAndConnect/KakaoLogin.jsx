@@ -186,7 +186,6 @@ const KakaoLoginWrapper = styled.div`
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
     font-family: 'Pretendard';
 `;
 

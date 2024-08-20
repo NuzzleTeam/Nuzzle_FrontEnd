@@ -7,14 +7,12 @@ import { useNavigate } from "react-router-dom";
 function NoAccount() {
 
     const navigate = useNavigate();
-    const backToFindId = () => {navigate("/login");};
     const goToEmailSignUp = () => {navigate("/signup/email");};
 
     return (
       <>
         <PageWrapper>
             <ContentWrapper>
-                <BackBtn onClick={backToFindId}>{'<'}</BackBtn>
                 <Title><h3>가입된 계정이 없습니다</h3></Title>
                 <Img src="src/assets/img/noaccount.png"></Img>
                 <BtnWrapper>
@@ -31,13 +29,13 @@ function NoAccount() {
 export default NoAccount;
 
 const PageWrapper = styled.div`
-    width: 400px; 
-    height: 840px;
-    background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    font-family: 'Pretendard';
+    align-items: center;
+    justify-content: center;
+    height: 100vh;    
+    width : 100%;
+    background-color: #FCFDF5;
 `;
 
 const ContentWrapper = styled.div`
@@ -47,14 +45,6 @@ const ContentWrapper = styled.div`
     display: flex; flex-direction: column;
 `;
 
-const BackBtn = styled.button`
-    background-color: #FCFDF5;
-    width: 44px;
-    font-size: large;
-    text-align: center;
-    top: 50%; left: 50%;
-    transform: translate(10%, 30%);
-`;
 
 const Title = styled.div`
     text-align: left;

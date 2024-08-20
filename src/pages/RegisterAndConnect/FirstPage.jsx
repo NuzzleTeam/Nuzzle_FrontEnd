@@ -25,10 +25,10 @@ function FirstPage() {
                 </Top>
                 <Middle>
                     <Bubble>하루 한 번, 우리 가족 일상 엿보기</Bubble>
-                    <img src="src/assets/img/main_character.png"/>
+                    <ChaImg src="src/assets/img/main_character.png"></ChaImg>
                 </Middle>
                 <Bottom>
-                    <StartBtn onClick={startNuzzle}>누즐 시작하기</StartBtn>
+                    <StartBtn onClick={startNuzzle}>너즐 시작하기</StartBtn>
                 </Bottom>
             </ContentWrapper>
         </PageWrapper>
@@ -38,22 +38,23 @@ function FirstPage() {
 export default FirstPage;
 
 const PageWrapper = styled.div`
-    width: 400px; 
-    height: 840px;
-    background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    align-items: center; 
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;    
+    width : 100%;
+    background-color: #FCFDF5;
 `;
 
 const ContentWrapper = styled.div`
-    width: 348px; 
+    width: 90%; 
     height: 90%;
     display: flex; 
     flex-direction: column;
     align-items: center;
     justify-content: center; 
+    margin-top: -50px;
 `;
 
 const Top = styled.div`
@@ -61,7 +62,7 @@ const Top = styled.div`
     flex-direction: column;
     align-items: center;
     gap: 7px;
-    padding-top: 40px; 
+    padding-top: 80px; 
 `;
 
 const Middle = styled.div`
@@ -72,6 +73,7 @@ const Middle = styled.div`
     width: 100%;
     height: 100%;
     position: relative;
+    padding-top: 0px;
 `;
 
 const Bottom = styled.div`
@@ -79,16 +81,25 @@ const Bottom = styled.div`
     justify-content: center;
 `;
 
+const ChaImg = styled.img`
+    display: flex;
+    margin-left:30px;
+`;
+
 const StartBtn = styled.button`
-    width: 375px; 
+    width: 315px; 
     height: 60px;
     border-radius: 12px;
+    border:none;
     padding: 21px 11px; 
     background-color: #FFB1D0;
     font-family: 'Pretendard';
     font-weight: 600;
     font-size: 16px;
     line-height: 19.2px;
+    position:absolute;
+    bottom:50px;
+
 `;
 
 const Bubble = styled.div`
@@ -105,12 +116,13 @@ const Bubble = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 30px; 
 
     &:after {
         content: '';
         position: absolute;
         border-style: solid;
-        border-width: 15px 10px 0;
+        border-width: 16px 10px 0;
         border-color: #353535 transparent;
         display: block;
         width: 0;

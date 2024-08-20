@@ -1,5 +1,6 @@
 .past-question-page {
   padding: 1rem;
+  background-color: #FCFDF5;
 }
 h3 {
   font-size: 24px;
@@ -10,6 +11,9 @@ h3 {
 .past-questions-title {
   text-align: center;
   margin: 20px 0;
+  font-size: 24px;
+  font-family: 'Pretendard';
+  font-weight : bold; 
 }
 
 .past-question-page {
@@ -30,11 +34,14 @@ h3 {
   font-size: 14px;
   color: #ff87b7;
   margin: 0;
+  font-family: 'Pretendard';
+  font-weight : bold; 
 }
 
 .past-question-date,
 .number-of-comment {
   margin: 0;
+  font-family: 'Pretendard';
 }
 
 .past-question-date {
@@ -62,4 +69,5 @@ h3 {
   padding: 12px 20px 12px 20px;
   box-sizing: border-box;
   font-weight: 500;
+  font-family: 'Pretendard';
 }

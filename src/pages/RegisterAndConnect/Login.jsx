@@ -89,8 +89,7 @@ function Login() {
       <>
         <PageWrapper>
             <ContentWrapper>
-                <BackBtn onClick={backToMain}>{'<'}</BackBtn>
-                <Title><h3>로그인하기</h3></Title>
+               <Title>로그인하기</Title>
                 <IdPwForm onSubmit={handleSubmit(handleLogin)}>
                     <InputBox placeholder="아이디 입력" 
                               type="text"
@@ -110,7 +109,9 @@ function Login() {
                 <Btn onClick={socialKakao} style={{backgroundColor:'#F7E300', color: '#371D1E'}}><Img src="src/assets/img/kakao.png"></Img>카카오톡으로 로그인하기</Btn>
                 <BtnWrapper>
                     <SmallBtn onClick={goToFindId}>아이디 찾기</SmallBtn>
+                    <SmallBtn>|</SmallBtn>
                     <SmallBtn onClick={goToFindPw}>비밀번호 찾기</SmallBtn>
+                    <SmallBtn>|</SmallBtn>
                     <SmallBtn onClick={goToSignUp}>회원가입</SmallBtn>
                     {/* <span>&nbsp;|&nbsp;</span> */}
                 </BtnWrapper>
@@ -123,13 +124,14 @@ function Login() {
 export default Login;
 
 const PageWrapper = styled.div`
-    width: 400px; 
-    height: 840px;
-    background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    align-tiems:center;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;    
+    width: 100%;
+    background-color: #FCFDF5;
+    box-sizing: border-box;
 `;
 
 const ContentWrapper = styled.div`
@@ -139,44 +141,40 @@ const ContentWrapper = styled.div`
     display: flex; flex-direction: column;
 `;
 
-const BackBtn = styled.button`
-    background-color: #FCFDF5;
-    width: 40px;
-    height: auto;
-    font-size: large;
-    text-align: center;
-    top: 50%; left: 50%;
-    transform: translate(10%, 30%);
-    margin-bottom: 20px;
-`;
 
 const Title = styled.div`
     text-align: left;
-    padding-left: 25px;
-    font-weight: 700;
+    padding-left: 0px;
+    font-weight: bold;
     font-size: 24px;
+    font-family: 'Pretendard';
     line-height: 33.6px;
+    margin-bottom:40px;
 `;
 
 const IdPwForm = styled.form`
-    padding-left: 20px;
-    display: flex; flex-direction: column;
-    gap: 10px;
-    top: 50%; left: 50%;
-    transform: translate(0%, 10%);
-    margin-bottom: 50px;
+    display: flex; 
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+    width: 100%;
 `;
-
 const InputBox = styled.input`
     width: 305px; height: 60px;
     padding-left: 10px;
     border-radius: 12px;
     border: none;
+    color:#353535;
     background-color: #F3F3F3;   
     font-family: 'Pretendard';
     font-weight: 600;
     font-size: 14px;
     line-height: 16.8px;
+
+     &:focus {
+        border: none; 
+        outline: none; 
+    }
 `;
 
 const BtnWrapper = styled.div`
@@ -184,22 +182,26 @@ const BtnWrapper = styled.div`
     gap: 10px;
     justify-content: center;
     margin-top: 20px;
+    margin-left:-40px;
 `;
 
 const Btn = styled.button`
     width: 315px; height: 60px;
-    padding: 21px, 11px, 21px, 11px;
     border-radius: 12px;
     background-color: #DFDFDF;
-    margin: 3px;
-    margin-left: 20px;
     font-weight: 600;
+    color:#353535;
+    font-family: 'Pretendard';
     font-size: 16px;
     line-height: 19.2px;
+    margin-top:5px;
+    border:none;
 `;
 
 const Img = styled.img`
-    margin-right: 20px;
+    position: relative; 
+    top: 5px;          
+    left: -5px;        
 `;
 
 const SmallBtn = styled.div`

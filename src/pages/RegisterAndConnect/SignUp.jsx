@@ -64,7 +64,6 @@ const CustomDatePicker = ({ selectedDate, onChange }) => {
 
 
 function SignUp() {
-
     const [date, setDate] = useState(new Date());
     const [btnDisabled, setBtnDisabled] = useState(true);
     const navigate = useNavigate();
@@ -73,240 +72,224 @@ function SignUp() {
         navigate("/policy");
     };
 
+    const { register, handleSubmit, control, formState: { errors, isValid }, watch, getValues } = useForm({
+        defaultValues: {
+            gender: '',
+            role: '',
+            birthdate: new Date(),
+            email: '',
+            pw: '',
+            pwconfirm: '',
+        },
+        mode: 'onChange'
+    });
 
-    const {register, 
-        handleSubmit, 
-        control,
-        formState: {errors, isValid}, 
-        watch,
-        getValues} = useForm({
-            defaultValues: {
-                gender: '',
-                role: '',
-                birthdate: new Date(),
-                email: '',
-                pw: '',
-                pwconfirm: '',
-            },
-            mode: 'onChange'
-        });
+    const watchFields = watch(['name', 'gender', 'role', 'email', 'pw', 'pwconfirm']);
 
-        const watchFields = watch(['name', 'gender', 'role', 'email', 'pw', 'pwconfirm']);
-
-        const isFormValid = () => {
-            // Check if all required fields are filled and valid
-            return watchFields.name && watchFields.gender && watchFields.role && watchFields.email && watchFields.pw && watchFields.pwconfirm && isValid;
-        };
-    
+    const isFormValid = () => {
+        // Check if all required fields are filled and valid
+        return watchFields.name && watchFields.gender && watchFields.role && watchFields.email && watchFields.pw && watchFields.pwconfirm && isValid;
+    };
 
     const onSubmit = (data) => {
         if (data) {
             console.log(data);
-        } else {
+            goPolicy(); // 이동은 데이터 유효성 검사가 완료된 후
         }
     };
 
     useEffect(() => {
-        // Check if all watched fields are filled and valid
         const allFieldsFilled = Object.values(watchFields).every(value => value);
         setBtnDisabled(!isValid || !allFieldsFilled);
     }, [watchFields, isValid]);
 
     return (
-        <>
-            <SignUpWrapper>
-                <SignUpContentWrapper>
-                    <Top>
-                        <BackBtn>{'<'}</BackBtn>
-                        <ProgressBar>
-                            <InnerProgreeBar style={{backgroundColor: '#FFB1D0'}}/><InnerProgreeBar/><InnerProgreeBar/>
-                        </ProgressBar>
-                    </Top>
-                    <Title>나의 프로필을 작성해주세요</Title>
-                    <SignUpForm onSubmit={handleSubmit(onSubmit)}>
-                        <FormBox>
-                            <FormTitle><span>이름</span>
-                                       <span
-                                            style={{color: '#FF84B0', 
-                                                    fontWeight: '400',
-                                                    fontSize: '12px',
-                                                    lineHeight: '14.4px',
-                                                    marginLeft: '20px'}}>가족에게 불리고 싶은 호칭을 적어주세요</span></FormTitle>
-                            <FormInput placeholder="이름을 작성해 주세요"
-                                       type="text"
-                                       {...register('name', {required: '이름을 작성해 주세요', 
-                                        maxLength: {
-                                            value: 6,
-                                            message: '이름은 최대 6자리까지 가능합니다.'
-                                        }
-                            })}></FormInput>
-                            {/* {errors.name && <ErrMsg>{errors.name.message}</ErrMsg>} */}
-                        </FormBox>
-                        <FormBox>
-                            <FormTitle><span>성별</span></FormTitle>
-                            <Controller name={'gender'}
-                                            control={control}
-                                            render={({field: {onChange, value}}) => (
-                                                <FormBtnWrapper onChange={onChange} value={value}>
-                                                    <FormBtn type="button" onClick={() => onChange('F')}
-                                                             selected={value === 'F'}>여자</FormBtn>
-                                                    <FormBtn type="button" onClick={() => onChange('M')}
-                                                             selected={value === 'M'}>남자</FormBtn>
-                                                    <FormBtn type="button" onClick={() => onChange('else')}
-                                                             selected={value === 'else'}>기타</FormBtn>
-                                                </FormBtnWrapper>
-                            )}></Controller>
-                        </FormBox>
-                        <FormBox>
-                            <FormTitle><span>역할</span></FormTitle>
-                            <Controller name={'role'}
-                                            control={control}
-                                            render={({field: {onChange, value}}) => (
-                                                <FormBtnWrapper onChange={onChange} value={value}>
-                                                    <FormBtn type="button" onClick={() => onChange('parent')}
-                                                             selected={value === 'parent'}>부모</FormBtn>
-                                                    <FormBtn type="button" onClick={() => onChange('child')}
-                                                             selected={value === 'child'}>자녀</FormBtn>
-                                                    <FormBtn type="button"onClick={() => onChange('else')}
-                                                             selected={value === 'else'}>기타</FormBtn>
-                                                </FormBtnWrapper>
-                            )}></Controller>
-                        </FormBox>
-                        <FormBox>
-                            <FormTitle><span>생년월일</span></FormTitle>
-                                <FormBtnWrapper>
-                                    {/* <Controller
-                                        name="birthdate"
-                                        control={control}
-                                        render={({field}) => (
-                                            <CustomDatePicker value={field.value} selectedDate={date} onChange={field.onChange} />
-                                        )}>
-                                    </Controller> */}
-                                    <Controller
-                                        name="birthdate"
-                                        control={control}
-                                        render={({ field }) => (
-                                            <CustomDatePicker selectedDate={date} onChange={(newDate) => {
-                                                field.onChange(newDate); // Sync with react-hook-form
-                                                setDate(newDate);       // Sync internal state
-                                            }} />
-                                        )}
-                                    />
-                                </FormBtnWrapper>
-                        </FormBox>
-                        <FormBox>
-                            <FormTitle><span>아이디</span></FormTitle>
-                            <FormInput placeholder="로그인 시 사용할 이메일을 입력해주세요."
-                                       type="text"
-                                       {...register('email', {required: '로그인 시 사용할 이메일을 입력해주세요.', pattern: {
-                                        value: /^\S+@\S+$/i,
-                                        message: '올바른 이메일 형식이 아닙니다.'
-                            }})}></FormInput>
-                        </FormBox>
-                        <FormBox>
-                            <FormTitle><span>비밀번호</span></FormTitle>
-                            <FormInput placeholder="8~20자 영문 숫자 특수문자 조합으로 입력해주세요."
-                                       type="text"
-                                       {...register('pw', {required: '8~20자 영문 숫자 특수문자 조합으로 입력해주세요.', pattern: {
-                                        minLength: {
-                                            value: 8,
-                                            message: '비밀번호는 최소 8자리 이상이어야 합니다.'
-                                        }, 
-                                        maxLength: {
-                                            value: 20,
-                                            message: '비밀번호는 최대 20자리까지 가능합니다.'
-                                        }, 
-                                        validate: {
-                                            combination: value => {
-                                                const numberRegex = /\d/.test(value);
-                                                const letterRegex = /[a-zA-Z]/.test(value);
-                                                const specialCharRegex  = /[~!@#$%^&*()_+|<>?:{}]/.test(value);
-                                                return numberRegex && letterRegex && specialCharRegex || '비밀번호는 영어, 숫자, 특수문자를 모두 포함해주세요.';
-                                            }
-                                        }
-                            }})}></FormInput>
-                        </FormBox>
-                        <FormBox>
-                            <FormTitle><span>비밀번호 확인</span></FormTitle>
-                            <FormInput placeholder='비밀번호를 다시 입력해주세요.'
-                                       type='text'
-                                       {...register('pwconfirm', {required: '비밀번호를 다시 입력해주세요.', 
-                                        validate: value => value === getValues('pw') || '비밀번호가 일치하지 않습니다.'
-                            })}></FormInput>
-                        </FormBox>
-                        <NextBtn type="submit" onClick={goPolicy} disabled={btnDisabled}>다음</NextBtn>
-                    </SignUpForm>
-                </SignUpContentWrapper>
-            </SignUpWrapper>
-        </>
+        <SignUpWrapper>
+            <SignUpContentWrapper>
+                <Top>
+                    <ProgressBar>
+                        <InnerProgreeBar style={{backgroundColor: '#FFB1D0'}}/><InnerProgreeBar/><InnerProgreeBar/>
+                    </ProgressBar>
+                </Top>
+                <Title>나의 프로필을 작성해주세요</Title>
+                <SignUpForm onSubmit={handleSubmit(onSubmit)}>
+                    <FormBox>
+                        <FormTitle> 이름
+                            <span
+                                style={{
+                                    color: '#FF84B0', 
+                                    fontWeight: '400',
+                                    fontSize: '12px',
+                                    lineHeight: '14.4px',
+                                    fontFamily: 'Pretendard',
+                                    marginLeft: '20px'
+                                }}>가족에게 불리고 싶은 호칭을 적어주세요</span>
+                        </FormTitle>
+                        <FormInput placeholder="이름을 작성해 주세요"
+                                   type="text"
+                                   {...register('name', {
+                                       required: '이름을 작성해 주세요', 
+                                       maxLength: {
+                                           value: 6,
+                                           message: '이름은 최대 6자리까지 가능합니다.'
+                                       }
+                                   })} />
+                        {/* {errors.name && <ErrMsg>{errors.name.message}</ErrMsg>} */}
+                    </FormBox>
+                    <FormBox>
+                        <FormTitle>성별</FormTitle>
+                        <Controller name={'gender'}
+                                    control={control}
+                                    render={({ field: { onChange, value } }) => (
+                                        <FormBtnWrapper onChange={onChange} value={value}>
+                                            <FormBtn type="button" onClick={() => onChange('F')}
+                                                     selected={value === 'F'}>여자</FormBtn>
+                                            <FormBtn type="button" onClick={() => onChange('M')}
+                                                     selected={value === 'M'}>남자</FormBtn>
+                                            <FormBtn type="button" onClick={() => onChange('else')}
+                                                     selected={value === 'else'}>기타</FormBtn>
+                                        </FormBtnWrapper>
+                                    )} />
+                    </FormBox>
+                    <FormBox>
+                        <FormTitle>역할</FormTitle>
+                        <Controller name={'role'}
+                                    control={control}
+                                    render={({ field: { onChange, value } }) => (
+                                        <FormBtnWrapper onChange={onChange} value={value}>
+                                            <FormBtn type="button" onClick={() => onChange('parent')}
+                                                     selected={value === 'parent'}>부모</FormBtn>
+                                            <FormBtn type="button" onClick={() => onChange('child')}
+                                                     selected={value === 'child'}>자녀</FormBtn>
+                                            <FormBtn type="button" onClick={() => onChange('else')}
+                                                     selected={value === 'else'}>기타</FormBtn>
+                                        </FormBtnWrapper>
+                                    )} />
+                    </FormBox>
+                    <FormBox>
+                        <FormTitle>생년월일</FormTitle>
+                        <BirthInputWrapper>
+                            <BirthInput placeholder="년" type="text" />
+                            <BirthInput placeholder="월" type="text" />
+                            <BirthInput placeholder="일" type="text" />
+                        </BirthInputWrapper>
+                    </FormBox>
+                    <FormBox>
+                        <FormTitle>아이디</FormTitle>
+                        <FormInput placeholder="로그인 시 사용할 이메일을 입력해주세요."
+                                   type="text"
+                                   {...register('email', {
+                                       required: '로그인 시 사용할 이메일을 입력해주세요.', 
+                                       pattern: {
+                                           value: /^\S+@\S+$/i,
+                                           message: '올바른 이메일 형식이 아닙니다.'
+                                       }
+                                   })} />
+                    </FormBox>
+                    <FormBox>
+                        <FormTitle>비밀번호</FormTitle>
+                        <FormInput placeholder="8~20자 영문 숫자 특수문자 조합으로 입력해주세요."
+                                   type="text"
+                                   {...register('pw', {
+                                       required: '8~20자 영문 숫자 특수문자 조합으로 입력해주세요.', 
+                                       pattern: {
+                                           minLength: {
+                                               value: 8,
+                                               message: '비밀번호는 최소 8자리 이상이어야 합니다.'
+                                           }, 
+                                           maxLength: {
+                                               value: 20,
+                                               message: '비밀번호는 최대 20자리까지 가능합니다.'
+                                           }, 
+                                           validate: {
+                                               combination: value => {
+                                                   const numberRegex = /\d/.test(value);
+                                                   const letterRegex = /[a-zA-Z]/.test(value);
+                                                   const specialCharRegex = /[~!@#$%^&*()_+|<>?:{}]/.test(value);
+                                                   return numberRegex && letterRegex && specialCharRegex || '비밀번호는 영어, 숫자, 특수문자를 모두 포함해주세요.';
+                                               }
+                                           }
+                                       }
+                                   })} />
+                    </FormBox>
+                    <FormBox>
+                        <FormTitle>비밀번호 확인</FormTitle>
+                        <FormInput placeholder='비밀번호를 다시 입력해주세요.'
+                                   type='text'
+                                   {...register('pwconfirm', {
+                                       required: '비밀번호를 다시 입력해주세요.', 
+                                       validate: value => value === getValues('pw') || '비밀번호가 일치하지 않습니다.'
+                                   })} />
+                    </FormBox>
+                    <NextBtn type="submit" disabled={btnDisabled}>다음</NextBtn>
+                </SignUpForm>
+            </SignUpContentWrapper>
+        </SignUpWrapper>
     )
 }
 
 export default SignUp;
 
+
 const SignUpWrapper = styled.div`
     width: 100%; 
-    min-height: 100vh; /* 화면 전체 높이를 사용 */
+    min-height: 100vh;
     background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
     font-family: 'Pretendard';
     overflow: hidden;
-    overflow-y: auto; /* 내용이 넘칠 경우 스크롤 가능하도록 */
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 20px;
 `;
-
 
 const SignUpContentWrapper = styled.div`
     width: 348px; 
-    margin: 0 auto; /* 중앙 정렬을 위해 자동 마진 */
-    padding: 20px; /* 상하좌우 여백 추가 */
-    flex-grow: 1; /* 내용이 화면에 꽉 차도록 */
+    margin: 0 auto;
+    padding: 0px 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
-
 
 const Top = styled.div`
     display: flex;
-    top: 50%; left: 50%;
-    transform: translate(0%, 2%);
-`;
-
-const BackBtn = styled.button`
-    background-color: #FCFDF5;
-    width: 44px;
-    font-size: large;
-    text-align: center;
-    top: 50%; left: 50%;
-    transform: translate(-20%, 30%);
-    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
 `;
 
 const ProgressBar = styled.div`
-    width: 229px; height: 6px;
+    width: 229px; 
+    height: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 50%; left: 50%;
-    transform: translate(5%, 550%);
+    margin: 20px auto;
 `;
 
 const InnerProgreeBar = styled.div`
-    width: 76.33px; height: 6px;
+    width: 76.33px; 
+    height: 6px;
     background-color: #D9D9D9;
 `;
 
 const Title = styled.div`
-    text-align: left;
-    padding-left: 25px;
-    font-weight: 600;
-    font-size: 20px; line-height: 24px;
-    top: 50%; left: 50%;
-    transform: translate(10%, 150%);
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Pretendard';
+    font-size: 20px; 
+    line-height: 24px;
+    margin-top: 10px;
 `;
 
 const SignUpForm = styled.form`
-    top: 50%; left: 50%;
-    transform: translate(2%, 10%);
+    transform: none;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
 
 const FormBox = styled.div`
@@ -316,6 +299,7 @@ const FormBox = styled.div`
 
 const FormTitle = styled.div`
     font-weight: 600;
+    font-family: 'Pretendard';
     font-size: 16px;
     line-height: 22.4px;
     text-align: left;
@@ -328,6 +312,7 @@ const FormInput = styled.input`
     width: 305px; height: 60px;
     border-radius: 12px;
     border: none;
+    font-family: 'Pretendard';
     font-weight: 700;
     font-size: 14px;
     line-height: 16.8px;
@@ -337,6 +322,10 @@ const FormInput = styled.input`
         color: #959595;
         font-weight: 600;
         font-size: 12px;
+    }
+    &:focus {
+        border: none; 
+        outline: none; 
     }
 `;
 
@@ -354,20 +343,60 @@ const FormBtn = styled.button`
     border: none;
     font-weight: 700;
     font-size: 14px;
+    font-family: 'Pretendard';
     line-height: 16.8px;
     padding-left: 10px;
-    color: #959595;
+`;
+
+const BirthInputWrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap:7px;
+`;
+
+const BirthInput = styled.input`
+    background-color: #F3F3F3;
+    color: #959595; 
+
+    width: 95px; 
+    height: 57px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: 'Pretendard';
+    line-height: 16.8px;
+    text-align: right;
+    margin-right: 3px;
+
+    &:focus {
+        border: none; 
+        outline: none; 
+        color: #353535; 
+        text-align: center;
+    }
+
+    &:not(:placeholder-shown) {
+        color: #353535; 
+        text-align: center; 
+    }
 `;
 
 const NextBtn = styled.button`
-    width: 315px; height: 50px;
+    width: 315px; 
+    height: 50px;
     border-radius: 100px;
     background-color: #FFB1D0;
-    top: 50%; left: 50%;
-    transform: translate(-5%, 50%);
+    color:#353535;
+    font-family: 'Pretendard';
     font-weight: 700;
     font-size: 14px;
     line-height: 16.8px;
+    margin: 20px auto 0;
+    display: block;
+    border:none;
+    margin-bottom:20px;
 `;
 
 const ErrMsg = styled.div`

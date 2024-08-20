@@ -1,72 +1,63 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { setName, setModalOpen, setSavedName } from '../../features/nameSlice';
+import { setName, setSavedName } from '../../features/nameSlice';
 import { useNavigate } from 'react-router-dom';
-import Footer from '../../components/Footer/Footer';
 import styled from 'styled-components';
+import { useRef } from 'react';
 
 const ChaName = () => {
   const name = useSelector((state) => state.name.name);
-  const modalOpen = useSelector((state) => state.name.modalOpen);
-  const savedName = useSelector((state) => state.name.savedName);
   const characterImage = useSelector((state) => state.character.characterImage);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const inputRef = useRef(null);
 
   const handleChange = (event) => {
     dispatch(setName(event.target.value));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    dispatch(setModalOpen(true));
-  };
-
-  const handleModify = () => {
-    dispatch(setModalOpen(false));
-  };
-
   const handleConfirm = () => {
     dispatch(setSavedName(name));
-    dispatch(setModalOpen(false));
     navigate('/ChaNameComplete');
+  };
+
+  const handleEdit = (event) => {
+    event.preventDefault(); 
+    if (inputRef.current) {
+      inputRef.current.focus(); 
+    }
   };
 
   return (
     <Container>
-      <Content>
-        <Title>{savedName ? `정말 멋진 아이디어 같아요!` : `아직 애착이의 애칭이 없네요.`}</Title>
-        <Subtitle>
-          {savedName 
-            ? `${savedName}` 
-            : '가족과 상의하여 이름을 정해주면 어떨까요?'}
-        </Subtitle>
-        <form onSubmit={handleSubmit}>
-          <Input 
-            type="text" 
-            value={name} 
-            onChange={handleChange} 
-            placeholder="애착이 이름"
-            hastext={name.length > 0 ? "true" : "false"}
-          />
-          <Subtitle>애칭은 수정이 불가능하니 신중하게 정해주세요!</Subtitle>
-          <ImageContainer>
-            <Image src={characterImage} alt="애착이" />
-          </ImageContainer>
-          <StyledButton type="submit">저장</StyledButton>
-        </form>
-      </Content>
-      {modalOpen && (
-        <ModalOverlay>
-          <ModalContent>
-            <p>정말 {name}로 지으실 건가요? 🤔</p>
-            <ButtonGroup>
-              <StyledButton onClick={handleModify}>수정하기</StyledButton>
-              <StyledButton onClick={handleConfirm}>YES</StyledButton>
-            </ButtonGroup>
-          </ModalContent>
-        </ModalOverlay>
-      )}
-      <Footer></Footer>
+      {name.length > 0
+        ? <Title>정말 멋진 아이디어 같아요!</Title>
+        : <Title>아직 <span style={{ color: '#FFB1D0' }}>애착이의 애칭이</span> 없네요. <br />가족들과 상의하여 이름을 정해주면 어떨까요?</Title>}
+      
+      <form onSubmit={(e) => e.preventDefault()}> {/* Prevent form submission */}
+        <Input 
+          type="text" 
+          value={name} 
+          onChange={handleChange} 
+          placeholder="애착이 이름"
+          hastext={name.length > 0 ? "true" : "false"}
+          ref={inputRef} // Attach ref to input
+        />
+        <Subtitle>애칭은 수정이 불가능하니 신중하게 정해주세요!</Subtitle>
+        <ImageContainer>
+          <Image src={characterImage} alt="애착이" />
+        </ImageContainer>
+        {name.length > 0 && (
+          <>
+          <Message>정말 {name}로 지으실 건가요? 🤔</Message>
+          <ButtonGroup>
+            <StyledButton onClick={handleEdit}>수정하기</StyledButton>
+            <StyledButton onClick={handleConfirm}>YES</StyledButton>
+          </ButtonGroup>
+          </>
+          
+        )}
+      </form>
     </Container>
   );
 };
@@ -77,78 +68,93 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100vh;
+  width: 100%;
   background-color: #FCFDF5;
-  padding: 20px;
   position: relative;
+  padding-top: 20px;
 `;
 
-const Content = styled.div`
-  text-align: center;
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-  margin-bottom: 10px;
+const Title = styled.div`
+  font-size: 20px;
+  font-family: 'Pretendard';
+  font-weight: bold;
+  text-align: left;
+  padding: 0 5px;
+  margin-left: 10px;
 `;
 
 const Subtitle = styled.p`
-  font-size: 16px;
-  margin-bottom: 20px;
-  color: #777;
+  font-size: 12px;
+  margin-top:-5px;
+  margin-bottom: 40px;
+  color: #FFB1D0;
+  text-align: left;
+  padding: 0 15px;
 `;
 
 const Input = styled.input`
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
+  margin: 10px 12px;
+  border: none;
   border-radius: 10px;
-  width: 100%;
-  max-width: 300px;
-  background-color: ${props => (props.hastext === "true" ? '#ffcccb' : '#E6E6E6')};
+  font-family: 'Pretendard';
+  font-weight: bold;
+  font-size:18px;
+  padding-left: 15px;
+  width: 343px;
+  height: 51px;
+  background-color: ${props => (props.hastext === "true" ? '#FFB1D0' : '#eeeeee')};
+  z-index: 3; 
+  position: relative; 
+  &:focus {
+        border: none; 
+        outline: none; 
+    }
 `;
 
 const ImageContainer = styled.div`
-  margin: 20px 0;
-`;
-
-const Image = styled.img`
-  width: 150px;
-  height: auto;
-`;
-
-const StyledButton = styled.button`
-  background-color: #ffcccb;
-  color: black;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  margin-top: 10px;
-  border-radius: 4px;
-`;
-
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  position: relative;
+  width: 100%;
+  height: 350px;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const ModalContent = styled.div`
-  background: white;
-  padding: 20px;
-  border-radius: 10px;
+const Image = styled.img`
+  position: absolute;
+  width: 350px;
+  height: auto;
+  z-index: 1;
+`;
+
+const Message = styled.div`
+  font-size: 18px;
   text-align: center;
+  font-family: 'Pretendard';
 `;
 
 const ButtonGroup = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
+  justify-content: space-between;
+  width: 90%;
+  z-index: 2;
+`;
+
+const StyledButton = styled.button`
+  background-color: #ffb1d0;
+  color: black;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 30px;
+  width: 168px;
+  height: 50px;
+  z-index: 2;
+  opacity: ${props => (props.disabled ? 0.5 : 1)};  // 비활성화 시 투명도 변경
+  pointer-events: ${props => (props.disabled ? 'none' : 'auto')}; // 비활성화 시 클릭 막기
 `;

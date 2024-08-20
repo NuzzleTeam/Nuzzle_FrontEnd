@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import Footer from '../../components/Footer/Footer';
 import styled from 'styled-components';
 
 const ChaNoName = () => {  const navigate = useNavigate();
@@ -17,7 +16,6 @@ const ChaNoName = () => {  const navigate = useNavigate();
         </Subtitle>
           <StyledButton onClick={goKeyword}> 애착이 생성하기 </StyledButton>
       </Content>
-      <Footer></Footer>
     </Container>
   );
 };
@@ -30,8 +28,8 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
+  width : 100%;
   background-color: #FCFDF5;
-  padding: 20px;
   position: relative;
 `;
 

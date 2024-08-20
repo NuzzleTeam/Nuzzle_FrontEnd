@@ -1,9 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
+
 
 // 공유된 링크 접속 페이지
 
 function SharedLink() {
+    const navigate = useNavigate();
+
+    const goToConnectComplete = () => {
+        navigate("/connect/complete");
+    };
 
     return (
         <>
@@ -15,7 +22,7 @@ function SharedLink() {
                     <Title><span>_____님이 보낸 초대장이에요. </span><span>우리 가족 일상, 함께 엿보러 가볼까요?</span></Title>
                     <ConnectBtnWrapper>
                         <AddBtn>거절</AddBtn>
-                        <CompleteBtn>수락</CompleteBtn>
+                        <CompleteBtn onClick={goToConnectComplete}>수락</CompleteBtn>
                     </ConnectBtnWrapper>
                 </ConnectContentWrapper>
             </ConnectWrapper>
@@ -26,19 +33,19 @@ function SharedLink() {
 export default SharedLink;
 
 const ConnectWrapper = styled.div`
-    width: 400px; 
-    height: 840px;
-    background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    font-family: 'Pretendard';
+    align-items: center;
+    justify-content: center;
+    height: 100vh;    
+    width : 100%;
+    background-color: #FCFDF5;
 `;
 
 const ConnectContentWrapper = styled.div`
     width: 348px; height: 90%;
     top: 50%; left: 50%;
-    transform: translate(3.8%, 2%);
+    transform: translate(0%, -7%);
 `;
 
 const Top = styled.div`
@@ -60,7 +67,7 @@ const Title = styled.div`
 const Img = styled.img`
     width: 244px; height: 502px;
     top: 50%; left: 50%;
-    transform: translate(20%, 2%);
+    transform: translate(20%, 0%);
 `;
 
 const ConnectBtnWrapper = styled.div`
@@ -68,7 +75,7 @@ const ConnectBtnWrapper = styled.div`
     justify-content: space-between;
     top: 50%; left: 50%;
     gap: 10px;
-    transform: translate(0%, 100%);
+    transform: translate(0%, 20%);
 `;
 
 const AddBtn = styled.button`
@@ -87,6 +94,7 @@ const CompleteBtn = styled.button`
     width: 315px; height: 50px;
     border-radius: 100px;
     background-color: #FFB1D0;
+    border:none;
     top: 50%; left: 50%;
     transform: translate(0%, 200%);
     font-weight: 700;

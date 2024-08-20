@@ -1,19 +1,22 @@
 .footer {
-  background-color: #fcfdf5;
-  padding: 10px 0px 20px 0px;
+  height: 6vh;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #FCFDF5;
+  color: #FCFDF5;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  position: absolute; /* 컨테이너 기준으로 하단에 고정 */
-  bottom: 0; /* 컨테이너의 맨 아래에 위치 */
-  left: 0; /* 컨테이너의 왼쪽에서 시작 */
-  width: 100%; /* 컨테이너 크기에 맞춰 넓이 조정 */
-  z-index: 1000; /* 다른 요소들보다 위에 표시되도록 z-index 설정 */
+  padding: 1px 20px;
+  z-index: 100; /* 다른 요소 위에 나타나도록 z-index 값 설정 */
 }
 
 .footer-item {
   text-align: center;
-  font-size: 12px;
+  font-size: 14px; /* 폰트 크기 조금 증가 */
+  flex: 1; /* 각 항목이 동일한 크기를 갖도록 함 */
 }
 
 .footer-item a {
@@ -33,4 +36,10 @@
 
 .footer-item.home a {
   color: #ff87b7;
+}
+
+.footer-item a:hover {
+  color: #ff87b7; /* 호버 시 색상 변경 */
+  transform: scale(1.1); /* 호버 시 아이콘 크기 확대 */
+  transition: transform 0.2s ease-in-out; /* 변환 시 부드러운 전환 효과 */
 }

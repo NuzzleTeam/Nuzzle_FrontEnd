@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const characterImages = { // home 화면에서 사용하는 key value
+const characterImages = { // Home 화면에서 사용하는 key value
   '/src/assets/chaMake/pinkrabbit.gif': '/src/assets/chaHome/pinkrabbit3.gif',
   '/src/assets/chaMake/blackrabbit.gif': '/src/assets/chaHome/blackrabbit3.gif',
   '/src/assets/chaMake/bluerabbit.gif': '/src/assets/chaHome/bluerabbit3.gif',

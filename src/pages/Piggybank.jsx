@@ -1,18 +1,14 @@
-import Footer from '../components/Footer/Footer';
-import styled from 'styled-components';
+import styled from "styled-components";
 
-
-const Page2 = () => {
+const Piggybank = () => {
   return (
     <Container>
       <h2> 저금통 페이지 </h2>
       <p>저금통 페이지입니다!</p>
-      <Footer></Footer>
     </Container>
+    
   );
 };
-
-export default Page2;
 
 
 const Container = styled.div`
@@ -25,3 +21,6 @@ const Container = styled.div`
   padding: 20px;
   position: relative;
 `;
+
+export default Piggybank;
+

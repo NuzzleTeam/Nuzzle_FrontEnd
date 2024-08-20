@@ -52,7 +52,6 @@ function Connect() {
             <ConnectWrapper>
                 <ConnectContentWrapper>
                     <Top>
-                        <BackBtn>{'<'}</BackBtn>
                         <ProgressBar>
                             <InnerProgreeBar/><InnerProgreeBar style={{backgroundColor: '#FFB1D0'}}/><InnerProgreeBar/>
                         </ProgressBar>
@@ -62,13 +61,13 @@ function Connect() {
                     <Share>
                         <ConnectBox onClick={() => {handleCopyClipBoard(`${baseUrl}${location.pathname}`); openLinkModal();}}>
                             <ConnectTitle>링크 공유하기</ConnectTitle>
-                            <span style={{fontWeight: '400', fontSize: '12px', lineHeight: '16.8px' }}>버튼을 누르면 링크가 자동으로 복사돼요!</span>
+                            <InnerBox>버튼을 누르면 링크가 자동으로 복사돼요!</InnerBox>
                             <img src="src/assets/img/link_chain.png" style={{width: '44px', height: '44px', marginLeft: '135px'}}></img>
                         </ConnectBox>
                         <ConnectBox onClick={() => {handleCopyCode(``); openCodeModal();}}>
                             <ConnectTitle>코드 공유하기</ConnectTitle>
-                            <span>_____님의 코드는 ________ 입니다.</span>
-                            <span>코드를 누르면 복사돼요!</span>
+                            <InnerBox>_____님의 코드는 ________ 입니다.</InnerBox>
+                            <InnerBox>코드를 누르면 복사돼요!</InnerBox>
                         </ConnectBox>
                         <ConnectBox onClick={openCodeInputModal}>
                             <ConnectTitle>가족의 코드를 공유 받았나요?</ConnectTitle>
@@ -84,6 +83,7 @@ function Connect() {
             {linkModal && (
                 <ModalWrapper>
                     <ModalContentWrapper>
+                        <CheckImg src="/src/assets/pinkCheck.png"></CheckImg>
                         <ModalTitle>링크가 복사되었습니다</ModalTitle>
                         <ModalBtn onClick={closeLinkModal} style={{marginLeft: '15px'}}>확인</ModalBtn>
                     </ModalContentWrapper>
@@ -92,6 +92,7 @@ function Connect() {
             {codeModal && (
                 <ModalWrapper>
                     <ModalContentWrapper>
+                        <CheckImg src="/src/assets/pinkCheck.png"></CheckImg>
                         <ModalTitle>코드가 복사되었습니다</ModalTitle>
                         <ModalBtn onClick={closeCodeModal} style={{marginLeft: '15px'}}>확인</ModalBtn>
                     </ModalContentWrapper>
@@ -99,9 +100,9 @@ function Connect() {
             )}
             {codeInputModal && (
                 <ModalWrapper>
-                    <ModalContentWrapper style={{backgroundColor: 'white'}}>
-                        <ModalTitle>가족의 코드를 공유 받았나요?</ModalTitle>
-                        <ModalInput placeholder="직접 입력해보세요!" style={{marginLeft: '60px', textAlign: 'center'}}></ModalInput>
+                    <ModalContentWrapper style={{backgroundColor: '#fcfdf5'}}>
+                        <ModalTitle onClick={closeCodeInputModal} >가족의 코드를 공유 받았나요?</ModalTitle>
+                        <ModalInput placeholder="직접 입력해보세요!" style={{textAlign: 'left'}}></ModalInput>
                     </ModalContentWrapper>
                 </ModalWrapper>
             )}
@@ -128,13 +129,12 @@ function Connect() {
 export default Connect;
 
 const ConnectWrapper = styled.div`
-    width: 400px; 
-    height: 840px;
-    background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    font-family: 'Pretendard';
+    justify-content: center;
+    height: 100vh;    
+    width : 100%;
+    background-color: #FCFDF5;
 `;
 
 const ConnectContentWrapper = styled.div`
@@ -147,15 +147,8 @@ const Top = styled.div`
     display: flex;
     top: 50%; left: 50%;
     transform: translate(0%, 2%);
-`;
-
-const BackBtn = styled.button`
-    background-color: #FCFDF5;
-    width: 44px;
-    font-size: large;
-    text-align: center;
-    top: 50%; left: 50%;
-    transform: translate(-20%, 30%);
+    margin-top:-80px;
+    margin-bottom:19px;
 `;
 
 const ProgressBar = styled.div`
@@ -165,6 +158,7 @@ const ProgressBar = styled.div`
     align-items: center;
     top: 50%; left: 50%;
     transform: translate(5%, 550%);
+    margin-left:50px;
 `;
 
 const InnerProgreeBar = styled.div`
@@ -185,6 +179,12 @@ const Img = styled.img`
     width: 162.78px; height: 83px;
     top: 50%; left: 50%;
     transform: translate(0%, 60%);
+    margin-left:90px;
+`;
+
+const CheckImg = styled.img`
+    width: 45.42px; height: 25.42px;
+    top: 50%; left: 50%;
 `;
 
 const Share = styled.div`
@@ -194,12 +194,12 @@ const Share = styled.div`
 `;
 
 const ConnectBox = styled.div`
-    width: 314px; height: 122px;
+    width: 314px; height: 105px;
     border-radius: 31px;
     border: 1px solid #FFB1D0;
-    gap: 10px;
-    box-shadow: 1px 1px 5px gray;
-    margin-bottom: 20px;
+    gap: 5px;
+    box-shadow: 0.5px 0.5px 3px gray;
+    margin-bottom: 10px;
     display: flex; flex-direction: column;
 `;
 
@@ -210,7 +210,16 @@ const ConnectTitle = styled.div`
     text-align: center;
     color: #353535;
     margin-top: 10px;
+    font-family: 'Pretendard';
 `;
+
+const InnerBox = styled.div`
+    font-weight: 400;
+    font-size: 12px;
+    text-align: center;
+    color: #353535;
+    font-family: 'Pretendard';
+`
 
 const ConnectInput = styled.input`
     background-color: #F3F3F3;
@@ -222,6 +231,7 @@ const ConnectInput = styled.input`
     font-size: 14px;
     line-height: 16.8px;
     padding-left: 10px;
+    font-family: 'Pretendard';
 
     &::placeholder {
         color: #959595;
@@ -243,9 +253,11 @@ const AddBtn = styled.button`
     background-color: #FFB1D0;
     top: 50%; left: 50%;
     transform: translate(0%, 200%);
-    font-weight: 700;
-    font-size: 14px;
+    font-family: 'Pretendard';
+    font-weight: bold;
+    font-size: 16px;
     line-height: 16.8px;
+    border:none;
 `;
 
 const CompleteBtn = styled.button`
@@ -254,41 +266,58 @@ const CompleteBtn = styled.button`
     background-color: #FFB1D0;
     top: 50%; left: 50%;
     transform: translate(0%, 200%);
-    font-weight: 700;
-    font-size: 14px;
+    font-weight: bold;
+    font-family: 'Pretendard';
+    font-size: 16px;
     line-height: 16.8px;
+    border:none;
 `;
 
 const ModalWrapper = styled.div`
-    width: 375px; height: 812px;
-    background-color: rgba(0,0,0,0.5);
-    top: 50%; left: 50%;
-    transform: translate(0%, -100%);
+    position: fixed; 
+    top: 0; 
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 1000; 
 `;
 
 const ModalContentWrapper = styled.div`
-    width: 320px; height: 118.42px;
+    width: 320px;
+    padding: 20px;
     background-color: #FFE6F0;
     border: 1px solid #FF87B7;
     border-radius: 20px;
-    top: 50%; left: 50%;
-    transform: translate(8%, 275%);
-    display: flex; flex-direction: column;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1100; 
 `;
 
 const ModalTitle = styled.div`
     font-weight: 600;
     font-size: 16px;
     line-height: 22.4px;
-    margin: 20px;
+    margin-bottom: 10px;
+    font-family: 'Pretendard';
 `;
 
 const ModalBtn = styled.button`
-    width: 290px; height: 40px;
+    width: 100%;
+    height: 40px;
     border-radius: 30px;
     background-color: #FFB1D0;
-    font-weight: 700;
-    font-size: 14px; line-height: 18px;
+    font-family: 'Pretendard';
+    font-weight: bold;
+    font-size: 14px; 
+    line-height: 18px;
+    border: none;
+    cursor: pointer;
 `;
 
 const ModalInput = styled.input`
@@ -297,6 +326,7 @@ const ModalInput = styled.input`
     background-color: #F2F2F2;
     border-radius: 12px;
     border: none;
+    font-family: 'Pretendard';
     font-weight: 600;
     font-size: 14px;
     line-height: 19.6px;

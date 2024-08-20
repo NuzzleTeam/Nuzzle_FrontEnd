@@ -28,7 +28,6 @@ function FindId() {
       <>
         <PageWrapper>
             <ContentWrapper>
-                <BackBtn onClick={backToLogin}>{'<'}</BackBtn>
                 <Title><h3>아이디 찾기</h3></Title>
                 <Letter><h5>휴대폰 번호</h5></Letter>
                 <ConfirmBox>
@@ -62,13 +61,12 @@ function FindId() {
 export default FindId;
 
 const PageWrapper = styled.div`
-    width: 400px; 
-    height: 840px;
-    background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    align-tiems:center;
+    justify-content: center;
+    height: 100vh;    
+    width : 100%;
+    background-color: #FCFDF5;
 `;
 
 const ContentWrapper = styled.div`
@@ -78,15 +76,6 @@ const ContentWrapper = styled.div`
     display: flex; flex-direction: column;
 `;
 
-const BackBtn = styled.button`
-    background-color: #FCFDF5;
-    width: 44px;
-    font-size: large;
-    text-align: center;
-    top: 50%; left: 50%;
-    transform: translate(10%, 30%);
-    margin-bottom: 20px;
-`;
 
 const Title = styled.div`
     text-align: left;
@@ -120,11 +109,18 @@ const PhoneNumber = styled.input`
     background-color: #F3F3F3;
     font-family: 'Pretendard';
     font-size: 14px; line-height: 16.8px;
+    &:focus {
+        border: none; 
+        outline: none; 
+    }
 `;
 
 const ConfirmBtn = styled.button`
     width: 88px; height: 50px;
     border-radius: 100px;
+    color:#353535;
+    border : none;
+    font-family: 'Pretendard';
     background-color: #DFDFDF;
     font-weight: 700;
     font-size: 14px; line-height: 19.6px;
@@ -145,16 +141,22 @@ const ConfirmNumber = styled.input`
     background-color: #F3F3F3;
     font-family: 'Pretendard';
     font-size: 14px; line-height: 16.8px;
+    &:focus {
+        border: none; 
+        outline: none; 
+    }
 `;
 
 const ConfirmCompleteBtn = styled.button`
     width: 315px; height: 50px;
     border-radius: 100px;
+    border:none;
     padding: 14px, 129px, 14px, 129px;
     background-color: #DFDFDF;
     margin: 10px 20px;
     font-family: 'Pretendard';
     color: #353535;
+    font-weight: 700;
     font-size: 16px;
     line-height: 22.4px;
     top: 50%; left: 50%;

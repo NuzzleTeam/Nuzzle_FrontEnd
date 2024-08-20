@@ -62,8 +62,7 @@ function ChangePw() {
       <>
         <PageWrapper>
             <ContentWrapper>
-                <BackBtn onClick={backToLogin}>{'<'}</BackBtn>
-                <Title><h3>비밀번호 변경하기</h3></Title>
+                <Title>비밀번호 변경하기</Title>
                 <ConfirmBox onSubmit={handleSubmit(onSubmit)}>
                     <Letter><h5>변경할 비밀번호</h5></Letter>
                     <FormInput placeholder="01012345678"
@@ -92,13 +91,12 @@ function ChangePw() {
 export default ChangePw;
 
 const PageWrapper = styled.div`
-    width: 400px; 
-    height: 840px;
-    background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    font-family: 'Pretendard';
+    justify-content: center;
+    height: 100vh;    
+    width : 100%;
+    background-color: #FCFDF5;
 `;
 
 const ContentWrapper = styled.div`
@@ -108,26 +106,20 @@ const ContentWrapper = styled.div`
     display: flex; flex-direction: column;
 `;
 
-const BackBtn = styled.button`
-    background-color: #FCFDF5;
-    width: 44px;
-    font-size: large;
-    text-align: center;
-    top: 50%; left: 50%;
-    transform: translate(10%, 30%);
-    margin-bottom : 20px;
-`;
+
 
 const Title = styled.div`
     text-align: left;
-    padding-left: 25px;
+    padding-left: 15px;
+    font-family: 'Pretendard';
     font-weight: 700;
     font-size: 24px; line-height: 33.6px;
 `;
 
 const Letter = styled.div`
     text-align: left;
-    padding-left: 25px;
+    font-family: 'Pretendard';
+    padding-left: 20px;
     font-weight: 600;
     font-size: 16px; line-height: 22.4px;
     top: 50%; left: 50%;
@@ -137,7 +129,7 @@ const Letter = styled.div`
 const ConfirmBox = styled.form`
     padding-left: 20px;
     display: flex; flex-direction: column;
-    gap: 10px;
+    gap: 0px;
 `;
 
 const FormInput = styled.input`
@@ -148,6 +140,7 @@ const FormInput = styled.input`
     background-color: #F3F3F3;
     font-family: 'Pretendard';
     font-size: 14px; line-height: 16.8px;
+    font-weight:600;
     top: 50%; left: 50%;
     transform: translate(-2.5%, -30%);
 `;
@@ -156,11 +149,14 @@ const Btn = styled.button`
     width: 315px; height: 50px;
     border-radius: 100px;
     background-color: #DFDFDF;
+    border:none;
+    color:#353535;
     font-weight: 700;
     font-size: 14px; line-height: 16.8px;
     margin: 10px; margin-left: 25px;
     top: 50%; left: 50%;
     transform: translate(-8%, 0%);
+    font-family: 'Pretendard';
 `;
 
 const ErrMsg = styled.div`

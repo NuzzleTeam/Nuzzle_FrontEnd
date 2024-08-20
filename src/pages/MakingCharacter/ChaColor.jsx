@@ -1,22 +1,53 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import Footer from '../../components/Footer/Footer';
 import { setColor } from '../../features/colorSlice';
+import { setCharacterImage } from '../../features/characterSlice';
 
-const colors = ['#FFC0CB', '#ADD8E6', '#000000', '#8B4513']; // 핑크, 파랑, 검정, 갈색
+const colors = ['#FFB1D0', '#90b4e0', '#cdb29f', '#3a2e29']; // 핑크, 파랑, 갈색, 검정색
+const characterTypes = ['rabbit', 'cat', 'bear']; // 캐릭터 종류
 
 const ChaColor = () => {
+  const [randomCharacter, setRandomCharacter] = useState(characterTypes[Math.floor(Math.random() * characterTypes.length)]);
   const selectedColor = useSelector((state) => state.color.selectedColor);
+  const characterImage = useSelector((state) => state.character.characterImage);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const characterImages = {
+    '#FFB1D0': {
+      rabbit: '/src/assets/chaMake/pinkrabbit.gif',
+      cat: '/src/assets/chaMake/pinkcat.gif',
+      bear: '/src/assets/chaMake/pinkbear.gif',
+    },
+    '#90b4e0': {
+    rabbit: '/src/assets/chaMake/bluerabbit.gif',
+    cat: '/src/assets/chaMake/bluecat.gif',
+    bear: '/src/assets/chaMake/bluebear.gif',
+  },
+    '#3a2e29': {
+      rabbit: '/src/assets/chaMake/blackrabbit.gif',
+      cat: '/src/assets/chaMake/blackcat.gif',
+      bear: '/src/assets/chaMake/blackbear.gif',
+    },
+    '#cdb29f': {
+      rabbit: '/src/assets/chaMake/brownrabbit.gif',
+      cat: '/src/assets/chaMake/browncat.gif',
+      bear: '/src/assets/chaMake/brownbear.gif',
+    },
+  };
+
+  useEffect(() => {
+    // 랜덤 캐릭터의 초기 색상에 맞는 이미지 설정
+    const initialColor = colors[0];
+    dispatch(setColor(initialColor)); // 초기 색상 설정
+    dispatch(setCharacterImage(characterImages[initialColor][randomCharacter])); // 랜덤 캐릭터 이미지 설정
+  }, [dispatch, randomCharacter]);
+
   const handleColorClick = (color) => {
-    if (selectedColor === color) {
-      dispatch(setColor(''));
-    } else {
-      dispatch(setColor(color));
-    }
+    dispatch(setColor(color));
+    dispatch(setCharacterImage(characterImages[color][randomCharacter]));
   };
 
   const handleSelectClick = () => {
@@ -28,11 +59,10 @@ const ChaColor = () => {
   return (
     <Container>
       <Title>애착이의 색상을 선택해보세요</Title>
-      <Subtitle>색상은 수정이 불가능하니 신중하게 골라주세요!</Subtitle>
-      <CharacterContainer color={selectedColor || '#808080'}>
-        <EyeImage1 src="src/assets/eyes.png" alt="애착이" />
-        <EyeImage2 src="src/assets/eyes.png" alt="애착이" />
+      <CharacterContainer>
+        <CharacterImage src={characterImage} alt="character" />
       </CharacterContainer>
+      <Horizonline></Horizonline>
       <ColorOptions>
         {colors.map((color) => (
           <ColorButton
@@ -50,7 +80,6 @@ const ChaColor = () => {
       >
         선택하기
       </SelectButton>
-      <Footer></Footer>
     </Container>
   );
 };
@@ -61,7 +90,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   height: 100vh;
   background-color: #FCFDF5;
   padding: 20px;
@@ -71,67 +99,75 @@ const Container = styled.div`
 const Title = styled.h1`
   font-size: 24px;
   margin-bottom: 10px;
+  font-family: 'Pretendard';
+  font-weight : bold; 
 `;
 
-const Subtitle = styled.p`
-  color: pink;
-  margin-bottom: 20px;
-`;
 
 const CharacterContainer = styled.div`
-  width: 200px;
-  height: 200px;
-  background-color: ${(props) => props.color};
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+  width: 400px;
+  height: 500px;
   position: relative;
 `;
 
-const EyeImage1 = styled.img`
-  width: 10%;
-  height: auto;
+const CharacterImage = styled.img`
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 `;
 
-const EyeImage2 = styled.img`
-  width: 10%;
-  height: auto;
-  object-fit: cover;
- `;
+const Horizonline = styled.div`
+  width: 326.5px; 
+  height: 0.5px;
+  position: absolute;
+  bottom: 370px ; 
+  background-color: #8e8e8e; 
+  box-shadow: 0 0 0 0.5px #8e8e8e; 
+`;
 
 const ColorOptions = styled.div`
   display: flex;
   justify-content: space-around;
   width: 100%;
-  max-width: 300px;
-  margin-bottom: 20px;
+  max-width: 380px;
+  margin-bottom: 50px;
+  margin-top: -30px;
+
 `;
 
 const ColorButton = styled.button`
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  border: ${(props) => (props.isselected === "true" ? '3px solid black' : '3px solid transparent')};
+  border: none;
   background-color: ${(props) => props.color};
   cursor: pointer;
-
+  font-family: 'Pretendard';
+  position: relative;
   &:focus {
     outline: none;
   }
+
+  ${(props) =>
+    props.isselected === "true" &&
+    `
+    box-shadow: 0 0 0 3px white, 0 0 0 5px black; 
+  `}
 `;
 
 const SelectButton = styled.button`
-  background-color: ${(props) => (props.isselected === "true" ? '#FFC0CB' : '#ccc')};
+  background-color: ${(props) => (props.isselected === "true" ? '#FFB1D0' : '#ccc')};
   color: black;
+  font-family: 'Pretendard';
+  font-weight: bold;
+  font-size: 16px;
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  border-radius: 20px;
-  margin-bottom: 20px;
-  width: 30%;
+  border-radius: 40px;
+  bottom: 20px;
+  width: 205px;
+  height:50px;
   &:disabled {
     cursor: not-allowed;
   }

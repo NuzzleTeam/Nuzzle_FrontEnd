@@ -67,7 +67,6 @@ function EmailSignUp() {
         <>
             <SignUpWrapper>
                 <SignUpContentWrapper>
-                    <BackBtn onClick={backToLogin}>{'<'}</BackBtn>
                     <Title>휴대폰 인증</Title>
                     <SignUpForm>
                         <FormBox>
@@ -143,31 +142,18 @@ function EmailSignUp() {
 export default EmailSignUp;
 
 const SignUpWrapper = styled.div`
-    width: 400px; 
-    height: 840px;
-    background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
-    font-family: 'Pretendard';
+    justify-content: center;
+    height: 100vh;    
+    width : 100%;
+    background-color: #FCFDF5;
 `;
 
 const SignUpContentWrapper = styled.div`
     width: 348px; height: 90%;
     top: 50%; left: 50%;
     transform: translate(3.8%, 2%);
-`;
-
-
-
-const BackBtn = styled.button`
-    background-color: #FCFDF5;
-    width: 44px;
-    font-size: large;
-    text-align: center;
-    top: 50%; left: 50%;
-    transform: translate(-20%, 30%);
-    margin-bottom: 10px;
 `;
 
 const Title = styled.div`
@@ -263,6 +249,7 @@ const NextBtn = styled.button`
     font-weight: 700;
     font-size: 14px;
     line-height: 16.8px;
+    margin-left:25px;
 `;
 
 const AgreeBtn = styled.button`

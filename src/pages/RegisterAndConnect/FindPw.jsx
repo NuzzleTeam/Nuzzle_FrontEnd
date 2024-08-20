@@ -33,7 +33,6 @@ function FindPw() {
       <>
         <FindIdWrapper>
             <FindIdContentWrapper>
-                <BackBtn onClick={backToLogin}>{'<'}</BackBtn>
                 <Title><h3>비밀번호 찾기</h3></Title>
                 <Letter><h5>아이디</h5></Letter>
                 <ConfirmBox>
@@ -64,12 +63,13 @@ function FindPw() {
 export default FindPw;
 
 const FindIdWrapper = styled.div`
-    width: 400px; 
-    height: 840px;
-    background-color: #FCFDF5;
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;    
+    width : 100%;
+    background-color: #FCFDF5;
 `;
 
 
@@ -80,31 +80,22 @@ const FindIdContentWrapper = styled.div`
     display: flex; flex-direction: column;
 `;
 
-const BackBtn = styled.button`
-    background-color: #FCFDF5;
-    width: 44px;
-    font-size: large;
-    text-align: center;
-    top: 50%; left: 50%;
-    transform: translate(10%, 30%);
-    margin-bottom: 20px;
-`;
 
 const Title = styled.div`
-    /* border: 1px solid black; */
     text-align: left;
-    padding-left: 25px;
+    font-family: 'Pretendard';
+    font-weight : bold; 
 `;
 
 const Letter = styled.div`
     /* border: 1px solid black; */
     text-align: left;
-    padding-left: 25px;
+    font-family: 'Pretendard';
+    font-weight : semibold; 
 `;
 
 const ConfirmBox = styled.div`
     /* border: 1px solid red; */
-    padding-left: 20px;
     display: flex; flex-direction: row;
     gap: 10px;
 `;
@@ -114,7 +105,15 @@ const Id = styled.input`
     padding: 20px, 12px, 20px, 12px;
     border-radius: 12px;
     border: none;
+    font-family: 'Pretendard';
+    font-size: 14px;
+    font-weight : 600; 
     background-color: #F3F3F3;   
+    padding-left: 10px;
+    &:focus {
+        border: none; 
+        outline: none; 
+    }
 `;
 
 const PhoneNumber = styled.input`
@@ -122,7 +121,15 @@ const PhoneNumber = styled.input`
     padding: 20px, 12px, 20px, 12px;
     border-radius: 12px;
     border: none;
+    font-family: 'Pretendard';
+    font-size: 14px;
+    font-weight : 600; 
     background-color: #F3F3F3;
+    padding-left: 10px;
+    &:focus {
+        border: none; 
+        outline: none; 
+    }
 `;
 
 const ConfirmBtn = styled.button`
@@ -130,16 +137,27 @@ const ConfirmBtn = styled.button`
     padding: 14px, 129px, 14px, 129px;
     border-radius: 100px;
     background-color: #CBCBCB;
+    font-family: 'Pretendard';
+    font-weight : bold; 
+    color: #353535;
     font-size: small;
     margin: 5px;
+    border: none;
 `;
 
 const ConfirmNumber = styled.input`
-    width: 315px; height: 60px;
-    padding: 20px, 12px, 20px, 12px;
+    width: 300px; height: 60px;
     border-radius: 12px;
     border: none;
+    font-family: 'Pretendard';
+    font-size: 14px;
+    font-weight : 600; 
     background-color: #F3F3F3;
+    padding-left: 10px;
+    &:focus {
+        border: none; 
+        outline: none; 
+    }
 `;
 
 const ConfirmCompleteBtn = styled.button`
@@ -148,4 +166,11 @@ const ConfirmCompleteBtn = styled.button`
     padding: 14px, 129px, 14px, 129px;
     background-color: #CBCBCB;
     margin: 10px 20px;
+    border: none;
+    color:#353535;
+    font-size:16px;
+    font-family: 'Pretendard';
+    font-weight : bold; 
+    position: relative;
+    left: -20px; 
 `;

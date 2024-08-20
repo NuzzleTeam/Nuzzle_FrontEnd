@@ -3,6 +3,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: #f3f3f3;
 }
 
 .question-card {
@@ -44,12 +45,14 @@
   margin-bottom: 10px;
   font-size: 14px;
   margin: 0;
+  font-family: 'Pretendard';
 }
 
 .question-content {
   top: 40px;
   left: 20px;
   font-size: 20px;
+  font-family: 'Pretendard';
   font-weight: bold;
 }
 
@@ -77,6 +80,7 @@ hr {
   align-content: center;
   margin-bottom: 10px;
   background-color: #fcfdf5;
+  font-family: 'Pretendard';
 }
 
 .sub-avatar img {
@@ -99,6 +103,7 @@ hr {
 .user-name {
   font-weight: bold;
   margin-bottom: 5px;
+  font-family: 'Pretendard';
   font-size: 16px;
 }
 
@@ -114,6 +119,7 @@ hr {
   font-size: 14px;
   width: 200px; /* 너비 조정 */
   margin-right: 10px;
+  font-family: 'Pretendard';
 }
 
 .upload-button {
