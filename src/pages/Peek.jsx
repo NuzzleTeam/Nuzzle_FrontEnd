@@ -1,75 +1,149 @@
-import { useState } from "react";
-import styled from "styled-components";
-import Footer from '../components/Footer/Footer';
+import { useState, useEffect } from "react";
+import styled, { keyframes } from "styled-components";
+import popupImage from "../../src/assets/popupImage.png";
+import noPhotoImage from "../../src/assets/no_photo.png";
 
 const Peek = () => {
+  const [photos, setPhotos] = useState([]);
   const initialEmojis = ["😘", "😢", "😡"];
   const allEmojis = ["😘", "😢", "😡", "❤️", "👍", "❓", "🌸", "💤", "🎉"];
+  const [showAllEmojis, setShowAllEmojis] = useState(false);
+  const [fallingEmojis, setFallingEmojis] = useState([]);
 
-  const [showAll, setShowAll] = useState(false); // 이름 수정 필요 (겹침)
-  const [fallingEmojis, setFallingEmojis] = useState([]); // state 수정 예정
+  useEffect(() => {
+    const savedPhoto = localStorage.getItem("capturedPhoto");
+    if (savedPhoto) {
+      setPhotos([savedPhoto]);
+    }
+  }, []);
 
   const handleShowAllClick = () => {
-    setShowAll(true);
+    setShowAllEmojis(true);
   };
 
   const handleHideAllClick = () => {
-    setShowAll(false);
+    setShowAllEmojis(false);
   };
 
   const handleEmojiClick = (emoji) => {
-    // 여러 개의 이모지가 랜덤한 위치에서 떨어지도록 설정
     const newFallingEmojis = Array.from({ length: 10 }, (_, index) => ({
       emoji,
       id: Date.now() + index,
-      left: Math.random() * 100, // 화면 너비 퍼센트 단위로 랜덤 위치 설정해서 떨어뜨림
-      duration: Math.random() * 1 + 1, // 1초에서 2초 사이 지속 시간으로 설정
+      left: Math.random() * 100,
+      duration: Math.random() * 1 + 1,
     }));
     setFallingEmojis(newFallingEmojis);
-    // 일정 시간 후 이모지 리스트를 비워 화면 정리
     setTimeout(() => setFallingEmojis([]), 2000);
   };
 
   return (
-    <Container>
+    <PageContainer>
       <ImageContainer>
-        <div>이미지가 들어가야 할 자리입니다.</div>
+        <img src={popupImage} alt="Element" style={imageElementStyle} />
       </ImageContainer>
-      <EmojiContainer>
-        {(showAll ? allEmojis : initialEmojis).map((emoji, index) => (
-          <EmojiButton key={index} onClick={() => handleEmojiClick(emoji)}>
-            {emoji}
-          </EmojiButton>
-        ))}
-        {!showAll ? (
-          <EmojiButton onClick={handleShowAllClick}>+</EmojiButton>
+      <PhotoContainer>
+        {photos.length === 0 ? (
+          <NoPhotoMessage>
+            막내 님은 아직 업로드하지 않았어요
+            <NoPhotoImageContainer>
+              <img
+                src={noPhotoImage}
+                alt="No Photo"
+                style={imageElementStyle}
+              />
+            </NoPhotoImageContainer>
+            <NoPhotoButton>깨우기</NoPhotoButton>
+          </NoPhotoMessage>
         ) : (
-          <EmojiButton onClick={handleHideAllClick}>-</EmojiButton>
+          photos.map((photo, index) => (
+            <PhotoItem key={index}>
+              <img
+                src={photo}
+                alt={`Family ${index}`}
+                style={imageElementStyle}
+              />
+              <EmojiContainer>
+                {(showAllEmojis ? allEmojis : initialEmojis).map(
+                  (emoji, emojiIndex) => (
+                    <EmojiButton
+                      key={emojiIndex}
+                      onClick={() => handleEmojiClick(emoji)}
+                    >
+                      {emoji}
+                    </EmojiButton>
+                  )
+                )}
+                {!showAllEmojis ? (
+                  <EmojiButton onClick={handleShowAllClick}>+</EmojiButton>
+                ) : (
+                  <EmojiButton onClick={handleHideAllClick}>-</EmojiButton>
+                )}
+              </EmojiContainer>
+            </PhotoItem>
+          ))
         )}
-      </EmojiContainer>
+      </PhotoContainer>
       {fallingEmojis.map(({ emoji, id, left, duration }) => (
         <FallingEmoji key={id} emoji={emoji} left={left} duration={duration} />
       ))}
-      <Footer></Footer>
-    </Container>
+    </PageContainer>
   );
 };
 
 export default Peek;
 
-const Container = styled.div`
+// Styled Components
+
+const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100vh;
-  background-color: #FCFDF5;
-  padding: 20px;
+  background-color: #fff;
   position: relative;
 `;
 
 const ImageContainer = styled.div`
-  position: relative;
+  width: 95%;
+  height: auto;
+  padding: 5px 10px;
+`;
+
+const PhotoContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 20px;
+`;
+
+const PhotoItem = styled.div`
+  width: 45%;
+  margin: 10px;
+  border-radius: 15px;
+  overflow: hidden;
+`;
+
+const NoPhotoMessage = styled.div`
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2em;
+`;
+
+const NoPhotoImageContainer = styled.div`
+  margin-top: 10px;
+`;
+
+const NoPhotoButton = styled.button`
+  position: absolute;
+  top: 80%;
+  left: 40%;
+  padding: 10px 20px;
+  background-color: #ffcccc;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 `;
 
 const EmojiContainer = styled.div`
@@ -78,9 +152,6 @@ const EmojiContainer = styled.div`
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
   background: rgba(255, 255, 255, 0.8);
   padding: 10px;
   border-radius: 20px;
@@ -93,32 +164,36 @@ const EmojiButton = styled.button`
   cursor: pointer;
 `;
 
-// FallingEmoji 컴포넌트 추후 분리 예정
-const FallingEmoji = ({ emoji, left, duration }) => {
-  return (
-    <FallingEmojiContainer
-      style={{ left: `${left}vw`, animationDuration: `${duration}s` }}
-    >
-      {emoji}
-    </FallingEmojiContainer>
-  );
-};
+const fallAnimation = keyframes`
+  from {
+    top: 0;
+    opacity: 1;
+  }
+  to {
+    top: 100vh;
+    opacity: 0;
+  }
+`;
 
 const FallingEmojiContainer = styled.div`
   position: fixed;
   top: 0;
   transform: translateX(-50%);
   font-size: 24px;
-  animation: fall linear forwards;
-
-  @keyframes fall {
-    from {
-      top: 0;
-      opacity: 1;
-    }
-    to {
-      top: 100vh;
-      opacity: 0;
-    }
-  }
+  animation: ${fallAnimation} linear forwards;
 `;
+
+const FallingEmoji = ({ emoji, left, duration }) => (
+  <FallingEmojiContainer
+    style={{ left: `${left}vw`, animationDuration: `${duration}s` }}
+  >
+    {emoji}
+  </FallingEmojiContainer>
+);
+
+// Inlined image styles
+const imageElementStyle = {
+  width: "95%",
+  height: "auto",
+  padding: "5px 10px",
+};
