@@ -66,9 +66,16 @@ const Main = styled.main`
 const AppContent = () => {
   const location = useLocation();
 
-  const noHeaderPaths = ["/", "/ChaMake1","/ChaComplete"]; // 뒤로가기 버튼 사용하지 않는 페이지들 
+  const noHeaderPaths = ["/", "/ChaMake1", "/ChaComplete"]; // 뒤로가기 버튼 사용하지 않는 페이지들
 
-  const noFooterPaths = ["/Peek", "/Login", "/Keyword", "/ChaMake1" , "/ChaComplete", "/firstpage"]; // 네비게이션 사용하지 않는 페이지들 
+  const noFooterPaths = [
+    "/Peek",
+    "/Login",
+    "/Keyword",
+    "/ChaMake1",
+    "/ChaComplete",
+    "/firstpage",
+  ]; // 네비게이션 사용하지 않는 페이지들
 
   const showHeader = !noHeaderPaths.includes(location.pathname);
   const showFooter = !noFooterPaths.includes(location.pathname);

@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import "./PastQuestionPage.css";
 import commentIcon from "../../assets/comment.png";
 
 const PastQuestionList = ({ questionNumber, date, detail, comments }) => (
@@ -59,6 +58,84 @@ function PastQuestionPage() {
 
   return (
     <div className="past-question-page">
+      <style>
+        {`
+          .past-question-page {
+            padding: 1rem;
+            background-color: #fcfdf5;
+          }
+          
+          h3 {
+            font-size: 24px;
+            text-align: start;
+            margin: 0;
+          }
+
+          .past-questions-title {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 24px;
+            font-family: "Pretendard";
+            font-weight: bold;
+          }
+
+          .past-question-page {
+            width: 90%;
+          }
+
+          .past-question-list {
+            padding: 10px;
+          }
+
+          .past-question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          }
+
+          .past-question-subtitle {
+            font-size: 14px;
+            color: #ff87b7;
+            margin: 0;
+            font-family: "Pretendard";
+            font-weight: bold;
+          }
+
+          .past-question-date,
+          .number-of-comment {
+            margin: 0;
+            font-family: "Pretendard";
+          }
+
+          .past-question-date {
+            padding-right: 125px;
+            font-size: 12px;
+          }
+
+          .number-of-comment {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+          }
+
+          .comment-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+          }
+
+          .past-question-detail {
+            font-size: 16px;
+            margin: 5px 0;
+            background-color: #ffe6f0;
+            border-radius: 8px;
+            padding: 12px 20px 12px 20px;
+            box-sizing: border-box;
+            font-weight: 500;
+            font-family: "Pretendard";
+          }
+        `}
+      </style>
       <div className="past-questions-title">
         <h3>오늘의 질문들</h3>
       </div>
