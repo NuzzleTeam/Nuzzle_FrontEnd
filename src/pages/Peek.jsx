@@ -15,7 +15,7 @@ const Peek = () => {
   const initialEmojis = ["😘", "😢", "😡"];
   const allEmojis = ["😘", "😢", "😡", "❤️", "👍", "❓", "🌸", "💤", "🎉"];
   const [showAllEmojis, setShowAllEmojis] = useState(false);
-  const [fallingEmojis, setFallingEmojis] = useState([]);
+  const [scatteredEmojis, setScatteredEmojis] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,14 +43,18 @@ const Peek = () => {
   };
 
   const handleEmojiClick = (emoji) => {
-    const newFallingEmojis = Array.from({ length: 10 }, (_, index) => ({
+    // Generate scattered emojis randomly positioned within the container
+    const newScatteredEmojis = Array.from({ length: 15 }, (_, index) => ({
       emoji,
       id: Date.now() + index,
-      left: Math.random() * 100,
-      duration: Math.random() * 1 + 1,
+      left: Math.random() * 80, // Randomize horizontal position
+      top: Math.random() * 70 + 15, // Randomize vertical position with some offset
+      size: Math.random() * 1.5 + 1, // Randomize size
     }));
-    setFallingEmojis(newFallingEmojis);
-    setTimeout(() => setFallingEmojis([]), 2000);
+    setScatteredEmojis(newScatteredEmojis);
+
+    // Clear emojis after a delay (optional)
+    setTimeout(() => setScatteredEmojis([]), 4000);
   };
 
   const handleNavigate = () => {
@@ -111,14 +115,25 @@ const Peek = () => {
         )}
       </PhotoContainer>
       <NextButton onClick={nextFamilyMember}>다음 가족 보기</NextButton>
-      {fallingEmojis.map(({ emoji, id, left, duration }) => (
-        <FallingEmoji key={id} emoji={emoji} left={left} duration={duration} />
+      {scatteredEmojis.map(({ emoji, id, left, top, size }) => (
+        <ScatteredEmoji
+          key={id}
+          style={{
+            left: `${left}%`,
+            top: `${top}%`,
+            fontSize: `${size}rem`,
+          }}
+        >
+          {emoji}
+        </ScatteredEmoji>
       ))}
     </PageContainer>
   );
 };
 
 export default Peek;
+
+// Styled Components
 
 const PageContainer = styled.div`
   display: flex;
@@ -143,6 +158,7 @@ const PhotoContainer = styled.div`
   justify-content: center;
   padding: 20px;
   height: auto;
+  position: relative; /* Ensure emojis are positioned relative to this */
 `;
 
 const PhotoItem = styled.div`
@@ -191,32 +207,24 @@ const EmojiButton = styled.button`
   cursor: pointer;
 `;
 
-const fallAnimation = keyframes`
-  from {
-    top: 0;
-    opacity: 1;
-  }
-  to {
-    top: 100vh;
-    opacity: 0;
+const ScatteredEmoji = styled.div`
+  position: absolute;
+  animation: fadeInOut 4s ease-in-out;
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 `;
-
-const FallingEmojiContainer = styled.div`
-  position: fixed;
-  top: 0;
-  transform: translateX(-50%);
-  font-size: 24px;
-  animation: ${fallAnimation} linear forwards;
-`;
-
-const FallingEmoji = ({ emoji, left, duration }) => (
-  <FallingEmojiContainer
-    style={{ left: `${left}vw`, animationDuration: `${duration}s` }}
-  >
-    {emoji}
-  </FallingEmojiContainer>
-);
 
 const imageElementStyle = {
   width: "95%",

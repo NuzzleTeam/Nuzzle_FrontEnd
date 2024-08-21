@@ -1,28 +1,10 @@
+import React from "react";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import commentIcon from "../../assets/comment.png";
 
-const PastQuestionList = ({ questionNumber, date, detail, comments }) => (
-  <div className="past-question-list">
-    <div className="past-question-header">
-      <p className="past-question-subtitle">오늘의 질문 #{questionNumber}</p>
-      <p className="past-question-date">{date}</p>
-      <div className="number-of-comment">
-        <img src={commentIcon} alt="comment" className="comment-icon" />
-        {comments}
-      </div>
-    </div>
-    <p className="past-question-detail">{detail}</p>
-  </div>
-);
-
-PastQuestionList.propTypes = {
-  questionNumber: PropTypes.number.isRequired,
-  date: PropTypes.string.isRequired,
-  detail: PropTypes.string.isRequired,
-  comments: PropTypes.number.isRequired,
-};
-
 function PastQuestionPage() {
+  const navigate = useNavigate();
   const questions = [
     {
       date: "Jul 18 2024",
@@ -55,6 +37,10 @@ function PastQuestionPage() {
       comments: 3,
     },
   ];
+
+  const handleCommentClick = () => {
+    navigate("/today-question");
+  };
 
   return (
     <div className="past-question-page">
@@ -116,6 +102,7 @@ function PastQuestionPage() {
             display: flex;
             align-items: center;
             font-size: 14px;
+            cursor: pointer;
           }
 
           .comment-icon {
@@ -140,16 +127,27 @@ function PastQuestionPage() {
         <h3>오늘의 질문들</h3>
       </div>
       {questions.map((question, index) => (
-        <PastQuestionList
-          key={index}
-          questionNumber={index + 1}
-          date={question.date}
-          detail={question.detail}
-          comments={question.comments}
-        />
+        <div key={index} className="past-question-list">
+          <div className="past-question-header">
+            <p className="past-question-subtitle">오늘의 질문 #{index + 1}</p>
+            <p className="past-question-date">{question.date}</p>
+            <div className="number-of-comment" onClick={handleCommentClick}>
+              <img src={commentIcon} alt="comment" className="comment-icon" />
+              {question.comments}
+            </div>
+          </div>
+          <p className="past-question-detail">{question.detail}</p>
+        </div>
       ))}
     </div>
   );
 }
+
+PastQuestionPage.propTypes = {
+  questionNumber: PropTypes.number,
+  date: PropTypes.string,
+  detail: PropTypes.string,
+  comments: PropTypes.number,
+};
 
 export default PastQuestionPage;
