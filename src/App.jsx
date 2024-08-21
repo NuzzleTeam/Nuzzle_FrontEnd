@@ -19,6 +19,7 @@ import Home from "./pages/Home/Home";
 import PastQuestionPage from "./pages/Question/PastQuestionPage";
 import TodayQuestionPage from "./pages/Question/TodayQuestionPage";
 import PhotoCapturePage from "./pages/UploadPhoto/PhotoCapturePage";
+import WakeUpLetterPage from "./pages/Question/WakeUpLetterPage";
 
 // import Character pages
 import Peek from "./pages/Peek";
@@ -99,6 +100,7 @@ const AppContent = () => {
           <Route path="/Keyword" element={<Keyword />} />
           <Route path="/past-question" element={<PastQuestionPage />} />
           <Route path="/today-question" element={<TodayQuestionPage />} />
+          <Route path="/wake-up-letter" element={<WakeUpLetterPage />} />
           <Route path="/photo-capture" element={<PhotoCapturePage />} />
           <Route path="/peek" element={<Peek />} />
           <Route path="/piggybank" element={<Piggybank />} />
