@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import todayCircleRabbitIcon from "../../assets/today_circle_rabbit.png";
 import todayRabbitIcon from "../../assets/today_rabbit.png";
 import writeIcon from "../../assets/write.png";
@@ -19,7 +20,8 @@ const TodayQuestionPage = () => {
   const question = "가족에게 받은 선물 중 기억에 남는 것은?";
   const user = "나";
   const [hasAnswered, setHasAnswered] = useState(false);
-  const [familyHasAnswered, setFamilyHasAnswered] = useState(false); // New state for family answer
+  const [familyHasAnswered, setFamilyHasAnswered] = useState(false);
+  const navigate = useNavigate();
 
   const handleWriteClick = (index) => {
     setIsWriting(index);
@@ -36,7 +38,7 @@ const TodayQuestionPage = () => {
       setAnswers(newAnswers);
       setIsWriting(null);
       setInputValue("");
-      setHasAnswered(true); // Mark that the user has answered
+      setHasAnswered(true);
     }
   };
 
@@ -45,9 +47,13 @@ const TodayQuestionPage = () => {
     setInputValue("");
   };
 
-  // New function for closing FamilyAnswerModal
   const handleFamilyAnswer = () => {
-    setFamilyHasAnswered(true); // Mark that a family member has answered
+    setFamilyHasAnswered(true);
+    navigate("/wake-up-letter");
+  };
+
+  const handleNavigateToPastQuestions = () => {
+    navigate("/past-question");
   };
 
   return (
@@ -259,7 +265,12 @@ const TodayQuestionPage = () => {
       </style>
 
       {/* Question Collection Button */}
-      <button className="question-summary-button">질문 모아보기</button>
+      <button
+        className="question-summary-button"
+        onClick={handleNavigateToPastQuestions}
+      >
+        질문 모아보기
+      </button>
 
       {/* MyAnswerModal - Your original modal */}
       {!hasAnswered && (
@@ -278,8 +289,11 @@ const TodayQuestionPage = () => {
 
       {/* FamilyAnswerModal - New modal */}
       {!familyHasAnswered && hasAnswered && (
-        <div className="modal-overlay">
-          <div className="modal">
+        <div
+          className="modal-overlay"
+          onClick={() => setFamilyHasAnswered(true)}
+        >
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
             <img
               src={modalAlert}
               alt="alert-modal-icon"
