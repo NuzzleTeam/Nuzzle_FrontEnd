@@ -6,7 +6,7 @@ import uploadIcon from "../../assets/upload.png";
 import questionBubbleImg from "../../assets/question_bubble.png";
 
 const TodayQuestionPage = () => {
-  const [isWriting, setIsWriting] = useState(false);
+  const [isWriting, setIsWriting] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [answers, setAnswers] = useState([
     "아빠가 사준 첫 스마트폰 (갤럭시s2).아빠가 사준 첫 스마트폰 (갤럭시s2)",
@@ -30,9 +30,14 @@ const TodayQuestionPage = () => {
       const newAnswers = [...answers];
       newAnswers[index] = inputValue;
       setAnswers(newAnswers);
-      setIsWriting(false);
+      setIsWriting(null);
       setInputValue("");
     }
+  };
+
+  const handleCancelClick = () => {
+    setIsWriting(null);
+    setInputValue("");
   };
 
   return (
@@ -45,6 +50,7 @@ const TodayQuestionPage = () => {
             align-items: center;
             flex-direction: column;
             background-color: #f3f3f3;
+            position: relative;
           }
 
           .question-card {
@@ -162,16 +168,43 @@ const TodayQuestionPage = () => {
             font-family: "Pretendard";
           }
 
-          .upload-button {
+          .input-upload-button {
             cursor: pointer;
           }
 
           .upload-icon {
             width: 24px;
             height: 24px;
+            filter: grayscale(100%);
+          }
+
+          .upload-icon-active {
+            color: #FF87B7;
+          }
+
+          .question-summary-button {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background-color: #efefef;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-family: "Pretendard";
+            font-size: 14px;
+            font-weight: bold;
+          }
+
+          .question-summary-button:hover {
+            background-color: #e0e0e0;
           }
         `}
       </style>
+
+      {/* Question Collection Button */}
+      <button className="question-summary-button">질문 모아보기</button>
+
       <div className="question-card">
         <div className="question-section">
           <div className="question-card-img">
@@ -215,13 +248,15 @@ const TodayQuestionPage = () => {
                     className="user-input-field"
                   />
                   <div
-                    className="upload-button"
+                    className="input-upload-button"
                     onClick={() => handleUploadClick(index)}
                   >
                     <img
                       src={uploadIcon}
                       alt="upload"
-                      className="upload-icon"
+                      className={`upload-icon ${
+                        inputValue ? "upload-icon-active" : ""
+                      }`}
                     />
                   </div>
                 </div>
@@ -229,12 +264,14 @@ const TodayQuestionPage = () => {
                 <div className="user-answer">{answer}</div>
               )}
             </div>
-            <div
-              className="write-button"
-              onClick={() => handleWriteClick(index)}
-            >
-              <img src={writeIcon} alt="write" className="write-icon" />
-            </div>
+            {isWriting !== index && (
+              <div
+                className="write-button"
+                onClick={() => handleWriteClick(index)}
+              >
+                <img src={writeIcon} alt="write" className="write-icon" />
+              </div>
+            )}
           </div>
         ))}
       </div>
