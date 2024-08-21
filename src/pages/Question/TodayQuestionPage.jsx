@@ -4,6 +4,8 @@ import todayRabbitIcon from "../../assets/today_rabbit.png";
 import writeIcon from "../../assets/write.png";
 import uploadIcon from "../../assets/upload.png";
 import questionBubbleImg from "../../assets/question_bubble.png";
+import myModalImage from "../../assets/modal_image.png";
+import modalAlert from "../../assets/modal_alert.png";
 
 const TodayQuestionPage = () => {
   const [isWriting, setIsWriting] = useState(null);
@@ -16,6 +18,8 @@ const TodayQuestionPage = () => {
   ]);
   const question = "가족에게 받은 선물 중 기억에 남는 것은?";
   const user = "나";
+  const [hasAnswered, setHasAnswered] = useState(false);
+  const [familyHasAnswered, setFamilyHasAnswered] = useState(false); // New state for family answer
 
   const handleWriteClick = (index) => {
     setIsWriting(index);
@@ -32,12 +36,18 @@ const TodayQuestionPage = () => {
       setAnswers(newAnswers);
       setIsWriting(null);
       setInputValue("");
+      setHasAnswered(true); // Mark that the user has answered
     }
   };
 
   const handleCancelClick = () => {
     setIsWriting(null);
     setInputValue("");
+  };
+
+  // New function for closing FamilyAnswerModal
+  const handleFamilyAnswer = () => {
+    setFamilyHasAnswered(true); // Mark that a family member has answered
   };
 
   return (
@@ -199,11 +209,87 @@ const TodayQuestionPage = () => {
           .question-summary-button:hover {
             background-color: #e0e0e0;
           }
+
+          .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+          }
+
+          .modal {
+            background-color: #FFE6EF;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-family: "Pretendard";
+          }
+
+          .modal img {
+            width: 150px;
+            margin-bottom: 20px;
+          }
+
+          .alert-modal-icon {
+            width: 20px !important;
+            margin-bottom: 0px !important;
+          }
+
+          .modal p {
+            margin-bottom: 20px;
+            font-size: 16px;
+          }
+
+          .modal button {
+            background-color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: "Pretendard";
+          }
         `}
       </style>
 
       {/* Question Collection Button */}
       <button className="question-summary-button">질문 모아보기</button>
+
+      {/* MyAnswerModal - Your original modal */}
+      {!hasAnswered && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <img
+              src={myModalImage}
+              alt="my-modal-icon"
+              className="my-modal-icon"
+            />
+            <p>내가 먼저 답변을 완료해야 가족들의 답을 볼 수 있어요!</p>
+            <button onClick={() => setHasAnswered(true)}>답하기</button>
+          </div>
+        </div>
+      )}
+
+      {/* FamilyAnswerModal - New modal */}
+      {!familyHasAnswered && hasAnswered && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <img
+              src={modalAlert}
+              alt="alert-modal-icon"
+              className="alert-modal-icon"
+            />
+            <p>어제의 질문에 따미님이 답을 아직 안했어요!</p>
+            <button onClick={handleFamilyAnswer}>깨우기</button>
+          </div>
+        </div>
+      )}
 
       <div className="question-card">
         <div className="question-section">
