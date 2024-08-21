@@ -196,7 +196,7 @@ const TodayQuestionPage = () => {
             position: absolute;
             top: 10px;
             right: 20px;
-            background-color: #efefef;
+            background-color: #FFB1D0;
             border: none;
             border-radius: 20px;
             padding: 10px 20px;
