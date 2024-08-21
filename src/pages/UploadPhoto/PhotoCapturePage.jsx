@@ -2,18 +2,33 @@ import { useRef, useState } from "react";
 import Webcam from "react-webcam";
 import flashIcon from "../../assets/camera_flash.png";
 import captureIcon from "../../assets/camera_capture.png";
+import transitionIcon from "../../assets/camera_transition.png";
 
 const PhotoCapturePage = () => {
   const webcamRef = useRef(null);
   const [capturedPhoto, setCapturedPhoto] = useState(null);
+  const [flashEnabled, setFlashEnabled] = useState(false);
 
   const capturePhoto = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    setCapturedPhoto(imageSrc);
+    if (flashEnabled) {
+      document.body.style.backgroundColor = "white";
+      setTimeout(() => {
+        document.body.style.backgroundColor = "";
+        const imageSrc = webcamRef.current.getScreenshot();
+        setCapturedPhoto(imageSrc);
+      }, 100);
+    } else {
+      const imageSrc = webcamRef.current.getScreenshot();
+      setCapturedPhoto(imageSrc);
+    }
   };
 
   const retakePhoto = () => {
     setCapturedPhoto(null);
+  };
+
+  const toggleFlash = () => {
+    setFlashEnabled((prev) => !prev);
   };
 
   return (
@@ -29,17 +44,25 @@ const PhotoCapturePage = () => {
             />
           </div>
           <div style={styles.controls}>
-            <button style={styles.flashButton}>
+            <button onClick={toggleFlash} style={styles.flashButton}>
               <img src={flashIcon} alt="flash" style={styles.icon} />
             </button>
             <button onClick={capturePhoto} style={styles.captureButton}>
-              <img src={captureIcon} alt="capture" style={styles.icon} />
+              <img src={captureIcon} alt="capture" style={styles.bigIcon} />
+            </button>
+            <button onClick={capturePhoto} style={styles.transitionButton}>
+              <img src={transitionIcon} alt="capture" style={styles.icon} />
             </button>
           </div>
         </>
       ) : (
         <div style={styles.photoPreviewPage}>
-          <div style={styles.photoPreview}>
+          <div
+            style={styles.photoPreview}
+            onClick={() => {
+              alert("Screen transition triggered");
+            }}
+          >
             <img
               src={capturedPhoto}
               alt="Captured"
@@ -64,17 +87,17 @@ const styles = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
-    height: "100vh",
     backgroundColor: "#ffcccc",
     position: "relative",
   },
   webcamContainer: {
-    width: "100%",
-    flex: 1,
+    width: "90%",
+    height: "80vh",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     overflow: "hidden",
+    padding: "20px",
   },
   webcam: {
     width: "100%",
@@ -84,7 +107,7 @@ const styles = {
   },
   controls: {
     width: "100%",
-    padding: "20px 0",
+    padding: "10px 0",
     display: "flex",
     justifyContent: "space-around",
     alignItems: "center",
@@ -100,6 +123,15 @@ const styles = {
     border: "none",
     cursor: "pointer",
   },
+  transitionButton: {
+    backgroundColor: "transparent",
+    border: "none",
+    cursor: "pointer",
+  },
+  bigIcon: {
+    width: "48px",
+    height: "48px",
+  },
   icon: {
     width: "24px",
     height: "24px",
@@ -110,7 +142,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "space-between",
     height: "100vh",
-    backgroundColor: "#000",
+    backgroundColor: "black",
     position: "relative",
   },
   photoPreview: {
@@ -120,6 +152,7 @@ const styles = {
     justifyContent: "center",
     width: "100%",
     overflow: "hidden",
+    cursor: "pointer",
   },
   capturedPhoto: {
     width: "100%",
@@ -130,7 +163,7 @@ const styles = {
   photoPreviewControls: {
     width: "100%",
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
     padding: "10px 0",
     backgroundColor: "#ffcccc",
@@ -150,9 +183,6 @@ const styles = {
     padding: "10px 20px",
     fontSize: "16px",
     cursor: "pointer",
-  },
-  buttonHover: {
-    backgroundColor: "#ff9999",
   },
 };
 
