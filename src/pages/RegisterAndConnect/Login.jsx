@@ -14,7 +14,6 @@ function Login() {
     const isLogin = useSelector(selectIsLogin);
 
     const navigate = useNavigate();
-    const backToMain = () => { navigate("/firstpage"); };
     const goToFindId = () => { navigate("/help/findid"); };
     const goToFindPw = () => { navigate("/help/findpw"); };
     const goToSignUp = () => { navigate("/signup"); };
@@ -24,6 +23,11 @@ function Login() {
     const [btnColor, setBtnColor] = useState("#DFDFDF")
     const [errMsg, setErrMsg] = useState(false);
     const [btnDisabled, setBtnDisabled] = useState(false);
+
+    const [accessToken, setAccessToken] = useState(null);
+
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const targetUrl = 'https://api.nuz2le.com/api/v1/auth/login';
     
     const isIdTrim = (data) => {
         setIdTrim(data.trim().length === 0);
@@ -49,23 +53,38 @@ function Login() {
         formState: {errors},
       } = useForm();
 
-    //   const handleLogin = (data) => {
-    //     // data.preventDefault();
-    //     // 우선 username과 pw가 같을 때만 로그인 되게 설정
-    //     if (data.username != data.pw){
-    //         setErrMsg(true);
-    //     }
-    //     else {
-    //         console.log(data);
-    //         setErrMsg(false);
-    //         // dispatch(loginUser({ username: data.username, password: data.pw }));
-    //     }
-    // };
+    const handleLogin = async (data) => {
+        try {
+            const response = await fetch(proxyUrl + targetUrl, { 
+                method: "POST",
+                body: JSON.stringify({
+                    serial_id: data.username,
+                    password: data.pw
+                }),
+            });
+            const result = await response.json();
+            
+            if (result.success) {
+                console.log("로그인 성공:", result);
+                setAccessToken(result.data.access_token); 
+                setErrMsg(false);
+                dispatch(login({ username: data.username, password: data.pw })); // 일단 다른 코드들 안뭉개지게 넣어뒀는데 연결 확실히 되면 안쓸것 같음
+                navigate('/');
+            } else {
+                console.error("로그인 실패:", result.error);
+                setErrMsg(true);
+            }
+        } catch (error) {
+            console.error("오류 발생:", error);
+            setErrMsg(true);
+        }
+    };
 
+/*
     const handleLogin = (data) => {
         dispatch(login({ username: data.username, password: data.pw }));
     };
-
+*/
     useEffect(() => {
         if (isLogin) { // isAuthenticated 대신 isLogin 사용
             // navigate("/");

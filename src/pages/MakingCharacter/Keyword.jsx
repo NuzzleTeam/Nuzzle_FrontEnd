@@ -38,7 +38,22 @@ const Keyword = () => {
   };
 
   const handleNextClick = () => {
-    navigate('/ChaMake1');
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const targetUrl = 'https://api.nuz2le.com/api/v1/family-keyword/{familyId}';
+
+    fetch(proxyUrl + targetUrl, {
+      method: 'POST',
+      headers: {},
+      body: JSON.stringify({ 'keywords': selectedKeywords }), // keyword인가?
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('서버 응답:', data);
+      navigate('/ChaMake1');// 요청이 성공하면 로딩페이지 이동
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
   };
 
   return (

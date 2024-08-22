@@ -13,16 +13,11 @@ const years = Array.from({ length: 100 }, (_, i) => ({ value: 2024 - i, label: 2
 const months = Array.from({ length: 12 }, (_, i) => ({ value: i + 1, label: i + 1 }));
 const days = Array.from({ length: 31 }, (_, i) => ({ value: i + 1, label: i + 1 }));
 
-const DatePickerWrapper = styled.div`
-    display: flex;
-    gap: 10px;
-`;
-
 const CustomDatePicker = ({ selectedDate, onChange }) => {
     const [year, setYear] = useState(selectedDate.getFullYear());
     const [month, setMonth] = useState(selectedDate.getMonth() + 1);
     const [day, setDay] = useState(selectedDate.getDate());
-    
+
     const handleYearChange = (option) => {
         setYear(option.value);
         onChange(new Date(option.value, month - 1, day));
@@ -62,15 +57,14 @@ const CustomDatePicker = ({ selectedDate, onChange }) => {
     );
 };
 
-
 function SignUp() {
     const [date, setDate] = useState(new Date());
     const [btnDisabled, setBtnDisabled] = useState(true);
     const navigate = useNavigate();
 
-    const goPolicy = () => {
-        navigate("/policy");
-    };
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const signUpUrl = 'https://api.nuz2le.com/api/v1/auth/sign-up';
+    const familyUrl = 'https://api.nuz2le.com/api/v1/family';
 
     const { register, handleSubmit, control, formState: { errors, isValid }, watch, getValues } = useForm({
         defaultValues: {
@@ -87,14 +81,52 @@ function SignUp() {
     const watchFields = watch(['name', 'gender', 'role', 'email', 'pw', 'pwconfirm']);
 
     const isFormValid = () => {
-        // Check if all required fields are filled and valid
         return watchFields.name && watchFields.gender && watchFields.role && watchFields.email && watchFields.pw && watchFields.pwconfirm && isValid;
     };
 
-    const onSubmit = (data) => {
-        if (data) {
-            console.log(data);
-            goPolicy(); // 이동은 데이터 유효성 검사가 완료된 후
+    const onSubmit = async (data) => {
+        const payload = {
+            serial_id: data.email,
+            password: data.pw,
+            user_name: data.name,
+            gender: data.gender.toUpperCase(),
+            birth_date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+            role: data.role.toUpperCase(),
+        };
+
+        try {
+            const response = await fetch(proxyUrl + signUpUrl, {
+                method: "POST",
+                body: JSON.stringify(payload),
+            });
+        
+            const result = await response.json(); 
+        
+            if (result.success) {
+                console.log("회원가입 성공:", result);
+        
+                // 회원가입 성공 후 familyId를 받아오기 
+                const familyResponse = await fetch(proxyUrl + familyUrl, {
+                    method: "POST",
+                });
+        
+                const familyResult = await familyResponse.json(); 
+        
+                if (familyResult.success && familyResult.data) {
+                    const familyId = familyResult.data.familyId; // 서버에서 받은 familyId 아마 slice 만들어서 저장할 거 같은데 아직 slice 안해둠 
+                    console.log("가족 ID 설정 성공:", familyId);
+
+                    navigate("/policy", { state: { familyId } });
+        
+                } else {
+                    console.error("가족 ID 설정 실패:", familyResult.error || "Unknown error");
+                }
+        
+            } else {
+                console.error("회원가입 실패:", result.error || "Unknown error");
+            }
+        } catch (error) {
+            console.error("오류:", error);
         }
     };
 

@@ -17,8 +17,25 @@ const ChaName = () => {
   };
 
   const handleConfirm = () => {
-    dispatch(setSavedName(name));
-    navigate('/ChaNameComplete');
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const targetUrl = `https://api.nuz2le.com/api/v1/pet-name/${familyId}`;
+
+    fetch(proxyUrl + targetUrl, {
+      method: 'POST',
+      headers: {},
+      body: JSON.stringify({ 'pet-name': name }),
+    })
+    .then(response => {
+      if (response.ok) {
+        dispatch(setSavedName(name));
+        navigate('/ChaNameComplete'); // POST 요청이 성공하면 페이지 이동
+      } else {
+        console.error('이름 전송 실패');
+      }
+    })
+    .catch(error => {
+      console.error('이름 전송 에러 발생:', error);
+    });
   };
 
   const handleEdit = (event) => {
