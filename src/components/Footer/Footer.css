@@ -52,3 +52,20 @@
   transform: scale(1.1); /* 호버 시 아이콘 크기 확대 */
   transition: transform 0.2s ease-in-out; /* 변환 시 부드러운 전환 효과 */
 }
+.footer-item.active a {
+  color: #ff87b7;
+}
+
+.footer-item.active img {
+  filter: brightness(0) saturate(100%) invert(64%) sepia(40%) saturate(5084%)
+    hue-rotate(297deg) brightness(97%) contrast(91%);
+}
+
+/* peek의 경우 활성화 시 색상 효과를 제거 */
+.footer-item:nth-child(2).active a {
+  color: black;
+}
+
+.footer-item:nth-child(2).active img {
+  filter: none;
+}
