@@ -31,10 +31,11 @@ const Setting = () => {
 
   const handleLogout = async () => {
     const accessToken = "<access_token>";
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     const logoutUrl = "https://api.nuz2le.com/api/v1/auth/logout";
 
     try {
-      const response = await fetch(logoutUrl, {
+      const response = await fetch(proxyUrl + logoutUrl, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,

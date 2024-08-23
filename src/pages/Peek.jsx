@@ -141,7 +141,7 @@ const PageContainer = styled.div`
   align-items: center;
   justify-content: flex-start;
   height: 100vh;
-  background-color: #fff;
+  background-color: #fcfdf5;
   position: relative;
 `;
 
@@ -174,7 +174,7 @@ const NoPhotoMessage = styled.div`
 `;
 
 const NoPhotoImageContainer = styled.div`
-  margin-top: 10px;
+  margin-top: -30px;
 `;
 
 const BoldText = styled.span`

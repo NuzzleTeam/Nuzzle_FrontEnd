@@ -1,6 +1,59 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { PURGE } from "redux-persist";
 
+const name = "UserSlice";
+
+export const userSlice = createSlice({
+  name: "user",
+  initialState: {
+    // user: null,
+    // register: null,
+    // isAuthenticated: false,
+    // status: 'idle',
+    // error: null,
+    userId:null,
+    familyId:null,
+    isLogin: null,
+    accessToken: null,
+    invitationCode:null,
+  },
+  reducers: {
+    login: (state, action) => {
+      state.isLogin = true;
+      state.accessToken = action.payload;
+    },
+    logout: (state) => {
+      state.isLogin = false;
+    },
+    setUserId: (state, action) => {
+      state.userId = action.payload; 
+    },
+    setFamilyId: (state, action) => {
+      state.familyId = action.payload; 
+    },
+    setInvitationCode: (state, action) => {
+      state.invitationCode = action.payload; 
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(PURGE, () => initialState);
+  },
+
+});
+
+export const { login, logout, setUserId, setFamilyId, setInvitationCode } = userSlice.actions;
+export default userSlice.reducer;
+
+export const selectIsLogin = (state) => state.user.isLogin;
+export const selectAccessToken = (state) => state.user.accessToken;
+export const selectUserId = (state) => state.user.userId;
+
+
+
+
+
+
+
 // export const signup = createAsyncThunk(
 //     "auth/signup",
 //     async ({}, thunkAPI) => {
@@ -27,31 +80,8 @@ import { PURGE } from "redux-persist";
 
 // })
 
-const name = "UserSlice";
 
-export const userSlice = createSlice({
-  name: "user",
-  initialState: {
-    // user: null,
-    // register: null,
-    // isAuthenticated: false,
-    // status: 'idle',
-    // error: null,
-    isLogin: null,
-    accessToken: null,
-  },
-  reducers: {
-    login: (state, action) => {
-      state.isLogin = true;
-      state.accessToken = action.payload;
-    },
-    logout: (state) => {
-      state.isLogin = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(PURGE, () => initialState);
-  },
+
   // reducers: {},
   // extraReducers: (builder) => {
   //     builder
@@ -94,10 +124,3 @@ export const userSlice = createSlice({
   // updateUser: (state, action) => {
   //     state.user = action.payload;
   // }
-});
-
-export const { login, logout, registerUser, updateUser } = userSlice.actions;
-export default userSlice.reducer;
-
-export const selectIsLogin = (state) => state.user.isLogin;
-export const selectAccessToken = (state) => state.user.accessToken;

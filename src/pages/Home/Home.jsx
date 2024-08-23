@@ -14,6 +14,7 @@ const Home = () => {
     (state) => state.character.characterImages
   );
   const name = useSelector((state) => state.name.name);
+  const family_id = useSelector((state) => state.user.familyId);
 
   const handleChaClick = () => {
     if (characterImage === "") {
@@ -21,8 +22,30 @@ const Home = () => {
     }
   };
 
-  const handleAddClick = () => {
-    navigate("/connect");
+
+  const handleAddClick = async () => {
+    try {
+      const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+      const targetUrl = `https://api.nuz2le.com/api/family/${family_id}`;
+      
+      const response = await fetch(proxyUrl + targetUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('가족 구성원:', data);
+      navigate("/connect");
+  
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
   };
 
   const handleNameBtnClick = () => {

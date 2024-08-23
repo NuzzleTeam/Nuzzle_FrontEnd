@@ -7,6 +7,10 @@ import DatePicker from "react-datepicker";
 import { useState } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login, setUserId, setFamilyId, setInvitationCode } from "../../features/userSlice"; 
+
+
 // 회원가입 페이지
 
 const years = Array.from({ length: 100 }, (_, i) => ({
@@ -85,10 +89,12 @@ function SignUp() {
   const [date, setDate] = useState(new Date());
   const [btnDisabled, setBtnDisabled] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const proxyUrl = "https://cors-anywhere.herokuapp.com/";
   const signUpUrl = "https://api.nuz2le.com/api/v1/auth/sign-up";
-  const familyUrl = "https://api.nuz2le.com/api/v1/family";
+  const familyUrl = "https://api.nuz2le.com/api/family/create";
+  const userUrl = "https://api.nuz2le.com/api/v1/user";
 
   const {
     register,
@@ -131,7 +137,7 @@ function SignUp() {
   };
 
   const onSubmit = async (data) => {
-    const payload = {
+    const payload = { // post로 서버에 보낼 내용
       serial_id: data.email,
       password: data.pw,
       user_name: data.name,
@@ -143,34 +149,81 @@ function SignUp() {
       role: data.role.toUpperCase(),
     };
 
+    const userPayload = { // userid 받아오기용 정보
+      serial_id: data.email,
+      password: data.pw,
+    };
+
     try {
       const response = await fetch(proxyUrl + signUpUrl, {
         method: "POST",
         body: JSON.stringify(payload),
       });
-
+  
       const result = await response.json();
-
+  
       if (result.success) {
         console.log("회원가입 성공:", result);
-
-        // 회원가입 성공 후 familyId를 받아오기
-        const familyResponse = await fetch(proxyUrl + familyUrl, {
-          method: "POST",
-        });
-
-        const familyResult = await familyResponse.json();
-
-        if (familyResult.success && familyResult.data) {
-          const familyId = familyResult.data.familyId; // 서버에서 받은 familyId 아마 slice 만들어서 저장할 거 같은데 아직 slice 안해둠
-          console.log("가족 ID 설정 성공:", familyId);
-
-          navigate("/policy", { state: { familyId } });
+        
+        const getUserId = async () => {
+          const userResponse = await fetch(proxyUrl + userUrl, {
+            method: "GET",
+          });
+  
+          const userResult = await userResponse.json();
+  
+          if (userResult.success && userResult.data) {
+            return userResult.data.userId;
+          } else {
+            console.error(
+              "유저 id 받아오기 실패:",
+              userResult.error || "Unknown error"
+            );
+            return null;
+          }
+        };
+  
+        // 서버통신시간 고려해서 userId를 못받을 수도 있으니까 1초에 한번씩 재시도 
+        let retries = 5;
+        let userId = null;
+        while (retries > 0) {
+          userId = await getUserId();
+          if (userId) break;
+          await new Promise((resolve) => setTimeout(resolve, 1000)); 
+          retries--;
+        }
+  
+        if (userId) {
+          console.log("유저 id:", userId);
+  
+          const familyPayload = {
+            userId, // 받아온 userId를 사용해서 가족생성api
+          };
+  
+          const familyResponse = await fetch(proxyUrl + familyUrl, {
+            method: "POST",
+            body: JSON.stringify(familyPayload),
+          });
+  
+          const familyResult = await familyResponse.json();
+  
+          if (familyResult.success) {
+            console.log("가족 생성 성공:", familyResult);
+            dispatch(setUserId(userId)); 
+            dispatch(setFamilyId(familyResult.data.familyId));
+            dispatch(setInvitationCode(familyResult.data.invitation_code));//id들, 초대코드 저장하고 이동 
+            navigate("/policy");
+          } else if (familyResponse.status === 409) {
+            console.error("이미 가족이 있습니다:", familyResult.message);
+            navigate("/policy");
+          } else {
+            console.error(
+              "가족 생성 실패:",
+              familyResult.error || "Unknown error"
+            );
+          }
         } else {
-          console.error(
-            "가족 ID 설정 실패:",
-            familyResult.error || "Unknown error"
-          );
+          console.error("userId를 받아오지 못했습니다.");
         }
       } else {
         console.error("회원가입 실패:", result.error || "Unknown error");

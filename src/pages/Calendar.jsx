@@ -26,7 +26,7 @@ const CalendarWrapper = styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
-  background-color: transparent;
+  background-color: #fcfdf5;
   font-family: "Pretendard", sans-serif;
 `;
 
