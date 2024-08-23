@@ -30,7 +30,7 @@ const customStyles = {
     "&:hover": {
       border: "none",
     },
-    background: "none",
+    backgroundColor: "transparent",
   }),
 };
 
