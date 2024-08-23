@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-// Modal Component
-const LogoutModal = ({ showModal, handleClose }) => {
+const LogoutModal = ({ showModal, handleClose, handleLogout }) => {
   if (!showModal) return null;
 
   return (
@@ -12,7 +11,7 @@ const LogoutModal = ({ showModal, handleClose }) => {
         <ModalBody>앱에서 로그아웃 하시겠어요?</ModalBody>
         <ModalFooter>
           <CancelButton onClick={handleClose}>취소</CancelButton>
-          <LogoutButton>로그아웃</LogoutButton>
+          <LogoutButton onClick={handleLogout}>로그아웃</LogoutButton>
         </ModalFooter>
       </ModalContent>
     </ModalOverlay>
@@ -30,10 +29,39 @@ const Setting = () => {
     setShowModal(false);
   };
 
+  const handleLogout = async () => {
+    const accessToken = "<access_token>";
+    const logoutUrl = "https://api.nuz2le.com/api/v1/auth/logout";
+
+    try {
+      const response = await fetch(logoutUrl, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({}),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        console.log("로그아웃 성공:", result);
+      } else {
+        console.error("로그아웃 실패:", result.error || "Unknown error");
+      }
+    } catch (error) {
+      console.error("오류:", error);
+    }
+  };
+
   return (
     <SettingWrapper>
-      {/* Logout Modal */}
-      <LogoutModal showModal={showModal} handleClose={handleCloseModal} />
+      <LogoutModal
+        showModal={showModal}
+        handleClose={handleCloseModal}
+        handleLogout={handleLogout}
+      />
     </SettingWrapper>
   );
 };
@@ -78,7 +106,6 @@ const ModalHeader = styled.h3`
 `;
 
 const ModalBody = styled.p`
-  color: #dfdfdf;
   color: black;
 `;
 
