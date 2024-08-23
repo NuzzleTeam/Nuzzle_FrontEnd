@@ -98,6 +98,9 @@ const Piggybank = () => {
       )}
 
       <Title>저금통 게임</Title>
+      <UpdateMessage>
+        추후 업데이트 될 기능입니다. 임시 페이지를 즐겨주세요.
+      </UpdateMessage>
       <ProgressBar>
         <Filler style={{ width: `${(savings / targetSavings) * 100}%` }} />
       </ProgressBar>
@@ -154,6 +157,13 @@ const TimerDisplay = styled.p`
   font-size: 1.5rem;
   color: #353535;
   margin-bottom: 20px;
+`;
+
+const UpdateMessage = styled.p`
+  font-size: 1rem;
+  color: #ff87b7;
+  margin-bottom: 20px;
+  font-family: "Pretendard", sans-serif;
 `;
 
 const PiggybankWrapper = styled.div`
