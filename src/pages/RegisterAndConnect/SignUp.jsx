@@ -22,6 +22,18 @@ const days = Array.from({ length: 31 }, (_, i) => ({
   label: i + 1,
 }));
 
+const customStyles = {
+  control: (provided) => ({
+    ...provided,
+    border: "none",
+    boxShadow: "none",
+    "&:hover": {
+      border: "none",
+    },
+    background: "none",
+  }),
+};
+
 const CustomDatePicker = ({ selectedDate, onChange }) => {
   const [year, setYear] = useState(selectedDate.getFullYear());
   const [month, setMonth] = useState(selectedDate.getMonth() + 1);
@@ -49,18 +61,21 @@ const CustomDatePicker = ({ selectedDate, onChange }) => {
         value={years.find((y) => y.value === year)}
         onChange={handleYearChange}
         placeholder="Year"
+        styles={customStyles}
       />
       <Select
         options={months}
         value={months.find((m) => m.value === month)}
         onChange={handleMonthChange}
         placeholder="Month"
+        styles={customStyles}
       />
       <Select
         options={days}
         value={days.find((d) => d.value === day)}
         onChange={handleDayChange}
         placeholder="Day"
+        styles={customStyles}
       />
     </DatePickerWrapper>
   );
@@ -278,12 +293,18 @@ function SignUp() {
           </FormBox>
           <FormBox>
             <FormTitle>생년월일</FormTitle>
-            <BirthInputWrapper>
-              <BirthInput placeholder="년" type="text" />
-              <BirthInput placeholder="월" type="text" />
-              <BirthInput placeholder="일" type="text" />
-            </BirthInputWrapper>
+            <Controller
+              name="birthdate"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <CustomDatePicker
+                  selectedDate={value || new Date()}
+                  onChange={onChange}
+                />
+              )}
+            />
           </FormBox>
+
           <FormBox>
             <FormTitle>아이디</FormTitle>
             <FormInput
@@ -353,6 +374,15 @@ function SignUp() {
 }
 
 export default SignUp;
+
+const DatePickerWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+`;
 
 const SignUpWrapper = styled.div`
   width: 100%;
