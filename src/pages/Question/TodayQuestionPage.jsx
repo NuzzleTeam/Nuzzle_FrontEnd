@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import todayCircleRabbitIcon from "../../assets/today_circle_rabbit.png";
 import todayRabbitIcon from "../../assets/today_rabbit.png";
@@ -7,21 +7,44 @@ import uploadIcon from "../../assets/upload.png";
 import questionBubbleImg from "../../assets/question_bubble.png";
 import myModalImage from "../../assets/modal_image.png";
 import modalAlert from "../../assets/modal_alert.png";
+import axios from "axios";
 
 const TodayQuestionPage = () => {
   const [isWriting, setIsWriting] = useState(null);
   const [inputValue, setInputValue] = useState("");
-  const [answers, setAnswers] = useState([
-    "아빠가 사준 첫 스마트폰 (갤럭시s2).아빠가 사준 첫 스마트폰 (갤럭시s2)",
-    "아빠가 사준 첫 스마트폰 (갤럭시s2).아빠가 사준 첫 스마트폰 (갤럭시s2)",
-    "아빠가 사준 첫 스마트폰 (갤럭시s2).아빠가 사준 첫 스마트폰 (갤럭시s2)",
-    "아빠가 사준 첫 스마트폰 (갤럭시s2).아빠가 사준 첫 스마트폰 (갤럭시s2)",
-  ]);
-  const question = "가족에게 받은 선물 중 기억에 남는 것은?";
-  const user = "나";
-  const [hasAnswered, setHasAnswered] = useState(false);
+  const [answers, setAnswers] = useState([]);
+  const [question, setQuestion] = useState("");
+  const [userHasAnswered, setUserHasAnswered] = useState(false);
   const [familyHasAnswered, setFamilyHasAnswered] = useState(false);
+  const [hasFetchedData, setHasFetchedData] = useState(false);
+  const [familyQuestionId, setFamilyQuestionId] = useState(null);
+  const user = "나";
   const navigate = useNavigate();
+  const familyId = "yourFamilyId";
+
+  useEffect(() => {
+    const fetchQuestionAndStatus = async () => {
+      try {
+        const questionResponse = await axios.get(
+          `/api/v1/question/${familyId}/familyQuestion`
+        );
+        setQuestion(questionResponse.data.question);
+        setFamilyQuestionId(questionResponse.data.familyQuestionId);
+        setAnswers(questionResponse.data.familyAnswers || []);
+
+        const answerStatusResponse = await axios.get(
+          `/api/v1/question/${familyId}/${questionResponse.data.familyQuestionId}`
+        );
+        setUserHasAnswered(answerStatusResponse.data.userHasAnswered);
+
+        setHasFetchedData(true);
+      } catch (error) {
+        console.error("Error fetching question and status", error);
+      }
+    };
+
+    fetchQuestionAndStatus();
+  }, [familyId]);
 
   const handleWriteClick = (index) => {
     setIsWriting(index);
@@ -31,14 +54,22 @@ const TodayQuestionPage = () => {
     setInputValue(e.target.value);
   };
 
-  const handleUploadClick = (index) => {
+  const handleUploadClick = async (index) => {
     if (inputValue.trim()) {
-      const newAnswers = [...answers];
-      newAnswers[index] = inputValue;
-      setAnswers(newAnswers);
-      setIsWriting(null);
-      setInputValue("");
-      setHasAnswered(true);
+      try {
+        await axios.post(`/api/v1/answer/${familyQuestionId}`, {
+          answer: inputValue,
+        });
+
+        const newAnswers = [...answers];
+        newAnswers[index] = inputValue;
+        setAnswers(newAnswers);
+        setIsWriting(null);
+        setInputValue("");
+        setUserHasAnswered(true);
+      } catch (error) {
+        console.error("Error submitting answer", error);
+      }
     }
   };
 
@@ -195,14 +226,14 @@ const TodayQuestionPage = () => {
           }
 
           .upload-icon-active {
-            color: #FF87B7;
+            color: #ff87b7;
           }
 
           .question-summary-button {
             position: absolute;
             top: 10px;
             right: 20px;
-            background-color: #FFB1D0;
+            background-color: #ffb1d0;
             border: none;
             border-radius: 20px;
             padding: 10px 20px;
@@ -230,7 +261,7 @@ const TodayQuestionPage = () => {
           }
 
           .modal {
-            background-color: #FFE6EF;
+            background-color: #ffe6ef;
             padding: 20px;
             border-radius: 10px;
             text-align: center;
@@ -272,8 +303,8 @@ const TodayQuestionPage = () => {
         질문 모아보기
       </button>
 
-      {/* MyAnswerModal - Your original modal */}
-      {!hasAnswered && (
+      {/* MyAnswerModal */}
+      {!userHasAnswered && hasFetchedData && (
         <div className="modal-overlay">
           <div className="modal">
             <img
@@ -282,13 +313,13 @@ const TodayQuestionPage = () => {
               className="my-modal-icon"
             />
             <p>내가 먼저 답변을 완료해야 가족들의 답을 볼 수 있어요!</p>
-            <button onClick={() => setHasAnswered(true)}>답하기</button>
+            <button onClick={() => setUserHasAnswered(true)}>답하기</button>
           </div>
         </div>
       )}
 
-      {/* FamilyAnswerModal - New modal */}
-      {!familyHasAnswered && hasAnswered && (
+      {/* FamilyAnswerModal */}
+      {!familyHasAnswered && userHasAnswered && (
         <div
           className="modal-overlay"
           onClick={() => setFamilyHasAnswered(true)}
