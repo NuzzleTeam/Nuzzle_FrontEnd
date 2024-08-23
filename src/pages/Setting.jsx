@@ -62,11 +62,19 @@ const Setting = () => {
         handleClose={handleCloseModal}
         handleLogout={handleLogout}
       />
+      <UpdateMessage>추후 업데이트 될 기능입니다.</UpdateMessage>
     </SettingWrapper>
   );
 };
 
 export default Setting;
+
+const UpdateMessage = styled.p`
+  font-size: 1rem;
+  color: #ff87b7;
+  margin-bottom: 20px;
+  font-family: "Pretendard", sans-serif;
+`;
 
 const SettingWrapper = styled.div`
   display: flex;
