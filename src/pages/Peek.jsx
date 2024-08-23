@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import popupImage from "../../src/assets/popupImage.png";
 import noPhotoImage1 from "../../src/assets/no_photo_1.png";
 import noPhotoImage2 from "../../src/assets/no_photo_2.png";
@@ -12,11 +12,14 @@ const noPhotoImages = [noPhotoImage1, noPhotoImage2, noPhotoImage3];
 const Peek = () => {
   const [photos, setPhotos] = useState({});
   const [familyIndex, setFamilyIndex] = useState(0);
-  const initialEmojis = ["😘", "😢", "😡"];
+  const [initialEmojis, setInitialEmojis] = useState(["😘", "😢", "😡"]);
   const allEmojis = ["😘", "😢", "😡", "❤️", "👍", "❓", "🌸", "💤", "🎉"];
   const [showAllEmojis, setShowAllEmojis] = useState(false);
   const [scatteredEmojis, setScatteredEmojis] = useState([]);
   const navigate = useNavigate();
+  const userId = 2; // 임시로 아이디 지정
+  const currentMember = familyMembers[familyIndex];
+  const currentPhoto = photos[currentMember];
 
   useEffect(() => {
     const loadedPhotos = {};
@@ -27,7 +30,9 @@ const Peek = () => {
       }
     });
     setPhotos(loadedPhotos);
-  }, []);
+
+    fetchRecentEmojis(userId);
+  }, [userId]);
 
   const getRandomNoPhotoImage = () => {
     const randomIndex = Math.floor(Math.random() * noPhotoImages.length);
@@ -42,19 +47,37 @@ const Peek = () => {
     setShowAllEmojis(false);
   };
 
-  const handleEmojiClick = (emoji) => {
-    // Generate scattered emojis randomly positioned within the container
-    const newScatteredEmojis = Array.from({ length: 15 }, (_, index) => ({
-      emoji,
-      id: Date.now() + index,
-      left: Math.random() * 80, // Randomize horizontal position
-      top: Math.random() * 70 + 15, // Randomize vertical position with some offset
-      size: Math.random() * 1.5 + 1, // Randomize size
-    }));
-    setScatteredEmojis(newScatteredEmojis);
+  const handleEmojiClick = async (emoji) => {
+    const emojiIdMap = {
+      "😘": 9,
+      "😢": 3,
+      "😡": 8,
+      "❤️": 4,
+      "👍": 2,
+      "❓": 6,
+      "🌸": 7,
+      "💤": 5,
+      "🎉": 1,
+    };
+    const emojiId = emojiIdMap[emoji];
+    const pictureId = 1; // 임시 picture ID
 
-    // Clear emojis after a delay (optional)
-    setTimeout(() => setScatteredEmojis([]), 4000);
+    try {
+      await registerEmoji(userId, pictureId, emojiId);
+
+      const newScatteredEmojis = Array.from({ length: 15 }, (_, index) => ({
+        emoji,
+        id: Date.now() + index,
+        left: Math.random() * 80,
+        top: Math.random() * 70 + 15,
+        size: Math.random() * 1.5 + 1,
+      }));
+      setScatteredEmojis(newScatteredEmojis);
+
+      setTimeout(() => setScatteredEmojis([]), 4000);
+    } catch (error) {
+      console.error("Failed to register emoji:", error);
+    }
   };
 
   const handleNavigate = () => {
@@ -65,8 +88,36 @@ const Peek = () => {
     setFamilyIndex((prevIndex) => (prevIndex + 1) % familyMembers.length);
   };
 
-  const currentMember = familyMembers[familyIndex];
-  const currentPhoto = photos[currentMember];
+  const fetchRecentEmojis = async (userId) => {
+    try {
+      const response = await fetch(`/api/emoji/users/${userId}/recent-emojis`);
+      if (!response.ok) throw new Error("Failed to fetch recent emojis");
+
+      const data = await response.json();
+      const recentEmojis = data.map((emoji) =>
+        String.fromCodePoint(parseInt(emoji.emojiImg.slice(2), 16))
+      );
+      setInitialEmojis(recentEmojis);
+    } catch (error) {
+      console.error("Error fetching recent emojis:", error);
+    }
+  };
+
+  const registerEmoji = async (userId, pictureId, emojiId) => {
+    try {
+      const response = await fetch(`/api/emoji/pictures/${pictureId}/emojis`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, emojiId }),
+      });
+      if (!response.ok) throw new Error("Failed to register emoji");
+
+      const result = await response.json();
+      console.log("Emoji registered:", result);
+    } catch (error) {
+      console.error("Error registering emoji:", error);
+    }
+  };
 
   return (
     <PageContainer>
@@ -133,8 +184,6 @@ const Peek = () => {
 
 export default Peek;
 
-// Styled Components
-
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -158,7 +207,7 @@ const PhotoContainer = styled.div`
   justify-content: center;
   padding: 20px;
   height: auto;
-  position: relative; /* Ensure emojis are positioned relative to this */
+  position: relative;
 `;
 
 const PhotoItem = styled.div`
