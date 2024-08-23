@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css"; // Import default styles for the calendar
+import "react-calendar/dist/Calendar.css";
 
 const CalendarPage = () => {
   const [date, setDate] = useState(new Date());
@@ -13,16 +13,12 @@ const CalendarPage = () => {
   return (
     <CalendarWrapper>
       <StyledCalendar onChange={handleDateChange} value={date} locale="ko-KR" />
-      <SelectedDate>
-        선택된 날짜: {date.toLocaleDateString("ko-KR")}
-      </SelectedDate>
     </CalendarWrapper>
   );
 };
 
 export default CalendarPage;
 
-// Styled Components
 const CalendarWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -98,7 +94,6 @@ const StyledCalendar = styled(Calendar)`
 `;
 
 const SelectedDate = styled.p`
-  margin-top: 20px;
   font-size: 18px;
   color: #353535;
   font-weight: bold;
