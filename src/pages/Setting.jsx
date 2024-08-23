@@ -1,10 +1,108 @@
-const Setting = () => {
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+
+// Modal Component
+const LogoutModal = ({ showModal, handleClose }) => {
+  if (!showModal) return null;
+
   return (
-    <div>
-      <h2> Our page / 환경설정 </h2>
-      <p>환경설정 페이지입니다!</p>
-    </div>
+    <ModalOverlay>
+      <ModalContent>
+        <ModalHeader>로그아웃 안내</ModalHeader>
+        <ModalBody>앱에서 로그아웃 하시겠어요?</ModalBody>
+        <ModalFooter>
+          <CancelButton onClick={handleClose}>취소</CancelButton>
+          <LogoutButton>로그아웃</LogoutButton>
+        </ModalFooter>
+      </ModalContent>
+    </ModalOverlay>
+  );
+};
+
+const Setting = () => {
+  const [showModal, setShowModal] = useState(true);
+
+  useEffect(() => {
+    setShowModal(true);
+  }, []);
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  return (
+    <SettingWrapper>
+      {/* Logout Modal */}
+      <LogoutModal showModal={showModal} handleClose={handleCloseModal} />
+    </SettingWrapper>
   );
 };
 
 export default Setting;
+
+const SettingWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+`;
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContent = styled.div`
+  width: 300px;
+  background-color: #ffe6f0;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  border: solid #ff87b7 2.3px;
+`;
+
+const ModalHeader = styled.h3`
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-family: "Pretendard";
+`;
+
+const ModalBody = styled.p`
+  color: #dfdfdf;
+  color: black;
+`;
+
+const ModalFooter = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const CancelButton = styled.button`
+  background-color: #dfdfdf;
+  color: black;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+`;
+
+const LogoutButton = styled.button`
+  background-color: #ffb1d0;
+  color: black;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+`;
