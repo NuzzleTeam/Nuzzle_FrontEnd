@@ -62,18 +62,31 @@ function Login() {
     try {
       const response = await fetch(proxyUrl + targetUrl, {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           serial_id: data.username,
           password: data.pw,
         }),
       });
-      const result = await response.json();
+
+      if (!response.ok) {
+        console.error("서버 응답 오류:", response.status, response.statusText);
+        setErrMsg(true);
+        return;
+      }
+
+      const result = await response.json().catch((error) => {
+        console.error("JSON 파싱 오류:", error);
+        throw new Error("Invalid JSON response");
+      });
 
       if (result.success) {
         console.log("로그인 성공:", result);
         setAccessToken(result.data.access_token);
         setErrMsg(false);
-        dispatch(login({ username: data.username, password: data.pw })); // 일단 다른 코드들 안뭉개지게 넣어뒀는데 연결 확실히 되면 안쓸것 같음
+        dispatch(login({ username: data.username, password: data.pw }));
         navigate("/");
       } else {
         console.error("로그인 실패:", result.error);
