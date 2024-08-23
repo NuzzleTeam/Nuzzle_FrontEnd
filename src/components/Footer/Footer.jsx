@@ -12,6 +12,7 @@ const Footer = () => {
       <div className="footer-item home">
         <Link to="/">
           <img className="footer-icon" src={homeIcon} alt="Home" />
+          <p>홈</p>
         </Link>
       </div>
 

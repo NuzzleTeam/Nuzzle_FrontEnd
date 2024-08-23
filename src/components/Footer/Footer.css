@@ -19,6 +19,15 @@
   flex: 1; /* 각 항목이 동일한 크기를 갖도록 함 */
 }
 
+.footer-item p {
+  padding: 0;
+  margin: 0;
+}
+
+.footer-item img {
+  margin-bottom: 0%;
+}
+
 .footer-item a {
   text-decoration: none; /* 밑줄 제거 */
   color: black;
