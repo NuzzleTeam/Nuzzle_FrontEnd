@@ -8,6 +8,7 @@ const PhotoCapturePage = () => {
   const webcamRef = useRef(null);
   const [capturedPhoto, setCapturedPhoto] = useState(null);
   const [flashEnabled, setFlashEnabled] = useState(false);
+  const [uploadStatus, setUploadStatus] = useState("");
 
   const capturePhoto = () => {
     if (flashEnabled) {
@@ -31,6 +32,45 @@ const PhotoCapturePage = () => {
     setFlashEnabled((prev) => !prev);
   };
 
+  const uploadPhoto = async () => {
+    if (!capturedPhoto) return;
+
+    /*
+    캡처된 사진을 blob으로 변환하여 파일로 만듦
+    : fetch로 blob을 생성한 후 이를 File 객체로 변환
+    이미지 업로드
+    : FormData에 이미지를 추가하여 서버에 POST 요청
+    : 서버에 이미지 업로드 후, 성공 또는 실패 상태 메시지를 표시
+    uploadStatus 상태 추가
+    : 이미지 업로드 성공 또는 실패 시 사용자에게 메시지 보냄
+    */
+    const blob = await fetch(capturedPhoto).then((res) => res.blob());
+    const file = new File([blob], "captured_photo.jpg", { type: "image/jpeg" });
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await fetch("/api/v1/picture", {
+        method: "POST",
+        headers: {},
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setUploadStatus(
+          `File successfully uploaded: ${result.fileDownloadUri}`
+        );
+      } else {
+        const errorMessage = await response.text();
+        setUploadStatus(`Failed to upload file: ${errorMessage}`);
+      }
+    } catch (error) {
+      setUploadStatus(`Failed to upload file: ${error.message}`);
+    }
+  };
+
   return (
     <div style={styles.photoCapturePage}>
       {!capturedPhoto ? (
@@ -51,7 +91,7 @@ const PhotoCapturePage = () => {
               <img src={captureIcon} alt="capture" style={styles.bigIcon} />
             </button>
             <button onClick={capturePhoto} style={styles.transitionButton}>
-              <img src={transitionIcon} alt="capture" style={styles.icon} />
+              <img src={transitionIcon} alt="transition" style={styles.icon} />
             </button>
           </div>
         </>
@@ -73,8 +113,11 @@ const PhotoCapturePage = () => {
             <button onClick={retakePhoto} style={styles.retakeButton}>
               다시 찍기
             </button>
-            <button style={styles.uploadButton}>올리기</button>
+            <button onClick={uploadPhoto} style={styles.uploadButton}>
+              올리기
+            </button>
           </div>
+          {uploadStatus && <p>{uploadStatus}</p>} {/* 상태 메시지 출력 */}
         </div>
       )}
     </div>
