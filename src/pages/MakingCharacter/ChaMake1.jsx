@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 
 const ChaMake1 = () => {
   const navigate = useNavigate();
@@ -9,10 +9,10 @@ const ChaMake1 = () => {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      if (selectedColor != '') {
-        navigate('/ChaComplete', { state: { selectedColor } });
+      if (selectedColor != "") {
+        navigate("/ChaComplete", { state: { selectedColor } });
       } else {
-        navigate('/ChaColor');
+        navigate("/ChaColor");
       }
     }, 3000);
 
@@ -21,7 +21,11 @@ const ChaMake1 = () => {
 
   return (
     <Container>
-      {selectedColor ? <CharacterImage src="src/assets/chaMaking2.png" alt="애착이 변신2" /> : <CharacterImage src="src/assets/chaMaking1.png" alt="애착이변신1" />}
+      {selectedColor ? (
+        <CharacterImage src="src/assets/chaMaking2.png" alt="애착이 변신2" />
+      ) : (
+        <CharacterImage src="src/assets/chaMaking1.png" alt="애착이변신1" />
+      )}
     </Container>
   );
 };
@@ -33,14 +37,13 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width:100%;
+  width: 100%;
   height: 100vh;
-  background: linear-gradient(to bottom, #FFB0CF 50%, #FFE1A9 100%);
+  background: linear-gradient(to bottom, #ffb0cf 50%, #ffe1a9 100%);
   background-size: 100% 100%;
-  background-position: center top ;
+  background-position: center top;
   background-repeat: no-repeat;
 `;
-
 
 const CharacterImage = styled.img`
   width: 330px;

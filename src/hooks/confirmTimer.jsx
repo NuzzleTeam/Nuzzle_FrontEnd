@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const INITIAL_TIMER_SECONDS = 180;
 const PHONE_NUMBER_LENGTH = 11;
@@ -67,7 +67,7 @@ function confirmTimer() {
         verified: true,
         message: "인증 성공",
       });
-      navigate('/');
+      navigate("/");
     } else {
       setVerificationStatus({
         sent: true,

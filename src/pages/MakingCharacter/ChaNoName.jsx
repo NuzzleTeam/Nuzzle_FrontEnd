@@ -1,20 +1,19 @@
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
-const ChaNoName = () => {  const navigate = useNavigate();
+const ChaNoName = () => {
+  const navigate = useNavigate();
 
   const goKeyword = () => {
-    navigate('/keyword');
+    navigate("/keyword");
   };
 
   return (
     <Container>
       <Content>
         <Title> 아직 애착이가 없네요.</Title>
-        <Subtitle>
-          아래 버튼을 눌러 애착이를 생성하세요!!
-        </Subtitle>
-          <StyledButton onClick={goKeyword}> 애착이 생성하기 </StyledButton>
+        <Subtitle>아래 버튼을 눌러 애착이를 생성하세요!!</Subtitle>
+        <StyledButton onClick={goKeyword}> 애착이 생성하기 </StyledButton>
       </Content>
     </Container>
   );
@@ -28,8 +27,8 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  width : 100%;
-  background-color: #FCFDF5;
+  width: 100%;
+  background-color: #fcfdf5;
   position: relative;
 `;
 
@@ -47,8 +46,6 @@ const Subtitle = styled.p`
   margin-bottom: 20px;
   color: #777;
 `;
-
-
 
 const StyledButton = styled.button`
   background-color: #ffcccb;

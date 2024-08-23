@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const keywordSlice = createSlice({
-  name: 'keyword',
+  name: "keyword",
   initialState: {
     showAll: false,
     selectedKeywords: [],
@@ -20,5 +20,6 @@ const keywordSlice = createSlice({
   },
 });
 
-export const { setShowAll, setSelectedKeywords, setShowWarning } = keywordSlice.actions;
+export const { setShowAll, setSelectedKeywords, setShowWarning } =
+  keywordSlice.actions;
 export default keywordSlice.reducer;

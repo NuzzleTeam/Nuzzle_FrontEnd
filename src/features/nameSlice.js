@@ -1,11 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const nameSlice = createSlice({
-  name: 'name',
+  name: "name",
   initialState: {
-    name: '',
+    name: "",
     modalOpen: false,
-    savedName: '',
+    savedName: "",
   },
   reducers: {
     setName: (state, action) => {

@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
-import { setColor } from '../../features/colorSlice';
-import { setCharacterImage } from '../../features/characterSlice';
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { useSelector, useDispatch } from "react-redux";
+import { setColor } from "../../features/colorSlice";
+import { setCharacterImage } from "../../features/characterSlice";
 
-const colors = ['#FFB1D0', '#90b4e0', '#cdb29f', '#3a2e29']; // 핑크, 파랑, 갈색, 검정색
+const colors = ["#FFB1D0", "#90b4e0", "#cdb29f", "#3a2e29"]; // 핑크, 파랑, 갈색, 검정색
 //const characterTypes = ['rabbit', 'cat', 'bear']; // 캐릭터 종류
 
 const ChaColor = () => {
@@ -16,49 +16,51 @@ const ChaColor = () => {
   const dispatch = useDispatch();
 
   const characterImages = {
-    '#FFB1D0': {
-      rabbit: '/src/assets/chaMake/pinkrabbit.gif',
-      cat: '/src/assets/chaMake/pinkcat.gif',
-      bear: '/src/assets/chaMake/pinkbear.gif',
+    "#FFB1D0": {
+      rabbit: "/src/assets/chaMake/pinkrabbit.gif",
+      cat: "/src/assets/chaMake/pinkcat.gif",
+      bear: "/src/assets/chaMake/pinkbear.gif",
     },
-    '#90b4e0': {
-    rabbit: '/src/assets/chaMake/bluerabbit.gif',
-    cat: '/src/assets/chaMake/bluecat.gif',
-    bear: '/src/assets/chaMake/bluebear.gif',
-  },
-    '#3a2e29': {
-      rabbit: '/src/assets/chaMake/blackrabbit.gif',
-      cat: '/src/assets/chaMake/blackcat.gif',
-      bear: '/src/assets/chaMake/blackbear.gif',
+    "#90b4e0": {
+      rabbit: "/src/assets/chaMake/bluerabbit.gif",
+      cat: "/src/assets/chaMake/bluecat.gif",
+      bear: "/src/assets/chaMake/bluebear.gif",
     },
-    '#cdb29f': {
-      rabbit: '/src/assets/chaMake/brownrabbit.gif',
-      cat: '/src/assets/chaMake/browncat.gif',
-      bear: '/src/assets/chaMake/brownbear.gif',
+    "#3a2e29": {
+      rabbit: "/src/assets/chaMake/blackrabbit.gif",
+      cat: "/src/assets/chaMake/blackcat.gif",
+      bear: "/src/assets/chaMake/blackbear.gif",
+    },
+    "#cdb29f": {
+      rabbit: "/src/assets/chaMake/brownrabbit.gif",
+      cat: "/src/assets/chaMake/browncat.gif",
+      bear: "/src/assets/chaMake/brownbear.gif",
     },
   };
 
   useEffect(() => {
     // 프록시 서버를 이용한 fetch 요청
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const targetUrl = 'https://api.nuz2le.com/api/v1/auth/sign-up';
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    const targetUrl = "https://api.nuz2le.com/api/v1/auth/sign-up";
 
     fetch(proxyUrl + targetUrl, {
-      method: 'GET',
+      method: "GET",
     })
-    .then(response => response.json())
-    .then(data => {
-      const fetchedCharacter = data['pet-random']; // 캐릭터 종류 받아오고 
-      setRandomCharacter(fetchedCharacter); // 일단 state 써서 저장해놓자 
+      .then((response) => response.json())
+      .then((data) => {
+        const fetchedCharacter = data["pet-random"]; // 캐릭터 종류 받아오고
+        setRandomCharacter(fetchedCharacter); // 일단 state 써서 저장해놓자
 
-      // 해당 캐릭터와 초기 색상에 맞는 이미지 설정
-      const initialColor = colors[0]; 
-      dispatch(setColor(initialColor)); // 초기 색상은 핑크로 설정
-      dispatch(setCharacterImage(characterImages[initialColor][fetchedCharacter])); // fetchedCharacter 종류에 맞는 핑크색 캐릭터 띄우기
-    })
-    .catch(error => {
-      console.error('Error fetching data:', error);
-    });
+        // 해당 캐릭터와 초기 색상에 맞는 이미지 설정
+        const initialColor = colors[0];
+        dispatch(setColor(initialColor)); // 초기 색상은 핑크로 설정
+        dispatch(
+          setCharacterImage(characterImages[initialColor][fetchedCharacter])
+        ); // fetchedCharacter 종류에 맞는 핑크색 캐릭터 띄우기
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
   }, []);
 
   const handleColorClick = (color) => {
@@ -70,24 +72,24 @@ const ChaColor = () => {
 
   const handleSelectClick = () => {
     if (selectedColor) {
-      const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+      const proxyUrl = "https://cors-anywhere.herokuapp.com/";
       const targetUrl = `https://api.nuz2le.com/api/v1/pet-color/${familyId}`; // familyId는 어디서 받냐
 
-      fetch(proxyUrl + targetUrl, { 
-        method: 'POST',
+      fetch(proxyUrl + targetUrl, {
+        method: "POST",
         headers: {},
-        body: JSON.stringify({ 'pet-color': selectedColor }),
+        body: JSON.stringify({ "pet-color": selectedColor }),
       })
-      .then(response => {
-        if (response.ok) {
-          navigate('/ChaMake1'); // POST 요청이 성공하면 페이지 이동
-        } else {
-          console.error('애착이 색 전송 실패');
-        }
-      })
-      .catch(error => {
-        console.error('애착이 색 전송 오류:', error);
-      });
+        .then((response) => {
+          if (response.ok) {
+            navigate("/ChaMake1"); // POST 요청이 성공하면 페이지 이동
+          } else {
+            console.error("애착이 색 전송 실패");
+          }
+        })
+        .catch((error) => {
+          console.error("애착이 색 전송 오류:", error);
+        });
     }
   };
 
@@ -108,8 +110,8 @@ const ChaColor = () => {
           />
         ))}
       </ColorOptions>
-      <SelectButton 
-        disabled={!selectedColor} 
+      <SelectButton
+        disabled={!selectedColor}
         onClick={handleSelectClick}
         isselected={selectedColor ? "true" : "false"}
       >
@@ -126,7 +128,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  background-color: #FCFDF5;
+  background-color: #fcfdf5;
   padding: 20px;
   position: relative;
 `;
@@ -134,10 +136,9 @@ const Container = styled.div`
 const Title = styled.h1`
   font-size: 24px;
   margin-bottom: 10px;
-  font-family: 'Pretendard';
-  font-weight : bold; 
+  font-family: "Pretendard";
+  font-weight: bold;
 `;
-
 
 const CharacterContainer = styled.div`
   width: 400px;
@@ -152,12 +153,12 @@ const CharacterImage = styled.img`
 `;
 
 const Horizonline = styled.div`
-  width: 326.5px; 
+  width: 326.5px;
   height: 0.5px;
   position: absolute;
-  bottom: 370px ; 
-  background-color: #8e8e8e; 
-  box-shadow: 0 0 0 0.5px #8e8e8e; 
+  bottom: 370px;
+  background-color: #8e8e8e;
+  box-shadow: 0 0 0 0.5px #8e8e8e;
 `;
 
 const ColorOptions = styled.div`
@@ -167,7 +168,6 @@ const ColorOptions = styled.div`
   max-width: 380px;
   margin-bottom: 50px;
   margin-top: -30px;
-
 `;
 
 const ColorButton = styled.button`
@@ -177,7 +177,7 @@ const ColorButton = styled.button`
   border: none;
   background-color: ${(props) => props.color};
   cursor: pointer;
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   position: relative;
   &:focus {
     outline: none;
@@ -191,9 +191,10 @@ const ColorButton = styled.button`
 `;
 
 const SelectButton = styled.button`
-  background-color: ${(props) => (props.isselected === "true" ? '#FFB1D0' : '#ccc')};
+  background-color: ${(props) =>
+    props.isselected === "true" ? "#FFB1D0" : "#ccc"};
   color: black;
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-weight: bold;
   font-size: 16px;
   border: none;
@@ -202,7 +203,7 @@ const SelectButton = styled.button`
   border-radius: 40px;
   bottom: 20px;
   width: 205px;
-  height:50px;
+  height: 50px;
   &:disabled {
     cursor: not-allowed;
   }

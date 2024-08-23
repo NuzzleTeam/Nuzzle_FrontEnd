@@ -1,15 +1,15 @@
-import { useSelector, useDispatch } from 'react-redux';
-import { setName, setSavedName } from '../../features/nameSlice';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { useRef } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { setName, setSavedName } from "../../features/nameSlice";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { useRef } from "react";
 
 const ChaName = () => {
   const name = useSelector((state) => state.name.name);
   const characterImage = useSelector((state) => state.character.characterImage);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const inputRef = useRef(null);
 
   const handleChange = (event) => {
@@ -17,45 +17,53 @@ const ChaName = () => {
   };
 
   const handleConfirm = () => {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
     const targetUrl = `https://api.nuz2le.com/api/v1/pet-name/${familyId}`;
 
     fetch(proxyUrl + targetUrl, {
-      method: 'POST',
+      method: "POST",
       headers: {},
-      body: JSON.stringify({ 'pet-name': name }),
+      body: JSON.stringify({ "pet-name": name }),
     })
-    .then(response => {
-      if (response.ok) {
-        dispatch(setSavedName(name));
-        navigate('/ChaNameComplete'); // POST 요청이 성공하면 페이지 이동
-      } else {
-        console.error('이름 전송 실패');
-      }
-    })
-    .catch(error => {
-      console.error('이름 전송 에러 발생:', error);
-    });
+      .then((response) => {
+        if (response.ok) {
+          dispatch(setSavedName(name));
+          navigate("/ChaNameComplete"); // POST 요청이 성공하면 페이지 이동
+        } else {
+          console.error("이름 전송 실패");
+        }
+      })
+      .catch((error) => {
+        console.error("이름 전송 에러 발생:", error);
+      });
   };
 
   const handleEdit = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     if (inputRef.current) {
-      inputRef.current.focus(); 
+      inputRef.current.focus();
     }
   };
 
   return (
     <Container>
-      {name.length > 0
-        ? <Title>정말 멋진 아이디어 같아요!</Title>
-        : <Title>아직 <span style={{ color: '#FFB1D0' }}>애착이의 애칭이</span> 없네요. <br />가족들과 상의하여 이름을 정해주면 어떨까요?</Title>}
-      
-      <form onSubmit={(e) => e.preventDefault()}> {/* Prevent form submission */}
-        <Input 
-          type="text" 
-          value={name} 
-          onChange={handleChange} 
+      {name.length > 0 ? (
+        <Title>정말 멋진 아이디어 같아요!</Title>
+      ) : (
+        <Title>
+          아직 <span style={{ color: "#FFB1D0" }}>애착이의 애칭이</span> 없네요.{" "}
+          <br />
+          가족들과 상의하여 이름을 정해주면 어떨까요?
+        </Title>
+      )}
+
+      <form onSubmit={(e) => e.preventDefault()}>
+        {" "}
+        {/* Prevent form submission */}
+        <Input
+          type="text"
+          value={name}
+          onChange={handleChange}
           placeholder="애착이 이름"
           hastext={name.length > 0 ? "true" : "false"}
           ref={inputRef} // Attach ref to input
@@ -66,13 +74,12 @@ const ChaName = () => {
         </ImageContainer>
         {name.length > 0 && (
           <>
-          <Message>정말 {name}로 지으실 건가요? 🤔</Message>
-          <ButtonGroup>
-            <StyledButton onClick={handleEdit}>수정하기</StyledButton>
-            <StyledButton onClick={handleConfirm}>YES</StyledButton>
-          </ButtonGroup>
+            <Message>정말 {name}로 지으실 건가요? 🤔</Message>
+            <ButtonGroup>
+              <StyledButton onClick={handleEdit}>수정하기</StyledButton>
+              <StyledButton onClick={handleConfirm}>YES</StyledButton>
+            </ButtonGroup>
           </>
-          
         )}
       </form>
     </Container>
@@ -88,14 +95,14 @@ const Container = styled.div`
   justify-content: flex-start;
   height: 100vh;
   width: 100%;
-  background-color: #FCFDF5;
+  background-color: #fcfdf5;
   position: relative;
   padding-top: 20px;
 `;
 
 const Title = styled.div`
   font-size: 20px;
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-weight: bold;
   text-align: left;
   padding: 0 5px;
@@ -104,9 +111,9 @@ const Title = styled.div`
 
 const Subtitle = styled.p`
   font-size: 12px;
-  margin-top:-5px;
+  margin-top: -5px;
   margin-bottom: 40px;
-  color: #FFB1D0;
+  color: #ffb1d0;
   text-align: left;
   padding: 0 15px;
 `;
@@ -115,19 +122,20 @@ const Input = styled.input`
   margin: 10px 12px;
   border: none;
   border-radius: 10px;
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
   font-weight: bold;
-  font-size:18px;
+  font-size: 18px;
   padding-left: 15px;
   width: 343px;
   height: 51px;
-  background-color: ${props => (props.hastext === "true" ? '#FFB1D0' : '#eeeeee')};
-  z-index: 3; 
-  position: relative; 
+  background-color: ${(props) =>
+    props.hastext === "true" ? "#FFB1D0" : "#eeeeee"};
+  z-index: 3;
+  position: relative;
   &:focus {
-        border: none; 
-        outline: none; 
-    }
+    border: none;
+    outline: none;
+  }
 `;
 
 const ImageContainer = styled.div`
@@ -149,7 +157,7 @@ const Image = styled.img`
 const Message = styled.div`
   font-size: 18px;
   text-align: center;
-  font-family: 'Pretendard';
+  font-family: "Pretendard";
 `;
 
 const ButtonGroup = styled.div`
@@ -172,6 +180,7 @@ const StyledButton = styled.button`
   width: 168px;
   height: 50px;
   z-index: 2;
-  opacity: ${props => (props.disabled ? 0.5 : 1)};  // 비활성화 시 투명도 변경
-  pointer-events: ${props => (props.disabled ? 'none' : 'auto')}; // 비활성화 시 클릭 막기
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)}; // 비활성화 시 투명도 변경
+  pointer-events: ${(props) =>
+    props.disabled ? "none" : "auto"}; // 비활성화 시 클릭 막기
 `;
