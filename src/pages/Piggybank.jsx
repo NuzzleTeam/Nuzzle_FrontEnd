@@ -28,7 +28,7 @@ const Piggybank = () => {
     if (gameStarted && timer > 0 && savings < targetSavings) {
       const countdown = setTimeout(() => {
         setTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
+      }, 500);
       return () => clearTimeout(countdown);
     } else if (gameStarted && timer === 0 && savings < targetSavings) {
       setShowGameOverPopup(true);
