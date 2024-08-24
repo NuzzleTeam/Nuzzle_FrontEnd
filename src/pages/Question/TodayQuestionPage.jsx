@@ -312,7 +312,10 @@ const TodayQuestionPage = () => {
               alt="my-modal-icon"
               className="my-modal-icon"
             />
-            <p>내가 먼저 답변을 완료해야 가족들의 답을 볼 수 있어요!</p>
+            <p>
+              내가 먼저 답변을 완료해야 <br />
+              가족들의 답을 볼 수 있어요!
+            </p>
             <button onClick={() => setUserHasAnswered(true)}>답하기</button>
           </div>
         </div>
