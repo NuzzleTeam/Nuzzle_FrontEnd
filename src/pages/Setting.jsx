@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const LogoutModal = ({ showModal, handleClose, handleLogout }) => {
   if (!showModal) return null;
@@ -19,6 +20,7 @@ const LogoutModal = ({ showModal, handleClose, handleLogout }) => {
 };
 
 const Setting = () => {
+  const navigate = useNavigate();
   const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
@@ -48,11 +50,14 @@ const Setting = () => {
 
       if (result.success) {
         console.log("로그아웃 성공:", result);
+        navigate("/firstpage");
       } else {
         console.error("로그아웃 실패:", result.error || "Unknown error");
+        navigate("/firstpage");//나중에 지우기
       }
     } catch (error) {
       console.error("오류:", error);
+      navigate("/firstpage");// 나중에 지우기 
     }
   };
 

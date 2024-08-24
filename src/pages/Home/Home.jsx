@@ -168,9 +168,8 @@ const CharacterImage = styled.img`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 100%;
+  width: ${(props) => (props.isMoving ? "90%" : "100%")};
   z-index: 2;
-  transition: top 0.5s ease;
   top: ${(props) => (props.isMoving ? "-100px" : "0px")}; // 애니메이션을 위한 조건부 스타일
 `;
 

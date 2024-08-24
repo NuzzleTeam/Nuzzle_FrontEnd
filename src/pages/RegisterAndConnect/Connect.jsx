@@ -152,6 +152,7 @@ function Connect() {
       }
     } catch (error) {
       console.error('Fetch error:', error);
+      navigate("/connect/complete");// 나중ㅇ ㅔ지우기
     }
   };
 

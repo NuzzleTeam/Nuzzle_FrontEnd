@@ -93,9 +93,7 @@ function SignUp() {
 
   const proxyUrl = "https://cors-anywhere.herokuapp.com/";
   const signUpUrl = "https://api.nuz2le.com/api/v1/auth/sign-up";
-  const familyUrl = "https://api.nuz2le.com/api/family/create";
-  const userUrl = "https://api.nuz2le.com/api/v1/user";
-
+  
   const {
     register,
     handleSubmit,
@@ -159,7 +157,7 @@ function SignUp() {
 
         if (result.success) {
             console.log("회원가입 성공:", result);
-            navagate("/policy");// 성공하면 이동 
+            navigate("/policy");// 성공하면 이동 
           
         } else {
             console.log(JSON.stringify(payload, null, 2));
@@ -265,8 +263,8 @@ function SignUp() {
                   </FormBtn>
                   <FormBtn
                     type="button"
-                    onClick={() => onChange("children")}
-                    selected={value === "children"}
+                    onClick={() => onChange("child")}
+                    selected={value === "child"}
                   >
                     자녀
                   </FormBtn>
@@ -370,7 +368,7 @@ const DatePickerWrapper = styled.div`
   justify-content: center;
   gap: 15px;
   padding: 20px;
-  background-color: #f9f9f9;
+  background-color: #f3f3f3;
   border-radius: 10px;
 `;
 

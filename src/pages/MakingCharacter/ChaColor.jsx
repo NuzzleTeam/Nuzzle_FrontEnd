@@ -68,6 +68,7 @@ const ChaColor = () => {
       });
   }, []);
 */
+
   useEffect(() => {
     // 랜덤 캐릭터의 초기 색상에 맞는 이미지 설정
     const initialColor = colors[0];

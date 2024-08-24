@@ -17,7 +17,7 @@ const ChaNameComplete = () => {
         {savedName}! 우리 가족을 잘 부탁해~
       </Title>
       <CharacterImage src={characterImages[characterImage]} alt="애착이" />
-      <StyledButton onClick={() => navigate("/")}>완료하기</StyledButton>
+      <StyledButton onClick={() => navigate("/chaComplete")}>완료하기</StyledButton>
     </Container>
   );
 };
