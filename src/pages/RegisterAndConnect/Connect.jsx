@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useSelector , useDispatch } from "react-redux";
-import { setInvitationCode } from "../../features/userSlice"; 
+import { setInvitationCode, setUserId, setFamilyId } from "../../features/userSlice"; 
 
 // 가족 연결 페이지
 
@@ -16,10 +16,11 @@ function Connect() {
   const familyId = useSelector((state) => state.user.familyId);
   const userId = useSelector((state) => state.user.userId);
   const invitationCode= useSelector((state) => state.user.invitationCode);
+  const accessToken= useSelector((state) => state.user.accessToken)
 
 
   const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-  const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/invitation-code`;
+  const targetUrl = 'https://api.nuz2le.com/api/family/create';
 
 
   const [linkModal, setLinkModal] = useState(false);
@@ -31,18 +32,31 @@ function Connect() {
 
   useEffect(() => {
     const fetchInvitationCode = async () => {
+      const requestBody = {
+        "userId": 53,
+      };
       try {
         const response = await fetch(proxyUrl + targetUrl, {
-          method: "GET",
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+          },
+          body:{
+            body: JSON.stringify(requestBody), 
+          }
         });
 
         if (response.ok) {
           const data = await response.json();
-          dispatch(setInvitationCode(data.invitation_code));
+          dispatch(setInvitationCode("abcd-1234-efgh-5678"));
+          console.log("성공");
         } else if (response.status === 404) {
           console.error("가족을 찾을 수 없습니다.");
         } else {
           console.error("서버 응답 에러:", response.statusText);
+          dispatch(setInvitationCode("abcd-1234-efgh-5678")); // 일단 1이랑 초대코드 넣기
+          dispatch(setFamilyId(1));
         }
       } catch (error) {
         console.error("오류:", error);
@@ -90,9 +104,9 @@ function Connect() {
     }
   };
 
-  const handleCopyCode = async (text) => { // 초대코드 입력했을 때 fetch
+  const handleCopyCode = async (text) => { // 초대코드 눌렀을 때 복사되게 
     try {
-      await navigator.clipboard.writeText(text);
+      await navigator.clipboard.writeText("abcd-1234-efgh-5678");
     } catch (err) {
       console.log(err);
     }
@@ -115,6 +129,10 @@ function Connect() {
     try {
       const response = await fetch(proxyUrl + targetUrl, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+        },
         body: JSON.stringify(requestBody),
       });
 
@@ -122,6 +140,7 @@ function Connect() {
 
       if (response.ok) {
         console.log('Success:', responseData);
+        navigate("/connect/complete");
       } else {
         if (responseData.message === 'User is already in a family') {
           console.error('Error: User is already in a family');

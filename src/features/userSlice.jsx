@@ -11,8 +11,8 @@ export const userSlice = createSlice({
     // isAuthenticated: false,
     // status: 'idle',
     // error: null,
-    userId:null,
-    familyId:null,
+    userId:1,
+    familyId:1,
     isLogin: null,
     accessToken: null,
     invitationCode:null,
@@ -34,6 +34,9 @@ export const userSlice = createSlice({
     setInvitationCode: (state, action) => {
       state.invitationCode = action.payload; 
     },
+    setAccessToken: (state, action) => {
+      state.accessToken = action.payload; 
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(PURGE, () => initialState);
@@ -41,7 +44,7 @@ export const userSlice = createSlice({
 
 });
 
-export const { login, logout, setUserId, setFamilyId, setInvitationCode } = userSlice.actions;
+export const { login, logout, setUserId, setFamilyId, setInvitationCode , setAccessToken} = userSlice.actions;
 export default userSlice.reducer;
 
 export const selectIsLogin = (state) => state.user.isLogin;

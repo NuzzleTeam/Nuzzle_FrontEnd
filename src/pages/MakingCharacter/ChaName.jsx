@@ -6,6 +6,7 @@ import { useRef } from "react";
 
 const ChaName = () => {
   const name = useSelector((state) => state.name.name);
+  const familyId = useSelector((state) => state.user.familyId);
   const characterImage = useSelector((state) => state.character.characterImage);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -18,12 +19,14 @@ const ChaName = () => {
 
   const handleConfirm = () => {
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-    const targetUrl = `https://api.nuz2le.com/api/v1/pet-name/${familyId}`;
+    const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/pet-name`;
 
     fetch(proxyUrl + targetUrl, {
       method: "POST",
-      headers: {},
-      body: JSON.stringify({ "pet-name": name }),
+      headers: {
+        "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+      },
+      body: JSON.stringify({ "petName": name }),
     })
       .then((response) => {
         if (response.ok) {
@@ -31,6 +34,8 @@ const ChaName = () => {
           navigate("/ChaNameComplete"); // POST 요청이 성공하면 페이지 이동
         } else {
           console.error("이름 전송 실패");
+          dispatch(setSavedName(name)); // 나중에 지우기
+          navigate("/ChaNameComplete");
         }
       })
       .catch((error) => {
@@ -155,8 +160,9 @@ const Image = styled.img`
 `;
 
 const Message = styled.div`
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
+  font-weight:600;
   font-family: "Pretendard";
 `;
 
@@ -178,6 +184,9 @@ const StyledButton = styled.button`
   margin: 10px;
   border-radius: 30px;
   width: 168px;
+  font-size: 16px;
+  font-weight:bold;
+  font-family: "Pretendard";
   height: 50px;
   z-index: 2;
   opacity: ${(props) => (props.disabled ? 0.5 : 1)}; // 비활성화 시 투명도 변경

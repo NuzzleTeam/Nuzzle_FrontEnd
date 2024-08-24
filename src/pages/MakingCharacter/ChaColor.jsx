@@ -6,12 +6,13 @@ import { setColor } from "../../features/colorSlice";
 import { setCharacterImage } from "../../features/characterSlice";
 
 const colors = ["#FFB1D0", "#90b4e0", "#cdb29f", "#3a2e29"]; // 핑크, 파랑, 갈색, 검정색
-//const characterTypes = ['rabbit', 'cat', 'bear']; // 캐릭터 종류
+const characterTypes = ['rabbit', 'cat', 'bear']; // 캐릭터 종류
 
 const ChaColor = () => {
-  const [randomCharacter, setRandomCharacter] = useState(null); // 초기값 null로 설정
+  const [randomCharacter, setRandomCharacter] = useState(characterTypes[Math.floor(Math.random() * characterTypes.length)]);
   const selectedColor = useSelector((state) => state.color.selectedColor);
   const characterImage = useSelector((state) => state.character.characterImage);
+  const familyId = useSelector((state) => state.user.familyId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,17 +38,21 @@ const ChaColor = () => {
       bear: "/src/assets/chaMake/brownbear.gif",
     },
   };
-
+/*
   useEffect(() => {
     // 프록시 서버를 이용한 fetch 요청
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-    const targetUrl = "https://api.nuz2le.com/api/v1/auth/sign-up";
+    const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/assign-random-pet`;
 
     fetch(proxyUrl + targetUrl, {
-      method: "GET",
+      method: "PATCH",
+      headers:{
+        "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+      }
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         const fetchedCharacter = data["pet-random"]; // 캐릭터 종류 받아오고
         setRandomCharacter(fetchedCharacter); // 일단 state 써서 저장해놓자
 
@@ -62,33 +67,42 @@ const ChaColor = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
+*/
+  useEffect(() => {
+    // 랜덤 캐릭터의 초기 색상에 맞는 이미지 설정
+    const initialColor = colors[0];
+    dispatch(setColor(initialColor)); // 초기 색상 설정
+    dispatch(setCharacterImage(characterImages[initialColor][randomCharacter])); // 랜덤 캐릭터 이미지 설정
+  }, [dispatch, randomCharacter])
 
   const handleColorClick = (color) => {
-    if (randomCharacter) {
-      dispatch(setColor(color));
-      dispatch(setCharacterImage(characterImages[color][randomCharacter]));
-    }
+    dispatch(setColor(color));
+    dispatch(setCharacterImage(characterImages[color][randomCharacter]));
   };
 
   const handleSelectClick = () => {
     if (selectedColor) {
       const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-      const targetUrl = `https://api.nuz2le.com/api/v1/pet-color/${familyId}`; // familyId는 어디서 받냐
+      const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/pet-color`; // familyId는 어디서 받냐
 
       fetch(proxyUrl + targetUrl, {
         method: "POST",
-        headers: {},
-        body: JSON.stringify({ "pet-color": selectedColor }),
+        headers:{
+          "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+        },
+        body: JSON.stringify({ selectedColor }),
       })
         .then((response) => {
           if (response.ok) {
-            navigate("/ChaMake1"); // POST 요청이 성공하면 페이지 이동
+            navigate("/ChaName"); // POST 요청이 성공하면 페이지 이동
           } else {
             console.error("애착이 색 전송 실패");
+            navigate("/ChaName");
           }
         })
         .catch((error) => {
           console.error("애착이 색 전송 오류:", error);
+          navigate("/ChaName");
         });
     }
   };

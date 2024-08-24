@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setCharacterImage,
@@ -7,11 +8,12 @@ import {
 import styled from "styled-components";
 
 const Home = () => {
+  const [isMoving, setIsMoving] = useState(false); // 캐릭터 애니메이션 스타일 관리 위해 추가된 상태
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const characterImage = useSelector((state) => state.character.characterImage);
-  const characterImages = useSelector(
-    (state) => state.character.characterImages
+  const characterImages2 = useSelector(
+    (state) => state.character.characterImages2
   );
   const name = useSelector((state) => state.name.name);
   const family_id = useSelector((state) => state.user.familyId);
@@ -32,6 +34,7 @@ const Home = () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g",
         },
       });
       
@@ -50,19 +53,23 @@ const Home = () => {
 
   const handleNameBtnClick = () => {
     if (characterImage === "") {
-      navigate("/ChaNoName");
+      navigate("/keyword");
     } else {
       navigate("/ChaName");
     }
   };
 
   const handleBtnClick = () => {
-    const nextImage = characterImages[characterImage];
+    const nextImage = characterImages2[characterImage];
     if (nextImage && nextImage !== characterImage) {
       dispatch(setCharacterImage(nextImage));
+      console.log(characterImage);
+      setIsMoving(true); 
+
       setTimeout(() => {
+        setIsMoving(false); 
         dispatch(resetCharacterImage());
-      }, 3000);
+      }, 5000);
     }
   };
 
@@ -92,7 +99,11 @@ const Home = () => {
             onClick={handleChaClick}
           />
         ) : (
-          <CharacterImage src={characterImage} alt="애착이" />
+          <CharacterImage 
+            src={characterImage} 
+            alt="애착이"
+            isMoving={isMoving} 
+          />
         )}
       </ImageContainer>
 
@@ -102,14 +113,14 @@ const Home = () => {
             style={{ bottom: "100px" }}
             onClick={handleNameBtnClick}
           >
-            애착이 이름지어주기
+            애착이 생성하기
           </MakeNameButton>
         ) : (
           <MakeNameButton
             style={{ bottom: "150px" }}
             onClick={handleNameBtnClick}
           >
-            애착이 이름지어주기
+            애착이 생성하기
           </MakeNameButton>
         )
       ) : (
@@ -159,13 +170,15 @@ const CharacterImage = styled.img`
   transform: translateX(-50%);
   width: 100%;
   z-index: 2;
+  transition: top 0.5s ease;
+  top: ${(props) => (props.isMoving ? "-100px" : "0px")}; // 애니메이션을 위한 조건부 스타일
 `;
 
 const FirstCharacterImage = styled.img`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 95%;
+  width: 90%;
   z-index: 2;
   top: 20px;
 `;

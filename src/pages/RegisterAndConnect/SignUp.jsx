@@ -137,101 +137,38 @@ function SignUp() {
   };
 
   const onSubmit = async (data) => {
-    const payload = { // post로 서버에 보낼 내용
-      serial_id: data.email,
-      password: data.pw,
-      user_name: data.name,
-      gender: data.gender.toUpperCase(),
-      birth_date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-        2,
-        "0"
-      )}-${String(date.getDate()).padStart(2, "0")}`,
-      role: data.role.toUpperCase(),
-    };
-
-    const userPayload = { // userid 받아오기용 정보
-      serial_id: data.email,
-      password: data.pw,
+    const payload = {
+        serial_id: data.email,
+        password: data.pw,
+        user_name: data.name,
+        gender: data.gender.toUpperCase(),
+        birth_date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`,
+        role: data.role.toUpperCase(),
     };
 
     try {
-      const response = await fetch(proxyUrl + signUpUrl, {
-        method: "POST",
-        body: JSON.stringify(payload),
-      });
-  
-      const result = await response.json();
-  
-      if (result.success) {
-        console.log("회원가입 성공:", result);
-        
-        const getUserId = async () => {
-          const userResponse = await fetch(proxyUrl + userUrl, {
-            method: "GET",
-          });
-  
-          const userResult = await userResponse.json();
-  
-          if (userResult.success && userResult.data) {
-            return userResult.data.userId;
-          } else {
-            console.error(
-              "유저 id 받아오기 실패:",
-              userResult.error || "Unknown error"
-            );
-            return null;
-          }
-        };
-  
-        // 서버통신시간 고려해서 userId를 못받을 수도 있으니까 1초에 한번씩 재시도 
-        let retries = 5;
-        let userId = null;
-        while (retries > 0) {
-          userId = await getUserId();
-          if (userId) break;
-          await new Promise((resolve) => setTimeout(resolve, 1000)); 
-          retries--;
-        }
-  
-        if (userId) {
-          console.log("유저 id:", userId);
-  
-          const familyPayload = {
-            userId, // 받아온 userId를 사용해서 가족생성api
-          };
-  
-          const familyResponse = await fetch(proxyUrl + familyUrl, {
+        const response = await fetch(proxyUrl + signUpUrl, {
             method: "POST",
-            body: JSON.stringify(familyPayload),
-          });
-  
-          const familyResult = await familyResponse.json();
-  
-          if (familyResult.success) {
-            console.log("가족 생성 성공:", familyResult);
-            dispatch(setUserId(userId)); 
-            dispatch(setFamilyId(familyResult.data.familyId));
-            dispatch(setInvitationCode(familyResult.data.invitation_code));//id들, 초대코드 저장하고 이동 
-            navigate("/policy");
-          } else if (familyResponse.status === 409) {
-            console.error("이미 가족이 있습니다:", familyResult.message);
-            navigate("/policy");
-          } else {
-            console.error(
-              "가족 생성 실패:",
-              familyResult.error || "Unknown error"
-            );
-          }
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log("회원가입 성공:", result);
+            navagate("/policy");// 성공하면 이동 
+          
         } else {
-          console.error("userId를 받아오지 못했습니다.");
+            console.log(JSON.stringify(payload, null, 2));
+            console.error("회원가입 실패:", result.error || "Unknown error");
         }
-      } else {
-        console.error("회원가입 실패:", result.error || "Unknown error");
-      }
     } catch (error) {
-      console.error("오류:", error);
+        console.error("오류 발생:", error.message || error);
     }
-  };
+};
 
   useEffect(() => {
     const allFieldsFilled = Object.values(watchFields).every((value) => value);
@@ -289,15 +226,15 @@ function SignUp() {
                 <FormBtnWrapper onChange={onChange} value={value}>
                   <FormBtn
                     type="button"
-                    onClick={() => onChange("F")}
-                    selected={value === "F"}
+                    onClick={() => onChange("FEMALE")}
+                    selected={value === "FEMALE"}
                   >
                     여자
                   </FormBtn>
                   <FormBtn
                     type="button"
-                    onClick={() => onChange("M")}
-                    selected={value === "M"}
+                    onClick={() => onChange("MALE")}
+                    selected={value === "MALE"}
                   >
                     남자
                   </FormBtn>
@@ -328,8 +265,8 @@ function SignUp() {
                   </FormBtn>
                   <FormBtn
                     type="button"
-                    onClick={() => onChange("child")}
-                    selected={value === "child"}
+                    onClick={() => onChange("children")}
+                    selected={value === "children"}
                   >
                     자녀
                   </FormBtn>

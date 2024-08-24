@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { GoStop } from "react-icons/go";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { login, selectIsLogin } from "../../features/userSlice";
+import { login, selectIsLogin, setAccessToken } from "../../features/userSlice";
 
 // 로그인
 
 function Login() {
   const dispatch = useDispatch();
+  const accessToken = useSelector((state) => state.user.accessToken);
   const isLogin = useSelector(selectIsLogin);
 
   const navigate = useNavigate();
@@ -29,7 +30,6 @@ function Login() {
   const [errMsg, setErrMsg] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(false);
 
-  const [accessToken, setAccessToken] = useState(null);
 
   const proxyUrl = "https://cors-anywhere.herokuapp.com/";
   const targetUrl = "https://api.nuz2le.com/api/v1/auth/login";
@@ -59,29 +59,31 @@ function Login() {
   } = useForm();
 
   const handleLogin = async (data) => {
+    const formData = new FormData();
+    formData.append("serial_id", data.userid);
+    formData.append("password", data.pw);
+  
     try {
       const response = await fetch(proxyUrl + targetUrl, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          serial_id: data.username,
-          password: data.pw,
-        }),
+        body: formData,  
       });
-
+  
       if (!response.ok) {
+        console.log(formData);
+        for (let [key, value] of formData.entries()) {
+          console.log(key, value);
+        }
         console.error("서버 응답 오류:", response.status, response.statusText);
         setErrMsg(true);
         return;
       }
-
+  
       const result = await response.json().catch((error) => {
         console.error("JSON 파싱 오류:", error);
         throw new Error("Invalid JSON response");
       });
-
+  
       if (result.success) {
         console.log("로그인 성공:", result);
         setAccessToken(result.data.access_token);
@@ -97,7 +99,6 @@ function Login() {
       setErrMsg(true);
     }
   };
-
   /*
     const handleLogin = (data) => {
         dispatch(login({ username: data.username, password: data.pw }));
@@ -131,8 +132,8 @@ function Login() {
             <InputBox
               placeholder="아이디 입력"
               type="text"
-              id="username"
-              {...register("username", { required: "아이디 입력" })}
+              id="userid"
+              {...register("userid", { required: "아이디 입력" })}
               onChange={(e) => isIdTrim(e.target.value)}
             ></InputBox>
             <InputBox
