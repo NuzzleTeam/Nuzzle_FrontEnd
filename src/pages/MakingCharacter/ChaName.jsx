@@ -40,6 +40,7 @@ const ChaName = () => {
       })
       .catch((error) => {
         console.error("이름 전송 에러 발생:", error);
+        navigate("/ChaNameComplete");
       });
   };
 

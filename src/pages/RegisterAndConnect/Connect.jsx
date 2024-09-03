@@ -32,18 +32,16 @@ function Connect() {
 
   useEffect(() => {
     const fetchInvitationCode = async () => {
-      const requestBody = {
-        "userId": 53,
-      };
+
       try {
         const response = await fetch(proxyUrl + targetUrl, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
-            "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+            "Authorization":`Bearer ${accessToken}`
           },
           body:{
-            body: JSON.stringify(requestBody), 
+            "userId": userId,
           }
         });
 
@@ -56,7 +54,7 @@ function Connect() {
         } else {
           console.error("서버 응답 에러:", response.statusText);
           dispatch(setInvitationCode("abcd-1234-efgh-5678")); // 일단 1이랑 초대코드 넣기
-          dispatch(setFamilyId(1));
+          dispatch(setFamilyId(1)); // 이거 수정
         }
       } catch (error) {
         console.error("오류:", error);
@@ -111,8 +109,33 @@ function Connect() {
       console.log(err);
     }
   };
-  const goToHome = () => {
-    navigate("/");
+  const goToHome = async () => {
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const targetUrl = 'https://api.nuz2le.com/api/family/create';
+
+    try {
+      const response = await fetch(proxyUrl + targetUrl , {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`, 
+        },
+        body:{
+          userId
+        }
+      });
+  
+      if (!response.ok) {
+        throw new Error(`오류: ${response.status}`);
+      }
+  
+
+      console.log(response,"홈버튼 클릭");
+
+      navigate("/");
+    } catch (error) {
+      console.error('Fetch error:', error);
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -153,6 +176,7 @@ function Connect() {
     } catch (error) {
       console.error('Fetch error:', error);
       navigate("/connect/complete");// 나중ㅇ ㅔ지우기
+
     }
   };
 

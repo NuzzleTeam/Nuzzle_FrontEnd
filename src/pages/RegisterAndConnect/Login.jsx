@@ -86,9 +86,10 @@ function Login() {
   
       if (result.success) {
         console.log("로그인 성공:", result);
-        setAccessToken(result.data.access_token);
+        dispatch(setAccessToken(result.data.access_token)); // 로그인 시 토큰 state에 저장 
+        console.log(result.data.access_token);
         setErrMsg(false);
-        dispatch(login({ username: data.username, password: data.pw }));
+        //dispatch(login({ username: data.username, password: data.pw }));
         navigate("/");
       } else {
         console.error("로그인 실패:", result.error);

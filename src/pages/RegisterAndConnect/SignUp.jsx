@@ -7,8 +7,8 @@ import DatePicker from "react-datepicker";
 import { useState } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { login, setUserId, setFamilyId, setInvitationCode } from "../../features/userSlice"; 
+import { useSelector, useDispatch } from "react-redux";
+import { login, setUserId, setInvitationCode , setAccessToken } from "../../features/userSlice"; 
 
 
 // 회원가입 페이지
@@ -89,7 +89,6 @@ function SignUp() {
   const [date, setDate] = useState(new Date());
   const [btnDisabled, setBtnDisabled] = useState(true);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const proxyUrl = "https://cors-anywhere.herokuapp.com/";
   const signUpUrl = "https://api.nuz2le.com/api/v1/auth/sign-up";

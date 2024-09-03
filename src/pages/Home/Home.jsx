@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   setCharacterImage,
   resetCharacterImage,
 } from "../../features/characterSlice";
 import styled from "styled-components";
+import picimg from "../../assets/msgimg.png";
+import { setUserId, setFamilyId } from "../../features/userSlice";
 
 const Home = () => {
   const [isMoving, setIsMoving] = useState(false); // 캐릭터 애니메이션 스타일 관리 위해 추가된 상태
@@ -16,7 +18,36 @@ const Home = () => {
     (state) => state.character.characterImages2
   );
   const name = useSelector((state) => state.name.name);
-  const family_id = useSelector((state) => state.user.familyId);
+  const userId = useSelector((state) => state.user.userId);
+  const familyId = useSelector((state) => state.user.familyId);
+  const accessToken = useSelector((state) => state.user.accessToken);
+
+  useEffect(() => {
+    const fetchUserId = async () => { // home 화면 오면, userId 받아서 넣을거임
+      try {
+        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        const targetUrl = `https://api.nuz2le.com/api/v1/user`;
+
+        const response = await fetch(proxyUrl + targetUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${accessToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        dispatch(setUserId(data.data.userId));
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
+    fetchUserId();
+  }, [dispatch, accessToken]);
 
   const handleChaClick = () => {
     if (characterImage === "") {
@@ -24,28 +55,65 @@ const Home = () => {
     }
   };
 
-
   const handleAddClick = async () => {
-    try {
+    try {// 누른 순간 가족생성 api 돌려서 없으면 생성 후 familyId 저장  
       const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-      const targetUrl = `https://api.nuz2le.com/api/family/${family_id}`;
-      
-      const response = await fetch(proxyUrl + targetUrl, {
+      const createFamilyUrl = `https://api.nuz2le.com/api/family/create`;
+
+      const createFamilyResponse = await fetch(proxyUrl + createFamilyUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ userId }), 
+      });
+
+      if (!createFamilyResponse.ok) {
+        if (createFamilyResponse.status === 409) {
+          console.log('User is already in a family.');// 이미 가족에 포함된 경우ㅡ familyId 있음
+          const getFamilyMembersUrl = `https://api.nuz2le.com/api/family/${familyId}`;
+          const getFamilyResponse = await fetch(proxyUrl + getFamilyMembersUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${accessToken}`,
+          },
+      });
+      if (!getFamilyResponse.ok) {
+        throw new Error(`HTTP error! status: ${getFamilyResponse.status}`);
+      }
+
+      const data = await getFamilyResponse.json();
+      console.log('가족 구성원1:', data);
+      navigate("/connect");
+          
+        }
+        throw new Error(`HTTP error! status: ${createFamilyResponse.status}`);
+      }
+
+      const familyData = await createFamilyResponse.json();
+      console.log('가족이 만들어졌습니다:', familyData);
+      dispatch(setFamilyId(familyData.family_id));
+
+      // 가족 구성원 목록을 불러오기 위해 familyId를 사용
+      const getFamilyMembersUrl = `https://api.nuz2le.com/api/family/${familyId}`;
+      const response = await fetch(proxyUrl + getFamilyMembersUrl, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g",
+          "Authorization": `Bearer ${accessToken}`,
         },
       });
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const data = await response.json();
-      console.log('가족 구성원:', data);
+      console.log('가족 구성원2:', data);
       navigate("/connect");
-  
+
     } catch (error) {
       console.error('Fetch error:', error);
     }
@@ -63,15 +131,18 @@ const Home = () => {
     const nextImage = characterImages2[characterImage];
     if (nextImage && nextImage !== characterImage) {
       dispatch(setCharacterImage(nextImage));
-      console.log(characterImage);
-      setIsMoving(true); 
+      setIsMoving(true);
 
       setTimeout(() => {
-        setIsMoving(false); 
+        setIsMoving(false);
         dispatch(resetCharacterImage());
       }, 5000);
     }
   };
+
+  console.log("가족 id", familyId);
+  console.log("userId", userId);
+  console.log("토큰", accessToken);
 
   return (
     <HomePage>
@@ -81,7 +152,7 @@ const Home = () => {
       ></AddButton>
       {characterImage !== "" && (
         <MakeimgButton>
-          <ImgButton src="/src/assets/msgimg.png"></ImgButton>
+          <ImgButton src={picimg}></ImgButton>
           <ImgButton src="/src/assets/conimg.png"></ImgButton>
           <ImgButton src="/src/assets/picimg.png"></ImgButton>
         </MakeimgButton>
@@ -129,6 +200,7 @@ const Home = () => {
     </HomePage>
   );
 };
+
 
 const HomePage = styled.div`
   display: flex;
