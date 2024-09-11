@@ -17,7 +17,7 @@ const TodayQuestionPage = () => {
   const [userHasAnswered, setUserHasAnswered] = useState(false);
   const [familyHasAnswered, setFamilyHasAnswered] = useState(false);
   const [hasFetchedData, setHasFetchedData] = useState(false);
-  const [familyQuestionId, setFamilyQuestionId] = useState(null);
+  const [questionId, setquestionId] = useState(null);
   const user = "나";
   const navigate = useNavigate();
   const familyId = "yourFamilyId";
@@ -26,20 +26,23 @@ const TodayQuestionPage = () => {
     const fetchQuestionAndStatus = async () => {
       try {
         const questionResponse = await axios.get(
-          `/api/v1/question/${familyId}/familyQuestion`
+          `/api/questions/random-question`
         );
-        setQuestion(questionResponse.data.question);
-        setFamilyQuestionId(questionResponse.data.familyQuestionId);
-        setAnswers(questionResponse.data.familyAnswers || []);
+        setQuestion(questionResponse.data.questionContents);
+        setquestionId(questionResponse.data.questionId);
+        setAnswers([]);
 
         const answerStatusResponse = await axios.get(
-          `/api/v1/question/${familyId}/${questionResponse.data.familyQuestionId}`
+          `/api/answer-status/${questionResponse.data.questionId}`
         );
-        setUserHasAnswered(answerStatusResponse.data.userHasAnswered);
+        const userAnswered =
+          answerStatusResponse.data.message === "Question has been answered.";
+        setUserHasAnswered(userAnswered);
 
         setHasFetchedData(true);
       } catch (error) {
         console.error("Error fetching question and status", error);
+        alert("문제를 불러오는데 실패했습니다. 나중에 다시 시도해 주세요.");
       }
     };
 
@@ -57,7 +60,8 @@ const TodayQuestionPage = () => {
   const handleUploadClick = async (index) => {
     if (inputValue.trim()) {
       try {
-        await axios.post(`/api/v1/answer/${familyQuestionId}`, {
+        await axios.post(`/api/questions/answer`, {
+          questionId: questionId,
           answer: inputValue,
         });
 
@@ -247,7 +251,7 @@ const TodayQuestionPage = () => {
             background-color: #e0e0e0;
           }
 
-          .modal-overlay {
+          .modal-overlay-answer {
             position: fixed;
             top: 0;
             left: 0;
@@ -260,30 +264,26 @@ const TodayQuestionPage = () => {
             z-index: 1000;
           }
 
-          .modal {
+          .modal-answer {
             background-color: #ffe6ef;
-            padding: 20px;
+            padding: 20px 85px;
             border-radius: 10px;
             text-align: center;
             font-family: "Pretendard";
+            top: 180px;
+            position: relative;
           }
 
-          .modal img {
+          .modal-answer img {
             width: 150px;
-            margin-bottom: 20px;
           }
 
-          .alert-modal-icon {
-            width: 20px !important;
-            margin-bottom: 0px !important;
-          }
-
-          .modal p {
-            margin-bottom: 20px;
+          .modal-answer p {
+            margin: 15px;
             font-size: 16px;
           }
 
-          .modal button {
+          .modal-answer button {
             background-color: white;
             border: none;
             border-radius: 20px;
@@ -291,6 +291,55 @@ const TodayQuestionPage = () => {
             font-size: 14px;
             cursor: pointer;
             font-family: "Pretendard";
+          }
+
+          .alert-modal-icon {
+            width: 20px !important;
+          }
+
+          .modal-overlay-wake {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+          }
+
+          .modal-wake {
+            background-color: #ffe6ef;
+            padding: 20px 35px;
+            border-radius: 10px;
+            text-align: center;
+            font-family: "Pretendard";
+            border: 1px solid #FF87B7;
+            top: 230px;
+            position: relative;
+          }
+
+          .modal-wake img {
+            width: 150px;
+          }
+
+          .modal-wake p {
+            margin: 15px;
+            font-size: 16px;
+            font-weight: bold;
+          }
+
+          .modal-wake button {
+            background-color: #FFB1D0;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 130px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: "Pretendard";
+            font-weight: bold;
           }
         `}
       </style>
@@ -305,8 +354,8 @@ const TodayQuestionPage = () => {
 
       {/* MyAnswerModal */}
       {!userHasAnswered && hasFetchedData && (
-        <div className="modal-overlay">
-          <div className="modal">
+        <div className="modal-overlay-answer">
+          <div className="modal-answer">
             <img
               src={myModalImage}
               alt="my-modal-icon"
@@ -324,16 +373,19 @@ const TodayQuestionPage = () => {
       {/* FamilyAnswerModal */}
       {!familyHasAnswered && userHasAnswered && (
         <div
-          className="modal-overlay"
+          className="modal-overlay-wake"
           onClick={() => setFamilyHasAnswered(true)}
         >
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-wake" onClick={(e) => e.stopPropagation()}>
             <img
               src={modalAlert}
               alt="alert-modal-icon"
               className="alert-modal-icon"
             />
-            <p>어제의 질문에 따미님이 답을 아직 안했어요!</p>
+            <p>
+              어제의 질문에 <span style={{ color: "#FF87B7" }}>따미</span>님이
+              답을 아직 안했어요!
+            </p>
             <button onClick={handleFamilyAnswer}>깨우기</button>
           </div>
         </div>
