@@ -11,14 +11,16 @@ export const userSlice = createSlice({
     // isAuthenticated: false,
     // status: 'idle',
     // error: null,
-    userId:1,
-    familyId:1,
+    userId:null,
+    familyId:null,
+    serialId:null,
+    password:null,
     isLogin: null,
     accessToken: null,
     invitationCode:null,
   },
   reducers: {
-    login: (state, action) => {
+    login: (state, action) => { // 여기에 토큰있네 
       state.isLogin = true;
       state.accessToken = action.payload;
     },
@@ -30,6 +32,12 @@ export const userSlice = createSlice({
     },
     setFamilyId: (state, action) => {
       state.familyId = action.payload; 
+    },
+    setSerialId: (state, action) => {
+      state.serialId = action.payload; 
+    },
+    setPassword: (state, action) => {
+      state.password = action.payload; 
     },
     setInvitationCode: (state, action) => {
       state.invitationCode = action.payload; 
@@ -44,12 +52,17 @@ export const userSlice = createSlice({
 
 });
 
-export const { login, logout, setUserId, setFamilyId, setInvitationCode , setAccessToken} = userSlice.actions;
+export const { login, logout, setUserId, setFamilyId, setInvitationCode , setAccessToken , setPassword, setSerialId} = userSlice.actions;
 export default userSlice.reducer;
 
 export const selectIsLogin = (state) => state.user.isLogin;
 export const selectAccessToken = (state) => state.user.accessToken;
 export const selectUserId = (state) => state.user.userId;
+export const selectFamilyId = (state) => state.user.familyId;
+export const selectInvitaionCode = (state) => state.user.invitationCode;
+export const selectSerialId = (state) => state.user.serialId;
+export const selectPassword = (state) => state.user.password;
+
 
 
 
