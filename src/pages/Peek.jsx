@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import popupImage from "../../src/assets/popupImage.png";
@@ -20,6 +20,8 @@ const Peek = () => {
   const userId = 2; // 임시로 아이디 지정
   const currentMember = familyMembers[familyIndex];
   const currentPhoto = photos[currentMember];
+  const [lastScrollTime, setLastScrollTime] = useState(0);
+  const scrollDelay = 650;
 
   useEffect(() => {
     const loadedPhotos = {};
@@ -84,9 +86,39 @@ const Peek = () => {
     navigate("/today-question");
   };
 
-  const nextFamilyMember = () => {
-    setFamilyIndex((prevIndex) => (prevIndex + 1) % familyMembers.length);
+  const nextFamilyMember = (direction) => {
+    setFamilyIndex((prevIndex) => {
+      if (direction === "next") {
+        return (prevIndex + 1) % familyMembers.length;
+      } else {
+        return (prevIndex - 1 + familyMembers.length) % familyMembers.length;
+      }
+    });
   };
+
+  const handleScroll = useCallback(
+    (event) => {
+      const currentTime = new Date().getTime();
+
+      // 마지막 스크롤로부터 충분한 시간이 지나면 가족 변경
+      if (currentTime - lastScrollTime > scrollDelay) {
+        if (event.deltaY > 0) {
+          nextFamilyMember("next"); // 아래로 스크롤 시
+        } else {
+          nextFamilyMember("prev"); // 위로 스크롤 시
+        }
+        setLastScrollTime(currentTime);
+      }
+    },
+    [lastScrollTime]
+  );
+
+  useEffect(() => {
+    window.addEventListener("wheel", handleScroll);
+    return () => {
+      window.removeEventListener("wheel", handleScroll);
+    };
+  }, [handleScroll]);
 
   const fetchRecentEmojis = async (userId) => {
     try {
@@ -165,7 +197,6 @@ const Peek = () => {
           </NoPhotoMessage>
         )}
       </PhotoContainer>
-      <NextButton onClick={nextFamilyMember}>다음 가족 보기</NextButton>
       {scatteredEmojis.map(({ emoji, id, left, top, size }) => (
         <ScatteredEmoji
           key={id}
@@ -205,7 +236,7 @@ const PhotoContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding-top: 20px;
   height: auto;
   position: relative;
 `;
@@ -228,14 +259,6 @@ const NoPhotoImageContainer = styled.div`
 
 const BoldText = styled.span`
   font-weight: bold;
-`;
-
-const NextButton = styled.button`
-  padding: 10px 20px;
-  background-color: #ffcccc;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
 `;
 
 const EmojiContainer = styled.div`
