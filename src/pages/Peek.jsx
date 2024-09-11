@@ -5,6 +5,7 @@ import popupImage from "../../src/assets/popupImage.png";
 import noPhotoImage1 from "../../src/assets/no_photo_1.png";
 import noPhotoImage2 from "../../src/assets/no_photo_2.png";
 import noPhotoImage3 from "../../src/assets/no_photo_3.png";
+import peekRabbit from "../../src/assets/peek_rabbit.png";
 
 const familyMembers = ["막내", "엄마", "아빠", "동생"];
 const noPhotoImages = [noPhotoImage1, noPhotoImage2, noPhotoImage3];
@@ -12,6 +13,7 @@ const noPhotoImages = [noPhotoImage1, noPhotoImage2, noPhotoImage3];
 const Peek = () => {
   const [photos, setPhotos] = useState({});
   const [familyIndex, setFamilyIndex] = useState(0);
+  const [hasViewedAll, setHasViewedAll] = useState(false); // 새로운 상태 추가
   const [initialEmojis, setInitialEmojis] = useState(["😘", "😢", "😡"]);
   const allEmojis = ["😘", "😢", "😡", "❤️", "👍", "❓", "🌸", "💤", "🎉"];
   const [showAllEmojis, setShowAllEmojis] = useState(false);
@@ -29,6 +31,10 @@ const Peek = () => {
       const savedPhoto = localStorage.getItem(`${member}Photo`);
       if (savedPhoto) {
         loadedPhotos[member] = savedPhoto;
+      } else {
+        const dummyImage = "https://via.placeholder.com/150"; // 더미 이미지
+        localStorage.setItem(`${member}Photo`, dummyImage);
+        loadedPhotos[member] = dummyImage;
       }
     });
     setPhotos(loadedPhotos);
@@ -71,7 +77,7 @@ const Peek = () => {
         emoji,
         id: Date.now() + index,
         left: Math.random() * 80,
-        top: Math.random() * 70 + 15,
+        top: Math.random() * 15, // 이모지가 화면 위에서 시작하도록 설정
         size: Math.random() * 1.5 + 1,
       }));
       setScatteredEmojis(newScatteredEmojis);
@@ -88,11 +94,20 @@ const Peek = () => {
 
   const nextFamilyMember = (direction) => {
     setFamilyIndex((prevIndex) => {
-      if (direction === "next") {
-        return (prevIndex + 1) % familyMembers.length;
-      } else {
-        return (prevIndex - 1 + familyMembers.length) % familyMembers.length;
+      const nextIndex =
+        direction === "next"
+          ? (prevIndex + 1) % familyMembers.length
+          : (prevIndex - 1 + familyMembers.length) % familyMembers.length;
+
+      // 마지막 멤버를 본 후 다시 첫 번째 멤버로 돌아오는 경우에 성공 메시지 표시
+      if (nextIndex === 0 && prevIndex === familyMembers.length - 1) {
+        setHasViewedAll(true); // 모든 멤버의 사진을 다 봤을 때 상태 변경
+        setTimeout(() => {
+          navigate("/"); // 메인 페이지로 리다이렉트
+        }, 3000); // 3초 후 메인 페이지로 이동
       }
+
+      return nextIndex;
     });
   };
 
@@ -100,17 +115,16 @@ const Peek = () => {
     (event) => {
       const currentTime = new Date().getTime();
 
-      // 마지막 스크롤로부터 충분한 시간이 지나면 가족 변경
-      if (currentTime - lastScrollTime > scrollDelay) {
+      if (currentTime - lastScrollTime > scrollDelay && currentPhoto) {
         if (event.deltaY > 0) {
-          nextFamilyMember("next"); // 아래로 스크롤 시
+          nextFamilyMember("next");
         } else {
-          nextFamilyMember("prev"); // 위로 스크롤 시
+          nextFamilyMember("prev");
         }
         setLastScrollTime(currentTime);
       }
     },
-    [lastScrollTime]
+    [lastScrollTime, currentPhoto]
   );
 
   useEffect(() => {
@@ -123,7 +137,15 @@ const Peek = () => {
   const fetchRecentEmojis = async (userId) => {
     try {
       const response = await fetch(`/api/emoji/users/${userId}/recent-emojis`);
-      if (!response.ok) throw new Error("Failed to fetch recent emojis");
+      if (!response.ok)
+        throw new Error(
+          `Failed to fetch recent emojis, status: ${response.status}`
+        );
+
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Expected JSON response, but got something else");
+      }
 
       const data = await response.json();
       const recentEmojis = data.map((emoji) =>
@@ -150,6 +172,14 @@ const Peek = () => {
       console.error("Error registering emoji:", error);
     }
   };
+
+  if (hasViewedAll) {
+    return (
+      <SuccessMessageContainer>
+        <img src={peekRabbit} />
+      </SuccessMessageContainer>
+    );
+  }
 
   return (
     <PageContainer>
@@ -263,25 +293,31 @@ const BoldText = styled.span`
 
 const EmojiContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.8);
   padding: 10px;
   border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
 `;
 
 const EmojiButton = styled.button`
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 22px;
   cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 
 const ScatteredEmoji = styled.div`
   position: absolute;
-  animation: fadeInOut 4s ease-in-out;
+  animation: drop 4s ease-in-out, fadeInOut 4s ease-in-out;
+
   @keyframes fadeInOut {
     0% {
       opacity: 0;
@@ -296,6 +332,25 @@ const ScatteredEmoji = styled.div`
       opacity: 0;
     }
   }
+
+  @keyframes drop {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(150vh);
+    }
+  }
+`;
+
+const SuccessMessageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+  color: black;
+  font-size: 2em;
 `;
 
 const imageElementStyle = {
