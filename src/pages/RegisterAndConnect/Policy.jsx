@@ -7,8 +7,8 @@ function Policy() {
   const backToLogin = () => {
     navigate("/login");
   };
-  const goToConnect = () => {
-    navigate("/connect");
+  const goToLogin = () => {
+    navigate("/login");
   };
 
   const [checkList, setCheckList] = useState([]);
@@ -118,7 +118,7 @@ function Policy() {
           </ConfirmBox>
           <AgreeBtn
             style={{ backgroundColor: buttonColor }}
-            onClick={goToConnect}
+            onClick={goToLogin}
             disabled={btnDisabled}
           >
             동의하기

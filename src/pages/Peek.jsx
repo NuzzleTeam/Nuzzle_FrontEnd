@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import popupImage from "../../src/assets/popupImage.png";
 import noPhotoImage1 from "../../src/assets/no_photo_1.png";
 import noPhotoImage2 from "../../src/assets/no_photo_2.png";
 import noPhotoImage3 from "../../src/assets/no_photo_3.png";
+import peekRabbit from "../../src/assets/peek_rabbit.png";
 
 const familyMembers = ["막내", "엄마", "아빠", "동생"];
 const noPhotoImages = [noPhotoImage1, noPhotoImage2, noPhotoImage3];
@@ -12,6 +13,7 @@ const noPhotoImages = [noPhotoImage1, noPhotoImage2, noPhotoImage3];
 const Peek = () => {
   const [photos, setPhotos] = useState({});
   const [familyIndex, setFamilyIndex] = useState(0);
+  const [hasViewedAll, setHasViewedAll] = useState(false); // 새로운 상태 추가
   const [initialEmojis, setInitialEmojis] = useState(["😘", "😢", "😡"]);
   const allEmojis = ["😘", "😢", "😡", "❤️", "👍", "❓", "🌸", "💤", "🎉"];
   const [showAllEmojis, setShowAllEmojis] = useState(false);
@@ -20,6 +22,8 @@ const Peek = () => {
   const userId = 2; // 임시로 아이디 지정
   const currentMember = familyMembers[familyIndex];
   const currentPhoto = photos[currentMember];
+  const [lastScrollTime, setLastScrollTime] = useState(0);
+  const scrollDelay = 650;
 
   useEffect(() => {
     const loadedPhotos = {};
@@ -27,6 +31,10 @@ const Peek = () => {
       const savedPhoto = localStorage.getItem(`${member}Photo`);
       if (savedPhoto) {
         loadedPhotos[member] = savedPhoto;
+      } else {
+        const dummyImage = "https://via.placeholder.com/150"; // 더미 이미지
+        localStorage.setItem(`${member}Photo`, dummyImage);
+        loadedPhotos[member] = dummyImage;
       }
     });
     setPhotos(loadedPhotos);
@@ -69,7 +77,7 @@ const Peek = () => {
         emoji,
         id: Date.now() + index,
         left: Math.random() * 80,
-        top: Math.random() * 70 + 15,
+        top: Math.random() * 15, // 이모지가 화면 위에서 시작하도록 설정
         size: Math.random() * 1.5 + 1,
       }));
       setScatteredEmojis(newScatteredEmojis);
@@ -84,14 +92,60 @@ const Peek = () => {
     navigate("/today-question");
   };
 
-  const nextFamilyMember = () => {
-    setFamilyIndex((prevIndex) => (prevIndex + 1) % familyMembers.length);
+  const nextFamilyMember = (direction) => {
+    setFamilyIndex((prevIndex) => {
+      const nextIndex =
+        direction === "next"
+          ? (prevIndex + 1) % familyMembers.length
+          : (prevIndex - 1 + familyMembers.length) % familyMembers.length;
+
+      // 마지막 멤버를 본 후 다시 첫 번째 멤버로 돌아오는 경우에 성공 메시지 표시
+      if (nextIndex === 0 && prevIndex === familyMembers.length - 1) {
+        setHasViewedAll(true); // 모든 멤버의 사진을 다 봤을 때 상태 변경
+        setTimeout(() => {
+          navigate("/"); // 메인 페이지로 리다이렉트
+        }, 3000); // 3초 후 메인 페이지로 이동
+      }
+
+      return nextIndex;
+    });
   };
+
+  const handleScroll = useCallback(
+    (event) => {
+      const currentTime = new Date().getTime();
+
+      if (currentTime - lastScrollTime > scrollDelay && currentPhoto) {
+        if (event.deltaY > 0) {
+          nextFamilyMember("next");
+        } else {
+          nextFamilyMember("prev");
+        }
+        setLastScrollTime(currentTime);
+      }
+    },
+    [lastScrollTime, currentPhoto]
+  );
+
+  useEffect(() => {
+    window.addEventListener("wheel", handleScroll);
+    return () => {
+      window.removeEventListener("wheel", handleScroll);
+    };
+  }, [handleScroll]);
 
   const fetchRecentEmojis = async (userId) => {
     try {
       const response = await fetch(`/api/emoji/users/${userId}/recent-emojis`);
-      if (!response.ok) throw new Error("Failed to fetch recent emojis");
+      if (!response.ok)
+        throw new Error(
+          `Failed to fetch recent emojis, status: ${response.status}`
+        );
+
+      const contentType = response.headers.get("content-type");
+      if (!contentType || !contentType.includes("application/json")) {
+        throw new Error("Expected JSON response, but got something else");
+      }
 
       const data = await response.json();
       const recentEmojis = data.map((emoji) =>
@@ -118,6 +172,14 @@ const Peek = () => {
       console.error("Error registering emoji:", error);
     }
   };
+
+  if (hasViewedAll) {
+    return (
+      <SuccessMessageContainer>
+        <img src={peekRabbit} />
+      </SuccessMessageContainer>
+    );
+  }
 
   return (
     <PageContainer>
@@ -165,7 +227,6 @@ const Peek = () => {
           </NoPhotoMessage>
         )}
       </PhotoContainer>
-      <NextButton onClick={nextFamilyMember}>다음 가족 보기</NextButton>
       {scatteredEmojis.map(({ emoji, id, left, top, size }) => (
         <ScatteredEmoji
           key={id}
@@ -205,7 +266,7 @@ const PhotoContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding-top: 20px;
   height: auto;
   position: relative;
 `;
@@ -230,35 +291,33 @@ const BoldText = styled.span`
   font-weight: bold;
 `;
 
-const NextButton = styled.button`
-  padding: 10px 20px;
-  background-color: #ffcccc;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-`;
-
 const EmojiContainer = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.8);
   padding: 10px;
   border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
 `;
 
 const EmojiButton = styled.button`
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 22px;
   cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
 `;
 
 const ScatteredEmoji = styled.div`
   position: absolute;
-  animation: fadeInOut 4s ease-in-out;
+  animation: drop 4s ease-in-out, fadeInOut 4s ease-in-out;
+
   @keyframes fadeInOut {
     0% {
       opacity: 0;
@@ -273,6 +332,25 @@ const ScatteredEmoji = styled.div`
       opacity: 0;
     }
   }
+
+  @keyframes drop {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(150vh);
+    }
+  }
+`;
+
+const SuccessMessageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: white;
+  color: black;
+  font-size: 2em;
 `;
 
 const imageElementStyle = {
