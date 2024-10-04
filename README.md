@@ -24,11 +24,12 @@ $ cd <repo>
 $ npm install
 ```
 
-- Update GPT API Key in `.env` File
+- Update API Key in `.env` File
     - In the root directory of your project, create a new file named `.env`.
     - Add the following content to the file, replacing `your-api-key-here` with your actual GPT API key:
 ```shell
 VITE_GPT_API_KEY = your-api-key-here
+VITE_API_BASE_URL = https://nuz2le.com/
 ```
 
 - Start project

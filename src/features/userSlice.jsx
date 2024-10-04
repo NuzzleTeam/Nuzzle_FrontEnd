@@ -3,8 +3,11 @@ import { PURGE } from "redux-persist";
 
 const name = "UserSlice";
 
+/** Create Slice */
 export const userSlice = createSlice({
   name: "user",
+
+  /** initialState */
   initialState: {
     // user: null,
     // register: null,
@@ -19,6 +22,8 @@ export const userSlice = createSlice({
     accessToken: null,
     invitationCode: null,
   },
+
+  /** reducers */
   reducers: {
     login: (state, action) => {
       // 여기에 토큰있네

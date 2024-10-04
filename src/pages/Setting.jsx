@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { userSlice } from "../features/userSlice";
+import { logout, selectAccessToken } from "../features/userSlice";
 
 const LogoutModal = ({ showModal, handleClose, handleLogout }) => {
   if (!showModal) return null;
@@ -22,7 +23,9 @@ const LogoutModal = ({ showModal, handleClose, handleLogout }) => {
 
 const Setting = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
+  const accessToken = useSelector(selectAccessToken);
 
   useEffect(() => {
     setShowModal(false);
@@ -33,39 +36,41 @@ const Setting = () => {
   };
 
   const handleLogout = async () => {
-    const accessToken = "<access_token>";
-    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-    const logoutUrl = "https://api.nuz2le.com/api/v1/auth/logout";
+    const logoutUrl = `${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/logout`;
 
     try {
-      const response = await fetch(proxyUrl + logoutUrl, {
+      const response = await fetch(logoutUrl, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+          // "Content-Type": "application/json",
         },
-        body: JSON.stringify({}),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to logout");
+      }
 
       const result = await response.json();
 
       if (result.success) {
         console.log("로그아웃 성공:", result);
-        navigate("/firstpage");
+        dispatch(logout());
+        navigate("/peek");
       } else {
         console.error("로그아웃 실패:", result.error || "Unknown error");
-        navigate("/firstpage"); //나중에 지우기
+        navigate("/calendar"); //나중에 지우기
       }
     } catch (error) {
-      console.error("오류:", error);
-      navigate("/firstpage"); // 나중에 지우기
+      console.error("로그아웃 중 오류 발생:", error);
+      navigate("/calendar"); // 나중에 지우기
     }
   };
 
   const userInfo = {
-    name: "John Doe",
-    username: "johndoe123",
-    familyMembers: ["Jane Doe", "Jimmy Doe"],
+    name: "Dummy user",
+    username: "DummyUser 1234",
+    familyMembers: ["Dummy family1", "Dummy family2"],
   };
 
   return (
@@ -113,7 +118,6 @@ const SettingWrapper = styled.div`
 const UserInfo = styled.div`
   font-family: "Pretendard";
   text-align: center;
-  margin-bottom: 40px;
 
   h2 {
     margin-bottom: 10px;
@@ -130,7 +134,7 @@ const UserInfo = styled.div`
 `;
 
 const LogoutButtonWrapper = styled.div`
-  margin-top: auto;
+  margin-top: 10px;
 `;
 
 const ModalOverlay = styled.div`

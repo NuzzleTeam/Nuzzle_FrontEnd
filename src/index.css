@@ -1,8 +1,8 @@
 #root {
   max-width: 400px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
   background-color: white;
+  height: 100vh; /* 높이 지정 */
 }
 
 body {
@@ -10,4 +10,10 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: gray;
+  overflow: hidden;
+  height: 100%;
+}
+
+main {
+  height: 100%;
 }
