@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { userSlice } from "../features/userSlice";
 
 const LogoutModal = ({ showModal, handleClose, handleLogout }) => {
   if (!showModal) return null;
@@ -21,10 +22,10 @@ const LogoutModal = ({ showModal, handleClose, handleLogout }) => {
 
 const Setting = () => {
   const navigate = useNavigate();
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    setShowModal(true);
+    setShowModal(false);
   }, []);
 
   const handleCloseModal = () => {
@@ -61,14 +62,33 @@ const Setting = () => {
     }
   };
 
+  const userInfo = {
+    name: "John Doe",
+    username: "johndoe123",
+    familyMembers: ["Jane Doe", "Jimmy Doe"],
+  };
+
   return (
     <SettingWrapper>
+      <UserInfo>
+        <h2>유저 정보</h2>
+        <p>Name: {userInfo.name}</p>
+        <p>Username: {userInfo.username}</p>
+        <p>Family Members:</p>
+        <ul>
+          {userInfo.familyMembers.map((member, index) => (
+            <li key={index}>{member}</li>
+          ))}
+        </ul>
+      </UserInfo>
+      <LogoutButtonWrapper>
+        <LogoutButton onClick={() => setShowModal(true)}>Logout</LogoutButton>
+      </LogoutButtonWrapper>
       <LogoutModal
         showModal={showModal}
         handleClose={handleCloseModal}
         handleLogout={handleLogout}
       />
-      <UpdateMessage>추후 업데이트 될 기능입니다.</UpdateMessage>
     </SettingWrapper>
   );
 };
@@ -88,6 +108,29 @@ const SettingWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
+`;
+
+const UserInfo = styled.div`
+  font-family: "Pretendard";
+  text-align: center;
+  margin-bottom: 40px;
+
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  p {
+    margin: 5px 0;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+`;
+
+const LogoutButtonWrapper = styled.div`
+  margin-top: auto;
 `;
 
 const ModalOverlay = styled.div`
