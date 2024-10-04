@@ -62,7 +62,8 @@ const AppContainer = styled.div`
 const Main = styled.main`
   flex: 1;
   display: flex;
-  justify-content: center; /* Center the content horizontally */
+  align-items: center;
+  justify-content: center;
 `;
 
 const AppContent = () => {

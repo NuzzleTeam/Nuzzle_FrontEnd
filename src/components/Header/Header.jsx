@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const HeaderWrapper = styled.header`
-  height: 6vh;
+  min-height: 6vh;
   position: sticky;
   top: 0;
   left: 0;
