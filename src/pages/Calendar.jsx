@@ -21,13 +21,11 @@ export default CalendarPage;
 
 const CalendarWrapper = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
   width: 100vw;
   height: 100vh;
   background-color: #fcfdf5;
-  font-family: "Pretendard", sans-serif;
+  font-family: "Pretendard";
 `;
 
 const StyledCalendar = styled(Calendar)`
@@ -35,7 +33,7 @@ const StyledCalendar = styled(Calendar)`
   height: 100%;
   background-color: transparent;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-family: "Pretendard";
   margin-top: 80px;
 
@@ -50,7 +48,7 @@ const StyledCalendar = styled(Calendar)`
   }
 
   .react-calendar__navigation__label__labelText {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
   }
 
   .react-calendar__navigation__label {
