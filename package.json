@@ -8,8 +8,12 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
+<<<<<<<< HEAD:package.json
     "start": "set PORT = 3000",
     "optimize-images": "imagemin 'public/assets/*' --out-dir='public/assets'"
+========
+    "start": "set PORT = 3000"
+>>>>>>>> 4a77dab9ff78483803dd90604d26406cdb62d0a0:Nuzzle_FrontEnd/package.json
   },
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
@@ -18,7 +22,10 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@reduxjs/toolkit": "^2.2.6",
     "axios": "^1.7.4",
+<<<<<<<< HEAD:package.json
     "openai": "^4.67.1",
+========
+>>>>>>>> 4a77dab9ff78483803dd90604d26406cdb62d0a0:Nuzzle_FrontEnd/package.json
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-calendar": "^5.0.0",
