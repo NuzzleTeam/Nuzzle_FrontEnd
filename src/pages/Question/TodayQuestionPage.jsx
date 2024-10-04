@@ -14,11 +14,14 @@ const TodayQuestionPage = () => {
   const [isWriting, setIsWriting] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [answers, setAnswers] = useState([]);
+  /** Question AI */
   const [question, setQuestion] = useState("");
+  /** MyAnswer Modal Control */
   const [userHasAnswered, setUserHasAnswered] = useState(false);
+  /** FamilyAnswer Modal Control */
   const [familyHasAnswered, setFamilyHasAnswered] = useState(false);
   const [hasFetchedData, setHasFetchedData] = useState(false);
-  const [questionId, setquestionId] = useState(null);
+  const [questionId, setQuestionId] = useState(null);
   const user = "나";
   const navigate = useNavigate();
   const familyId = "yourFamilyId";
@@ -43,9 +46,9 @@ const TodayQuestionPage = () => {
         max_tokens: 100,
       });
 
-      // 첫 번째 질문만 가져오도록 설정
-      const aiQuestion = response.data.choices[0].message.content.trim(); // 앞뒤 공백 제거
-      setQuestion(aiQuestion); // 받은 질문을 상태에 저장
+      const aiQuestion = response.data.choices[0].message.content.trim();
+      setQuestion(aiQuestion);
+      setHasFetchedData(true);
     } catch (error) {
       console.error("Error generating AI question: ", error);
       throw new Error("AI 질문 생성에 실패했습니다.");
@@ -56,6 +59,7 @@ const TodayQuestionPage = () => {
     fetchAIQuestion();
   }, []);
 
+  /** Click writeIcon */
   const handleWriteClick = (index) => {
     setIsWriting(index);
   };
@@ -65,6 +69,7 @@ const TodayQuestionPage = () => {
   };
 
   const handleUploadClick = async (index) => {
+    /** blank input value validation */
     if (inputValue.trim()) {
       try {
         await axios.post(`/api/questions/answer`, {

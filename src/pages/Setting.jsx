@@ -33,7 +33,7 @@ const Setting = () => {
 
   const handleLogout = async () => {
     const accessToken = "<access_token>";
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
     const logoutUrl = "https://api.nuz2le.com/api/v1/auth/logout";
 
     try {
@@ -53,11 +53,11 @@ const Setting = () => {
         navigate("/firstpage");
       } else {
         console.error("로그아웃 실패:", result.error || "Unknown error");
-        navigate("/firstpage");//나중에 지우기
+        navigate("/firstpage"); //나중에 지우기
       }
     } catch (error) {
       console.error("오류:", error);
-      navigate("/firstpage");// 나중에 지우기 
+      navigate("/firstpage"); // 나중에 지우기
     }
   };
 

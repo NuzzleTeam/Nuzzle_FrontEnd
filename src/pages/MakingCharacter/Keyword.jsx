@@ -73,7 +73,7 @@ const Keyword = () => {
       .filter((kw) => selectedKeywords.includes(kw.keyword))
       .map((kw) => ({
         id: kw.id,
-        keyword: kw.keyword
+        keyword: kw.keyword,
       }));
 
     const requestBody = {
@@ -83,8 +83,9 @@ const Keyword = () => {
 
     fetch(proxyUrl + targetUrl, {
       method: "POST",
-      headers:{
-        "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+      headers: {
+        Authorization:
+          "Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g",
       },
       body: JSON.stringify(requestBody),
     })
@@ -97,7 +98,6 @@ const Keyword = () => {
         console.log(requestBody);
         console.error("Error:", error);
         navigate("/ChaMake1"); // 요청이 성공하면 로딩페이지 이동
-
       });
   };
 

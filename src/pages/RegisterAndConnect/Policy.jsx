@@ -164,7 +164,7 @@ const AllBtn = styled.button`
   border-radius: 12px;
   background-color: #f3f3f3;
   display: flex;
-  border:none;
+  border: none;
   align-items: center;
   justify-content: space-between;
   font-size: 16px;

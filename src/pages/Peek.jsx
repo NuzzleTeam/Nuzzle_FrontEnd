@@ -316,7 +316,9 @@ const EmojiButton = styled.button`
 
 const ScatteredEmoji = styled.div`
   position: absolute;
-  animation: drop 4s ease-in-out, fadeInOut 4s ease-in-out;
+  animation:
+    drop 4s ease-in-out,
+    fadeInOut 4s ease-in-out;
 
   @keyframes fadeInOut {
     0% {
