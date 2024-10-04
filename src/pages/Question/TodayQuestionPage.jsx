@@ -27,7 +27,7 @@ const TodayQuestionPage = () => {
   const fetchAIQuestion = async () => {
     try {
       const response = await openai.post("/chat/completions", {
-        model: "gpt-4",
+        model: "gpt-4o",
         messages: [
           {
             role: "system",
@@ -37,7 +37,7 @@ const TodayQuestionPage = () => {
           {
             role: "user",
             content:
-              "가족들이 답할 수 있는 오늘의 질문을 하나 만들어줘. 따옴표는 없어도 돼",
+              "가족이 답할 수 있는 오늘의 질문을 하나 만들어줘. 따옴표는 없어도 돼. 최근 혹은 지금까지 로 문장이 시작하고, 인가요? 로 문장이 끝나야해. 문장을 자연스럽게",
           },
         ],
         max_tokens: 100,
@@ -139,12 +139,11 @@ const TodayQuestionPage = () => {
 
           .question-header,
           .question-content {
-            padding: 1.5rem;
+            padding: 2.5rem;
           }
 
           .question-header {
             top: 10px;
-            left: 20px;
             margin-bottom: 10px;
             font-size: 14px;
             margin: 0;
@@ -153,7 +152,6 @@ const TodayQuestionPage = () => {
 
           .question-content {
             top: 40px;
-            left: 20px;
             font-size: 20px;
             font-family: "Pretendard";
             font-weight: bold;
