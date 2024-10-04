@@ -24,9 +24,10 @@ const ChaName = () => {
     fetch(proxyUrl + targetUrl, {
       method: "POST",
       headers: {
-        "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+        Authorization:
+          "Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g",
       },
-      body: JSON.stringify({ "petName": name }),
+      body: JSON.stringify({ petName: name }),
     })
       .then((response) => {
         if (response.ok) {
@@ -163,7 +164,7 @@ const Image = styled.img`
 const Message = styled.div`
   font-size: 16px;
   text-align: center;
-  font-weight:600;
+  font-weight: 600;
   font-family: "Pretendard";
 `;
 
@@ -186,7 +187,7 @@ const StyledButton = styled.button`
   border-radius: 30px;
   width: 168px;
   font-size: 16px;
-  font-weight:bold;
+  font-weight: bold;
   font-family: "Pretendard";
   height: 50px;
   z-index: 2;

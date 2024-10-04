@@ -15,7 +15,7 @@ const ChaComplete = () => {
       </SpeechBubble>
       <Content>
         <CharacterSpotlight src="/src/assets/Union.png"></CharacterSpotlight>
-        <CharacterStarImage src="/src/assets/stars.png" ></CharacterStarImage>
+        <CharacterStarImage src="/src/assets/stars.png"></CharacterStarImage>
         <CharacterImage src={characterImage} alt="character" />
       </Content>
       <SelectButton onClick={() => navigate("/")}>거실로 돌아가기</SelectButton>
@@ -93,7 +93,6 @@ const CharacterStarImage = styled.img`
   z-index: 3;
   margin-top: 40px;
 `;
-
 
 const SelectButton = styled.button`
   background-color: #ffb1d0;

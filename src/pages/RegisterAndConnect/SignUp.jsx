@@ -8,8 +8,12 @@ import { useState } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { login, setUserId, setInvitationCode , setAccessToken } from "../../features/userSlice"; 
-
+import {
+  login,
+  setUserId,
+  setInvitationCode,
+  setAccessToken,
+} from "../../features/userSlice";
 
 // 회원가입 페이지
 
@@ -92,7 +96,7 @@ function SignUp() {
 
   const proxyUrl = "https://cors-anywhere.herokuapp.com/";
   const signUpUrl = "https://api.nuz2le.com/api/v1/auth/sign-up";
-  
+
   const {
     register,
     handleSubmit,
@@ -135,37 +139,36 @@ function SignUp() {
 
   const onSubmit = async (data) => {
     const payload = {
-        serial_id: data.email,
-        password: data.pw,
-        user_name: data.name,
-        gender: data.gender.toUpperCase(),
-        birth_date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`,
-        role: data.role.toUpperCase(),
+      serial_id: data.email,
+      password: data.pw,
+      user_name: data.name,
+      gender: data.gender.toUpperCase(),
+      birth_date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`,
+      role: data.role.toUpperCase(),
     };
 
     try {
-        const response = await fetch(proxyUrl + signUpUrl, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(payload),
-        });
+      const response = await fetch(proxyUrl + signUpUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-        const result = await response.json();
+      const result = await response.json();
 
-        if (result.success) {
-            console.log("회원가입 성공:", result);
-            navigate("/policy");// 성공하면 이동 
-          
-        } else {
-            console.log(JSON.stringify(payload, null, 2));
-            console.error("회원가입 실패:", result.error || "Unknown error");
-        }
+      if (result.success) {
+        console.log("회원가입 성공:", result);
+        navigate("/policy"); // 성공하면 이동
+      } else {
+        console.log(JSON.stringify(payload, null, 2));
+        console.error("회원가입 실패:", result.error || "Unknown error");
+      }
     } catch (error) {
-        console.error("오류 발생:", error.message || error);
+      console.error("오류 발생:", error.message || error);
     }
-};
+  };
 
   useEffect(() => {
     const allFieldsFilled = Object.values(watchFields).every((value) => value);

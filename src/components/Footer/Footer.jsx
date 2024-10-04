@@ -9,7 +9,7 @@ import calendarIcon from "../../assets/calendar.png";
 import settingIcon from "../../assets/setting.png";
 
 const FooterWrapper = styled.footer`
-  height: 6vh;
+  min-height: 6vh;
   position: sticky;
   bottom: 0;
   left: 0;
@@ -26,7 +26,7 @@ const FooterWrapper = styled.footer`
 const FooterItem = styled.div`
   text-align: center;
   font-size: 14px;
-  flex: 1;
+  padding: 5px 10px;
 
   p {
     padding: 0;
