@@ -4,7 +4,7 @@ const openai = axios.create({
   baseURL: "https://api.openai.com/v1",
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
+    Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
   },
 });
 
