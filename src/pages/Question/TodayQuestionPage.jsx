@@ -26,26 +26,26 @@ const TodayQuestionPage = () => {
   /* Using GPT API */
   const fetchAIQuestion = async () => {
     try {
-      const response = await openai.post("/completions", {
-        model: "gpt-3.5-turbo",
+      const response = await openai.post("/chat/completions", {
+        model: "gpt-4",
         messages: [
           {
             role: "system",
             content:
-              "You are a helpful assistant that generates meaningful and thoughtful daily questions for a family. The questions should encourage family members to share memories, feelings, and experiences.",
+              "You are a helpful assistant that generates meaningful and thoughtful daily questions for a family.",
           },
           {
             role: "user",
             content:
-              "가족들이 답할 수 있는 오늘의 질문을 만들어줘. 예시로는 가족과 함께한 기억에 남는 추억, 가족과 하고 싶은 버킷리스트 등이 있습니다.",
+              "가족들이 답할 수 있는 오늘의 질문을 하나 만들어줘. 따옴표는 없어도 돼",
           },
         ],
-        max_token: 50,
+        max_tokens: 100,
       });
 
-      const generatedQuestion = response.data.choices[0].message.content;
-      setQuestion(generatedQuestion);
-      setHasFetchedData(true);
+      // 첫 번째 질문만 가져오도록 설정
+      const aiQuestion = response.data.choices[0].message.content.trim(); // 앞뒤 공백 제거
+      setQuestion(aiQuestion); // 받은 질문을 상태에 저장
     } catch (error) {
       console.error("Error generating AI question: ", error);
       throw new Error("AI 질문 생성에 실패했습니다.");
@@ -139,8 +139,7 @@ const TodayQuestionPage = () => {
 
           .question-header,
           .question-content {
-            padding-left: 1rem;
-            padding-top: 1.5rem;
+            padding: 1.5rem;
           }
 
           .question-header {
@@ -158,6 +157,7 @@ const TodayQuestionPage = () => {
             font-size: 20px;
             font-family: "Pretendard";
             font-weight: bold;
+            display: flex;
           }
 
           .main-avatar {
