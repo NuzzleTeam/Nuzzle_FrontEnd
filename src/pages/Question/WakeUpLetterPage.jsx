@@ -57,11 +57,9 @@ const WakeUpLetterPage = () => {
       background: "transparent",
       fontFamily: "Pretendard",
       fontSize: "18px",
-      fontWeight: "bold",
     },
     textarea: {
       width: "100%",
-      height: "100px",
       border: "none",
       margin: "10px 0",
       resize: "none",
@@ -71,7 +69,6 @@ const WakeUpLetterPage = () => {
       fontFamily: "Pretendard",
       whiteSpace: "pre-wrap",
       fontSize: "16px",
-      whiteSpace: "pre-wrap",
       height: "35vh",
     },
     placeholder: {

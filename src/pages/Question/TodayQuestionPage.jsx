@@ -8,6 +8,7 @@ import questionBubbleImg from "../../assets/question_bubble.png";
 import myModalImage from "../../assets/modal_image.png";
 import modalAlert from "../../assets/modal_alert.png";
 import axios from "axios";
+import openai from "../../api/openai";
 
 const TodayQuestionPage = () => {
   const [isWriting, setIsWriting] = useState(null);
@@ -22,32 +23,38 @@ const TodayQuestionPage = () => {
   const navigate = useNavigate();
   const familyId = "yourFamilyId";
 
+  /* Using GPT API */
+  const fetchAIQuestion = async () => {
+    try {
+      const response = await openai.post("/completions", {
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a helpful assistant that generates meaningful and thoughtful daily questions for a family. The questions should encourage family members to share memories, feelings, and experiences.",
+          },
+          {
+            role: "user",
+            content:
+              "가족들이 답할 수 있는 오늘의 질문을 만들어줘. 예시로는 가족과 함께한 기억에 남는 추억, 가족과 하고 싶은 버킷리스트 등이 있습니다.",
+          },
+        ],
+        max_token: 50,
+      });
+
+      const generatedQuestion = response.data.choices[0].message.content;
+      setQuestion(generatedQuestion);
+      setHasFetchedData(true);
+    } catch (error) {
+      console.error("Error generating AI question: ", error);
+      throw new Error("AI 질문 생성에 실패했습니다.");
+    }
+  };
+
   useEffect(() => {
-    const fetchQuestionAndStatus = async () => {
-      try {
-        const questionResponse = await axios.get(
-          `/api/questions/random-question`
-        );
-        setQuestion(questionResponse.data.questionContents);
-        setquestionId(questionResponse.data.questionId);
-        setAnswers([]);
-
-        const answerStatusResponse = await axios.get(
-          `/api/answer-status/${questionResponse.data.questionId}`
-        );
-        const userAnswered =
-          answerStatusResponse.data.message === "Question has been answered.";
-        setUserHasAnswered(userAnswered);
-
-        setHasFetchedData(true);
-      } catch (error) {
-        console.error("Error fetching question and status", error);
-        alert("문제를 불러오는데 실패했습니다. 나중에 다시 시도해 주세요.");
-      }
-    };
-
-    fetchQuestionAndStatus();
-  }, [familyId]);
+    fetchAIQuestion();
+  }, []);
 
   const handleWriteClick = (index) => {
     setIsWriting(index);
@@ -77,10 +84,10 @@ const TodayQuestionPage = () => {
     }
   };
 
-  const handleCancelClick = () => {
-    setIsWriting(null);
-    setInputValue("");
-  };
+  // const handleCancelClick = () => {
+  //   setIsWriting(null);
+  //   setInputValue("");
+  // };
 
   const handleFamilyAnswer = () => {
     setFamilyHasAnswered(true);
