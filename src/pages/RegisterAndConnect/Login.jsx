@@ -4,13 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { GoStop } from "react-icons/go";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { login, selectIsLogin, setAccessToken } from "../../features/userSlice";
+import { login, selectIsLogin, setAccessToken , setPassword, setSerialId } from "../../features/userSlice";
 
 // 로그인
 
 function Login() {
   const dispatch = useDispatch();
-  const accessToken = useSelector((state) => state.user.accessToken);
   const isLogin = useSelector(selectIsLogin);
 
   const navigate = useNavigate();
@@ -87,8 +86,9 @@ function Login() {
       if (result.success) {
         console.log("로그인 성공:", result);
         dispatch(setAccessToken(result.data.access_token)); // 로그인 시 토큰 state에 저장 
-        console.log(result.data.access_token);
         setErrMsg(false);
+        dispatch(setSerialId(data.username)); // 로그인 id pw state 저장 
+        dispatch(setPassword(data.pw));
         //dispatch(login({ username: data.username, password: data.pw }));
         navigate("/");
       } else {
@@ -100,11 +100,7 @@ function Login() {
       setErrMsg(true);
     }
   };
-  /*
-    const handleLogin = (data) => {
-        dispatch(login({ username: data.username, password: data.pw }));
-    };
-*/
+
   useEffect(() => {
     if (isLogin) {
       // isAuthenticated 대신 isLogin 사용

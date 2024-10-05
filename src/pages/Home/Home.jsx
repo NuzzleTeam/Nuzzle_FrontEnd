@@ -8,9 +8,11 @@ import {
 import styled from "styled-components";
 import picimg from "../../assets/msgimg.png";
 import { setUserId, setFamilyId } from "../../features/userSlice";
+import firstCha from "../../../src/assets/firstCha.png";
+
 
 const Home = () => {
-  const [isMoving, setIsMoving] = useState(false); // 캐릭터 애니메이션 스타일 관리 위해 추가된 상태
+  const [isMoving, setIsMoving] = useState(""); // 캐릭터 애니메이션 스타일 관리 위해 추가된 상태
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const characterImage = useSelector((state) => state.character.characterImage);
@@ -21,6 +23,7 @@ const Home = () => {
   const userId = useSelector((state) => state.user.userId);
   const familyId = useSelector((state) => state.user.familyId);
   const accessToken = useSelector((state) => state.user.accessToken);
+  
 
   useEffect(() => {
     const fetchUserId = async () => { // home 화면 오면, userId 받아서 넣을거임
@@ -39,11 +42,13 @@ const Home = () => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-
+        
         const data = await response.json();
-        dispatch(setUserId(data.data.userId));
+        console.log(data);
+        dispatch(setUserId(data.data.userId));//
+        dispatch(setFamilyId(9));
       } catch (error) {
-        console.error('Fetch error:', error);
+        console.error('Fetch error:', error); // 왜 이러지
       }
     };
     fetchUserId();
@@ -71,7 +76,7 @@ const Home = () => {
 
       if (!createFamilyResponse.ok) {
         if (createFamilyResponse.status === 409) {
-          console.log('User is already in a family.');// 이미 가족에 포함된 경우ㅡ familyId 있음
+          console.log('이미 가족에 포함되어 있습니다.');// 이미 가족에 포함된 경우ㅡ familyId 있음, 백엔드에 요쳥해서 받기
           const getFamilyMembersUrl = `https://api.nuz2le.com/api/family/${familyId}`;
           const getFamilyResponse = await fetch(proxyUrl + getFamilyMembersUrl, {
           method: 'GET',
@@ -166,14 +171,14 @@ const Home = () => {
         )}
         {characterImage === "" ? (
           <FirstCharacterImage
-            src="/src/assets/firstCha.png"
+            src={firstCha}
             onClick={handleChaClick}
           />
         ) : (
           <CharacterImage 
             src={characterImage} 
             alt="애착이"
-            isMoving={isMoving} 
+            ismoving={isMoving} 
           />
         )}
       </ImageContainer>
@@ -184,7 +189,7 @@ const Home = () => {
             style={{ bottom: "100px" }}
             onClick={handleNameBtnClick}
           >
-            애착이 생성하기
+            애착이 이름지어주기
           </MakeNameButton>
         ) : (
           <MakeNameButton
@@ -240,9 +245,9 @@ const CharacterImage = styled.img`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: ${(props) => (props.isMoving ? "90%" : "100%")};
+  width: ${(props) => (props.ismoving ? "90%" : "100%")};
   z-index: 2;
-  top: ${(props) => (props.isMoving ? "-100px" : "0px")}; // 애니메이션을 위한 조건부 스타일
+  top: ${(props) => (props.ismoving ? "-100px" : "0px")}; // 애니메이션을 위한 조건부 스타일
 `;
 
 const FirstCharacterImage = styled.img`

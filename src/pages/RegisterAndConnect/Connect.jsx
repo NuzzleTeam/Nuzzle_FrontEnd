@@ -20,7 +20,7 @@ function Connect() {
 
 
   const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-  const targetUrl = 'https://api.nuz2le.com/api/family/create';
+  const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/invitation-code`;
 
 
   const [linkModal, setLinkModal] = useState(false);
@@ -32,29 +32,23 @@ function Connect() {
 
   useEffect(() => {
     const fetchInvitationCode = async () => {
-
+      // 초대코드 받아오기 
       try {
         const response = await fetch(proxyUrl + targetUrl, {
-          method: "POST",
+          method: "GET",
           headers: {
             'Content-Type': 'application/json',
             "Authorization":`Bearer ${accessToken}`
-          },
-          body:{
-            "userId": userId,
           }
         });
 
         if (response.ok) {
           const data = await response.json();
-          dispatch(setInvitationCode("abcd-1234-efgh-5678"));
-          console.log("성공");
+          dispatch(setInvitationCode(data.invitation_code));
         } else if (response.status === 404) {
           console.error("가족을 찾을 수 없습니다.");
         } else {
           console.error("서버 응답 에러:", response.statusText);
-          dispatch(setInvitationCode("abcd-1234-efgh-5678")); // 일단 1이랑 초대코드 넣기
-          dispatch(setFamilyId(1)); // 이거 수정
         }
       } catch (error) {
         console.error("오류:", error);
@@ -102,9 +96,9 @@ function Connect() {
     }
   };
 
-  const handleCopyCode = async (text) => { // 초대코드 눌렀을 때 복사되게 
+  const handleCopyCode = async () => { // 초대코드 눌렀을 때 복사되게 
     try {
-      await navigator.clipboard.writeText("abcd-1234-efgh-5678");
+      await navigator.clipboard.writeText(invitationCode);
     } catch (err) {
       console.log(err);
     }
@@ -138,7 +132,7 @@ function Connect() {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event) => { // 초대코드 입력 받았을 때 가족 확인 
     event.preventDefault();
 
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
@@ -149,12 +143,12 @@ function Connect() {
       "invitationCode": inputValue
     };
 
-    try {
+    try {// 가족 코드로 구성원 추가 API 
       const response = await fetch(proxyUrl + targetUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+          "Authorization":`Bearer ${accessToken}`
         },
         body: JSON.stringify(requestBody),
       });

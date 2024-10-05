@@ -38,6 +38,7 @@ const Keyword = () => {
   );
   const showWarning = useSelector((state) => state.keyword.showWarning);
   const familyId = useSelector((state) => state.user.familyId);
+  const accessToken = useSelector((state) => state.user.accessToken);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -66,7 +67,7 @@ const Keyword = () => {
 
   const handleNextClick = () => {
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-    const targetUrl = "https://api.nuz2le.com/api/family-keywords/add-multiple";
+    const targetUrl = "https://api.nuz2le.com/api/family-keywords/add-multiple"; // 키워드 페이지에서 다음버튼 누르면 키워드 추가 통신 발생 
 
     // 선택된 키워드와 ID 매핑
     const selectedKeywordsWithIds = allKeywordsWithIds
@@ -75,22 +76,28 @@ const Keyword = () => {
         id: kw.id,
         keyword: kw.keyword
       }));
-
+      /*
     const requestBody = {
       familyId,
       keywords: selectedKeywordsWithIds, // ID와 함께 키워드 전송
+    };*/
+
+    const requestBody = {
+      familyId,
+      keywordIds: selectedKeywordsWithIds.map(kw => kw.id), // ID만 전송
     };
 
     fetch(proxyUrl + targetUrl, {
       method: "POST",
       headers:{
-        "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+        "Authorization":`Bearer ${accessToken}`
       },
       body: JSON.stringify(requestBody),
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("서버 응답:", data);
+        console.log(requestBody);
         navigate("/ChaMake1"); // 요청이 성공하면 로딩페이지 이동
       })
       .catch((error) => {
@@ -128,7 +135,7 @@ const Keyword = () => {
           )}
         </KeywordGrid>
         {showWarning && (
-          <WarningMessage>🚨최대 선택 개수를 초과했어요!</WarningMessage>
+          <WarningMessage>🚨최대 선택 개수를 초과했어요!</WarningMessage> // 사이렌 이미지 수정 
         )}
       </Content>
       <TipBox>

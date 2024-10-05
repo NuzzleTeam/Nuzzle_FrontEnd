@@ -7,6 +7,7 @@ import { useRef } from "react";
 const ChaName = () => {
   const name = useSelector((state) => state.name.name);
   const familyId = useSelector((state) => state.user.familyId);
+  const accessToken = useSelector((state) => state.user.accessToken);
   const characterImage = useSelector((state) => state.character.characterImage);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -17,14 +18,14 @@ const ChaName = () => {
     dispatch(setName(event.target.value));
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = () => { // yes 누르면 애착이 이름 설정 post 통신 
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
     const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/pet-name`;
 
     fetch(proxyUrl + targetUrl, {
       method: "POST",
       headers: {
-        "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+        "Authorization":`Bearer ${accessToken}`
       },
       body: JSON.stringify({ "petName": name }),
     })
@@ -34,13 +35,10 @@ const ChaName = () => {
           navigate("/ChaNameComplete"); // POST 요청이 성공하면 페이지 이동
         } else {
           console.error("이름 전송 실패");
-          dispatch(setSavedName(name)); // 나중에 지우기
-          navigate("/ChaNameComplete");
         }
       })
       .catch((error) => {
         console.error("이름 전송 에러 발생:", error);
-        navigate("/ChaNameComplete");
       });
   };
 
