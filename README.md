@@ -1,10 +1,53 @@
 # Nuzzle_Frontend
-UMC 너즐 프로젝트 프론트엔드 레포지토리 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**NUZZLE 프로젝트 프론트엔드 레포지토리**
 
-Currently, two official plugins are available:
+![NuzzleImage](https://github.com/NuzzleTeam/Nuzzle_FrontEnd/blob/main/src/assets/read_me.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## <b> 0. Installation </b>
 
+- `Clone` repository
+
+```shell
+$ git clone <repo-url>
+```
+
+- `Change directory` to cloned repository
+
+```shell
+$ cd <repo>
+```
+
+- Install `package`
+
+```shell
+$ npm install
+```
+
+- Update API Key in `.env` File
+    - In the root directory of your project, create a new file named `.env`.
+    - Add the following content to the file, replacing `your-api-key-here` with your actual GPT API key:
+```shell
+VITE_GPT_API_KEY = your-api-key-here
+VITE_API_BASE_URL = https://nuz2le.com/
+```
+
+- Start project
+
+```shell
+$ npm run dev
+```
+
+## <b> 1. Our Branch Strategy </b>
+
+1. `main` : CI/CD
+2. `dev`: dev branch
+3. `merge-branch` : merge branch
+4. `feature/fill simple description`: development new feature
+
+## <b> 2. Contributors </b>
+
+|              🐾Contributors               |
+| :---------------------------------------: |
+|  [MONG-SIL](https://github.com/MONG-SIL)  |
+| [gimgyuwon](https://github.com/gimgyuwon) |

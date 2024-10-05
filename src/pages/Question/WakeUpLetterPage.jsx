@@ -1,9 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import "./WakeUpLetterPage.css";
 import letterRabbitIcon from "../../assets/letter_rabbit.png";
 
 const WakeUpLetter = () => {
+=======
+import letterRabbitIcon from "../../assets/letter_rabbit.png";
+
+const WakeUpLetterPage = () => {
+>>>>>>> 425a595058dba22005ff60bce38736b8ef2df3ae
   const [recipient, setRecipient] = useState("아빠");
   const [message, setMessage] = useState("");
   const [showPopup, setShowPopup] = useState(false);
@@ -13,11 +19,16 @@ const WakeUpLetter = () => {
   const handleMessageChange = (e) => setMessage(e.target.value);
 
   const handleSubmit = () => {
+<<<<<<< HEAD
     // Show the popup
     setShowPopup(true);
     // Set answered flag in local storage
     localStorage.setItem("answered", "true");
     // Redirect to the TodayQuestionPage after a short delay
+=======
+    setShowPopup(true);
+    localStorage.setItem("answered", "true");
+>>>>>>> 425a595058dba22005ff60bce38736b8ef2df3ae
     setTimeout(() => {
       navigate("/today-question", {
         state: { showPopup: false, setIsWriting: 0 },
@@ -25,6 +36,7 @@ const WakeUpLetter = () => {
     }, 500); // Adjust the delay as needed
   };
 
+<<<<<<< HEAD
   return (
     <div className="wake-up-letter-page">
       <div className="letter-card">
@@ -34,13 +46,109 @@ const WakeUpLetter = () => {
             alt="rabbit icon"
             className="rabbit-icon"
           />
+=======
+  const styles = {
+    page: {
+      display: "flex",
+      flexDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      fontFamily: "Pretendard",
+    },
+    card: {
+      padding: "20px",
+      borderRadius: "30px",
+      width: "300px",
+      textAlign: "center",
+      backgroundColor: "#ffe6ef",
+      marginBottom: "20px",
+      fontFamily: "Pretendard",
+      height: "60vh",
+    },
+    header: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      fontFamily: "Pretendard",
+    },
+    icon: {
+      width: "80%",
+      height: "80%",
+      marginBottom: "10px",
+      fontFamily: "Pretendard",
+    },
+    select: {
+      border: "none",
+      fontWeight: "bold",
+      background: "transparent",
+      fontFamily: "Pretendard",
+      fontSize: "18px",
+    },
+    textarea: {
+      width: "100%",
+      border: "none",
+      margin: "10px 0",
+      resize: "none",
+      background:
+        "repeating-linear-gradient(to bottom, transparent, transparent 18px, #ffffff 20px)",
+      lineHeight: "25px",
+      fontFamily: "Pretendard",
+      whiteSpace: "pre-wrap",
+      fontSize: "16px",
+      height: "35vh",
+    },
+    placeholder: {
+      color: "#888",
+      fontFamily: "Pretendard",
+    },
+    button: {
+      backgroundColor: "pink",
+      border: "none",
+      padding: "15px 70px",
+      borderRadius: "20px",
+      cursor: "pointer",
+      marginTop: "10px",
+      fontFamily: "Pretendard",
+      fontWeight: "bold",
+    },
+    popup: {
+      position: "fixed",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+      fontFamily: "Pretendard",
+    },
+    popupContent: {
+      backgroundColor: "white",
+      padding: "20px",
+      borderRadius: "10px",
+      textAlign: "center",
+      fontFamily: "Pretendard",
+    },
+  };
+
+  return (
+    <div style={styles.page}>
+      <div style={styles.card}>
+        <div style={styles.header}>
+          <img src={letterRabbitIcon} alt="rabbit icon" style={styles.icon} />
+>>>>>>> 425a595058dba22005ff60bce38736b8ef2df3ae
           <p>
             <strong>
               To:{" "}
               <select
                 value={recipient}
                 onChange={handleRecipientChange}
+<<<<<<< HEAD
                 className="recipient-select"
+=======
+                style={styles.select}
+>>>>>>> 425a595058dba22005ff60bce38736b8ef2df3ae
               >
                 <option value="아빠">아빠</option>
                 <option value="엄마">엄마</option>
@@ -54,6 +162,7 @@ const WakeUpLetter = () => {
           value={message}
           onChange={handleMessageChange}
           placeholder="해당 부분을 클릭하여 적고 싶은 내용을 입력해주세요. 수신자는 발신자를 알 수 없습니다."
+<<<<<<< HEAD
           className="message-textarea"
         />
       </div>
@@ -63,6 +172,17 @@ const WakeUpLetter = () => {
       {showPopup && (
         <div className="popup">
           <div className="popup-content">
+=======
+          style={styles.textarea}
+        />
+      </div>
+      <button style={styles.button} onClick={handleSubmit}>
+        비밀 편지 전송하기
+      </button>
+      {showPopup && (
+        <div style={styles.popup}>
+          <div style={styles.popupContent}>
+>>>>>>> 425a595058dba22005ff60bce38736b8ef2df3ae
             <p>성공적으로 비밀 편지를 보냈어요!</p>
           </div>
         </div>
@@ -71,4 +191,8 @@ const WakeUpLetter = () => {
   );
 };
 
+<<<<<<< HEAD
 export default WakeUpLetter;
+=======
+export default WakeUpLetterPage;
+>>>>>>> 425a595058dba22005ff60bce38736b8ef2df3ae
