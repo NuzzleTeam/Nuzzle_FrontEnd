@@ -29,7 +29,6 @@ function Login() {
   const [errMsg, setErrMsg] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(false);
 
-
   const proxyUrl = "https://cors-anywhere.herokuapp.com/";
   const targetUrl = "https://api.nuz2le.com/api/v1/auth/login";
 
@@ -61,31 +60,41 @@ function Login() {
     const formData = new FormData();
     formData.append("serial_id", data.userid);
     formData.append("password", data.pw);
-  
+
     try {
       const response = await fetch(proxyUrl + targetUrl, {
         method: "POST",
-        body: formData,  
+        body: formData,
       });
-  
+
       if (!response.ok) {
         console.log(formData);
         for (let [key, value] of formData.entries()) {
           console.log(key, value);
         }
-        console.error("서버 응답 오류:", response.status, response.statusText);
+        if (response.status === 401) {
+          setErrMsg("아이디 또는 비밀번호가 잘못되었습니다.");
+        } else {
+          setErrMsg("서버 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+        }
+
         setErrMsg(true);
         return;
       }
-  
+
       const result = await response.json().catch((error) => {
         console.error("JSON 파싱 오류:", error);
         throw new Error("Invalid JSON response");
       });
-  
+
       if (result.success) {
         console.log("로그인 성공:", result);
+<<<<<<< HEAD
         dispatch(setAccessToken(result.data.access_token)); // 로그인 시 토큰 state에 저장 
+=======
+        dispatch(setAccessToken(result.data.access_token)); // 로그인 시 토큰 state에 저장
+        console.log(result.data.access_token);
+>>>>>>> e935685d9d7013662d020d7e803d07e79afb5d81
         setErrMsg(false);
         dispatch(setSerialId(data.username)); // 로그인 id pw state 저장 
         dispatch(setPassword(data.pw));
@@ -108,17 +117,43 @@ function Login() {
     }
   }, [isLogin, navigate]);
 
-  const REST_API_KEY = "백엔드한테 달라하자1";
-  const REDIRECT_URI = "백엔드한테 달라하자2";
-  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const Rest_api_key = "eb70db2648243be7c3648d92aafee815";
+  const redirect_uri = "http://localhost:3000";
+  const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${Rest_api_key}&redirect_uri=${redirect_uri}&response_type=code`;
+  const code = new URL(window.location.href).searchParams.get("code"); // 인가코드 추출
+
+  // 인가 코드 백엔드로 전달
+  const sendAuthorizationCode = async (code) => {
+    try {
+      const response = await fetch("/api/v1/oauth/login", {
+        method: "POST",
+        headers: {
+          // Authorization: `Bearer ${AccessToken}`,
+          // OAuth 2.0 이라서 액세스 토큰 필요할듯. BE에서 완성하면 받아오기.
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ code }),
+      });
+      const data = await response.json();
+      if (data.success) {
+        console.log("로그인 성공:", data);
+      } else {
+        console.error("로그인 실패:", data.error);
+      }
+    } catch (error) {
+      console.error("로그인 요청 실패:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (code) {
+      sendAuthorizationCode(code);
+    }
+  }, [code]);
 
   const socialKakao = () => {
     window.location.href = kakaoURL;
   };
-
-  // callback으로 받을 인가코드
-  // const code = new URL(window.location.href).searchParams.get("code");
-  // 나중에 API 연결
 
   return (
     <>
@@ -128,7 +163,7 @@ function Login() {
           <IdPwForm onSubmit={handleSubmit(handleLogin)}>
             <InputBox
               placeholder="아이디 입력"
-              type="text"
+              type="password"
               id="userid"
               {...register("userid", { required: "아이디 입력" })}
               onChange={(e) => isIdTrim(e.target.value)}
@@ -140,9 +175,12 @@ function Login() {
               {...register("pw", { required: "비밀번호 입력" })}
               onChange={(e) => isPwTrim(e.target.value)}
             ></InputBox>
-            <ErrMsg style={{ display: errMsg ? "block" : "none" }}>
-              <GoStop></GoStop> 아이디/비밀번호가 일치하지 않습니다.
-            </ErrMsg>
+            {errMsg && (
+              <ErrMsg style={{ display: errMsg ? "block" : "none" }}>
+                <GoStop /> 아이디/비밀번호가 일치하지 않습니다.
+              </ErrMsg>
+            )}
+
             <Btn
               style={{
                 backgroundColor: btnColor,
