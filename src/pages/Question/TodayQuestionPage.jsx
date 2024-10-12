@@ -114,6 +114,7 @@ const TodayQuestionPage = () => {
             flex-direction: column;
             background-color: #f3f3f3;
             position: relative;
+            height: 100vh;
           }
 
           .question-card {

@@ -49,6 +49,7 @@ function PastQuestionPage() {
           .past-question-page {
             padding: 1rem;
             background-color: #fcfdf5;
+            height: 100vh;
           }
           
           h3 {
