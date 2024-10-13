@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -316,7 +317,9 @@ const EmojiButton = styled.button`
 
 const ScatteredEmoji = styled.div`
   position: absolute;
-  animation: drop 4s ease-in-out, fadeInOut 4s ease-in-out;
+  animation:
+    drop 4s ease-in-out,
+    fadeInOut 4s ease-in-out;
 
   @keyframes fadeInOut {
     0% {

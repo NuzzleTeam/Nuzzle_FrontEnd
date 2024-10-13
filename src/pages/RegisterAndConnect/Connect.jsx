@@ -2,8 +2,12 @@ import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { useSelector , useDispatch } from "react-redux";
-import { setInvitationCode, setUserId, setFamilyId } from "../../features/userSlice"; 
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setInvitationCode,
+  setUserId,
+  setFamilyId,
+} from "../../features/userSlice";
 
 // 가족 연결 페이지
 
@@ -12,23 +16,23 @@ function Connect() {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const baseUrl = "http://localhost:3000"; // 3000으로 변경 
+  const baseUrl = "http://localhost:3000"; // 3000으로 변경
   const familyId = useSelector((state) => state.user.familyId);
   const userId = useSelector((state) => state.user.userId);
-  const invitationCode= useSelector((state) => state.user.invitationCode);
-  const accessToken= useSelector((state) => state.user.accessToken)
-
+  const invitationCode = useSelector((state) => state.user.invitationCode);
+  const accessToken = useSelector((state) => state.user.accessToken);
 
   const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
   const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/invitation-code`;
 
+//  const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+//  const targetUrl = "https://api.nuz2le.com/api/family/create";
 
   const [linkModal, setLinkModal] = useState(false);
   const [codeModal, setCodeModal] = useState(false);
   const [codeInputModal, setCodeInputModal] = useState(false);
   const [changePwModal, setChangePwModal] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  
 
   useEffect(() => {
     const fetchInvitationCode = async () => {
@@ -40,6 +44,9 @@ function Connect() {
             'Content-Type': 'application/json',
             "Authorization":`Bearer ${accessToken}`
           }
+        //  body: {
+        //    userId: userId,
+        //  },
         });
 
         if (response.ok) {
@@ -54,7 +61,6 @@ function Connect() {
         console.error("오류:", error);
       }
     };
-
 
     fetchInvitationCode();
   }, []);
@@ -96,7 +102,8 @@ function Connect() {
     }
   };
 
-  const handleCopyCode = async () => { // 초대코드 눌렀을 때 복사되게 
+  const handleCopyCode = async (text) => {
+    // 초대코드 눌렀을 때 복사되게
     try {
       await navigator.clipboard.writeText(invitationCode);
     } catch (err) {
@@ -104,48 +111,47 @@ function Connect() {
     }
   };
   const goToHome = async () => {
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const targetUrl = 'https://api.nuz2le.com/api/family/create';
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    const targetUrl = "https://api.nuz2le.com/api/family/create";
 
     try {
-      const response = await fetch(proxyUrl + targetUrl , {
-        method: 'POST',
+      const response = await fetch(proxyUrl + targetUrl, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`, 
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
-        body:{
-          userId
-        }
+        body: {
+          userId,
+        },
       });
-  
+
       if (!response.ok) {
         throw new Error(`오류: ${response.status}`);
       }
-  
 
-      console.log(response,"홈버튼 클릭");
+      console.log(response, "홈버튼 클릭");
 
       navigate("/");
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error("Fetch error:", error);
     }
   };
 
   const handleSubmit = async (event) => { // 초대코드 입력 받았을 때 가족 확인 
     event.preventDefault();
 
-    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-    const targetUrl = 'https://api.nuz2le.com/api/family/join';
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+    const targetUrl = "https://api.nuz2le.com/api/family/join";
 
     const requestBody = {
-      "userId": userId,
-      "invitationCode": inputValue
+      userId: userId,
+      invitationCode: inputValue,
     };
 
     try {// 가족 코드로 구성원 추가 API 
       const response = await fetch(proxyUrl + targetUrl, {
-        method: 'POST',
+        method: "POST",
         headers: {
           'Content-Type': 'application/json',
           "Authorization":`Bearer ${accessToken}`
@@ -156,27 +162,22 @@ function Connect() {
       const responseData = await response.json();
 
       if (response.ok) {
-        console.log('Success:', responseData);
+        console.log("Success:", responseData);
         navigate("/connect/complete");
       } else {
-        if (responseData.message === 'User is already in a family') {
-          console.error('Error: User is already in a family');
-        } else if (responseData.message === 'Invalid invitation code') {
-          console.error('Error: Invalid invitation code');
+        if (responseData.message === "User is already in a family") {
+          console.error("Error: User is already in a family");
+        } else if (responseData.message === "Invalid invitation code") {
+          console.error("Error: Invalid invitation code");
         } else {
-          console.error('Unknown error:', responseData);
+          console.error("Unknown error:", responseData);
         }
       }
     } catch (error) {
-      console.error('Fetch error:', error);
-      navigate("/connect/complete");// 나중ㅇ ㅔ지우기
-
+      console.error("Fetch error:", error);
+      navigate("/connect/complete"); // 나중ㅇ ㅔ지우기
     }
   };
-
-
-
-
 
   return (
     <>
@@ -234,9 +235,7 @@ function Connect() {
           <ModalContentWrapper>
             <CheckImg src="/src/assets/pinkCheck.png"></CheckImg>
             <ModalTitle>링크가 복사되었습니다</ModalTitle>
-            <ModalBtn onClick={closeLinkModal} >
-              확인
-            </ModalBtn>
+            <ModalBtn onClick={closeLinkModal}>확인</ModalBtn>
           </ModalContentWrapper>
         </ModalWrapper>
       )}
@@ -245,29 +244,27 @@ function Connect() {
           <ModalContentWrapper>
             <CheckImg src="/src/assets/pinkCheck.png"></CheckImg>
             <ModalTitle>코드가 복사되었습니다</ModalTitle>
-            <ModalBtn onClick={closeCodeModal} >
-              확인
-            </ModalBtn>
+            <ModalBtn onClick={closeCodeModal}>확인</ModalBtn>
           </ModalContentWrapper>
         </ModalWrapper>
       )}
       {codeInputModal && (
         <ModalWrapper>
-        <ModalContentWrapper style={{ backgroundColor: "#fcfdf5" }}>
-          <ModalTitle onClick={closeCodeInputModal}>
-            가족의 코드를 공유 받았나요?
-          </ModalTitle>
-          <form onSubmit={handleSubmit}>
-            <ModalInput
-              placeholder="직접 입력해보세요!"
-              style={{ textAlign: "left" }}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-            <ModalBtn type="submit">제출</ModalBtn>
-          </form>
-        </ModalContentWrapper>
-      </ModalWrapper>
+          <ModalContentWrapper style={{ backgroundColor: "#fcfdf5" }}>
+            <ModalTitle onClick={closeCodeInputModal}>
+              가족의 코드를 공유 받았나요?
+            </ModalTitle>
+            <form onSubmit={handleSubmit}>
+              <ModalInput
+                placeholder="직접 입력해보세요!"
+                style={{ textAlign: "left" }}
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+              />
+              <ModalBtn type="submit">제출</ModalBtn>
+            </form>
+          </ModalContentWrapper>
+        </ModalWrapper>
       )}
       {/* <ModalWrapper>
                 <ModalContentWrapper>
@@ -517,7 +514,7 @@ const ModalInput = styled.input`
   font-size: 14px;
   line-height: 19.6px;
   padding-left: 10px;
-  margin-bottom:5px;
+  margin-bottom: 5px;
 
   &::placeholder {
     color: #717171;

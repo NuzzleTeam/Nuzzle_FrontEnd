@@ -1,6 +1,8 @@
 # Nuzzle_Frontend
 
-**UMC 너즐 프로젝트 프론트엔드 레포지토리**
+**NUZZLE 프로젝트 프론트엔드 레포지토리**
+
+![NuzzleImage](https://github.com/NuzzleTeam/Nuzzle_FrontEnd/blob/main/src/assets/read_me.png)
 
 ## <b> 0. Installation </b>
 
@@ -22,6 +24,14 @@ $ cd <repo>
 $ npm install
 ```
 
+- Update API Key in `.env` File
+    - In the root directory of your project, create a new file named `.env`.
+    - Add the following content to the file, replacing `your-api-key-here` with your actual GPT API key:
+```shell
+VITE_GPT_API_KEY = your-api-key-here
+VITE_API_BASE_URL = https://nuz2le.com/
+```
+
 - Start project
 
 ```shell
@@ -41,4 +51,3 @@ $ npm run dev
 | :---------------------------------------: |
 |  [MONG-SIL](https://github.com/MONG-SIL)  |
 | [gimgyuwon](https://github.com/gimgyuwon) |
-|  [hhey-jay](https://github.com/hhey-jay)  |

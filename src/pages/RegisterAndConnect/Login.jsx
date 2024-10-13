@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
@@ -89,12 +90,8 @@ function Login() {
 
       if (result.success) {
         console.log("로그인 성공:", result);
-<<<<<<< HEAD
-        dispatch(setAccessToken(result.data.access_token)); // 로그인 시 토큰 state에 저장 
-=======
         dispatch(setAccessToken(result.data.access_token)); // 로그인 시 토큰 state에 저장
         console.log(result.data.access_token);
->>>>>>> e935685d9d7013662d020d7e803d07e79afb5d81
         setErrMsg(false);
         dispatch(setSerialId(data.username)); // 로그인 id pw state 저장 
         dispatch(setPassword(data.pw));
@@ -163,14 +160,14 @@ function Login() {
           <IdPwForm onSubmit={handleSubmit(handleLogin)}>
             <InputBox
               placeholder="아이디 입력"
-              type="password"
+              type="text"
               id="userid"
               {...register("userid", { required: "아이디 입력" })}
               onChange={(e) => isIdTrim(e.target.value)}
             ></InputBox>
             <InputBox
               placeholder="비밀번호 입력"
-              type="text"
+              type="password"
               id="pw"
               {...register("pw", { required: "비밀번호 입력" })}
               onChange={(e) => isPwTrim(e.target.value)}

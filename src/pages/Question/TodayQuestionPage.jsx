@@ -8,47 +8,58 @@ import questionBubbleImg from "../../assets/question_bubble.png";
 import myModalImage from "../../assets/modal_image.png";
 import modalAlert from "../../assets/modal_alert.png";
 import axios from "axios";
+import openai from "../../api/openai";
 
 const TodayQuestionPage = () => {
   const [isWriting, setIsWriting] = useState(null);
   const [inputValue, setInputValue] = useState("");
   const [answers, setAnswers] = useState([]);
+  /** Question AI */
   const [question, setQuestion] = useState("");
+  /** MyAnswer Modal Control */
   const [userHasAnswered, setUserHasAnswered] = useState(false);
+  /** FamilyAnswer Modal Control */
   const [familyHasAnswered, setFamilyHasAnswered] = useState(false);
   const [hasFetchedData, setHasFetchedData] = useState(false);
-  const [questionId, setquestionId] = useState(null);
+  const [questionId, setQuestionId] = useState(null);
   const user = "나";
   const navigate = useNavigate();
   const familyId = "yourFamilyId";
 
+  /* Using GPT API */
+  const fetchAIQuestion = async () => {
+    try {
+      const response = await openai.post("/chat/completions", {
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a helpful assistant that generates meaningful and thoughtful daily questions for a family.",
+          },
+          {
+            role: "user",
+            content:
+              "가족이 답할 수 있는 오늘의 질문을 하나 만들어줘. 따옴표는 없어도 돼. 최근 혹은 지금까지 로 문장이 시작하고, 인가요? 로 문장이 끝나야해. 문장을 자연스럽게",
+          },
+        ],
+        max_tokens: 100,
+      });
+
+      const aiQuestion = response.data.choices[0].message.content.trim();
+      setQuestion(aiQuestion);
+      setHasFetchedData(true);
+    } catch (error) {
+      console.error("Error generating AI question: ", error);
+      throw new Error("AI 질문 생성에 실패했습니다.");
+    }
+  };
+
   useEffect(() => {
-    const fetchQuestionAndStatus = async () => {
-      try {
-        const questionResponse = await axios.get(
-          `/api/questions/random-question`
-        );
-        setQuestion(questionResponse.data.questionContents);
-        setquestionId(questionResponse.data.questionId);
-        setAnswers([]);
+    fetchAIQuestion();
+  }, []);
 
-        const answerStatusResponse = await axios.get(
-          `/api/answer-status/${questionResponse.data.questionId}`
-        );
-        const userAnswered =
-          answerStatusResponse.data.message === "Question has been answered.";
-        setUserHasAnswered(userAnswered);
-
-        setHasFetchedData(true);
-      } catch (error) {
-        console.error("Error fetching question and status", error);
-        alert("문제를 불러오는데 실패했습니다. 나중에 다시 시도해 주세요.");
-      }
-    };
-
-    fetchQuestionAndStatus();
-  }, [familyId]);
-
+  /** Click writeIcon */
   const handleWriteClick = (index) => {
     setIsWriting(index);
   };
@@ -58,6 +69,7 @@ const TodayQuestionPage = () => {
   };
 
   const handleUploadClick = async (index) => {
+    /** blank input value validation */
     if (inputValue.trim()) {
       try {
         await axios.post(`/api/questions/answer`, {
@@ -77,10 +89,10 @@ const TodayQuestionPage = () => {
     }
   };
 
-  const handleCancelClick = () => {
-    setIsWriting(null);
-    setInputValue("");
-  };
+  // const handleCancelClick = () => {
+  //   setIsWriting(null);
+  //   setInputValue("");
+  // };
 
   const handleFamilyAnswer = () => {
     setFamilyHasAnswered(true);
@@ -102,6 +114,7 @@ const TodayQuestionPage = () => {
             flex-direction: column;
             background-color: #f3f3f3;
             position: relative;
+            height: 100vh;
           }
 
           .question-card {
@@ -132,13 +145,11 @@ const TodayQuestionPage = () => {
 
           .question-header,
           .question-content {
-            padding-left: 1rem;
-            padding-top: 1.5rem;
+            padding: 2.5rem;
           }
 
           .question-header {
             top: 10px;
-            left: 20px;
             margin-bottom: 10px;
             font-size: 14px;
             margin: 0;
@@ -147,10 +158,10 @@ const TodayQuestionPage = () => {
 
           .question-content {
             top: 40px;
-            left: 20px;
             font-size: 20px;
             font-family: "Pretendard";
             font-weight: bold;
+            display: flex;
           }
 
           .main-avatar {

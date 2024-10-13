@@ -129,6 +129,7 @@ const Container = styled.div`
   justify-content: center;
   background-color: #fcfdf5;
   padding: 20px;
+  height: 100vh;
 `;
 
 const Title = styled.h2`

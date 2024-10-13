@@ -1,3 +1,4 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -26,13 +27,14 @@ const Home = () => {
   
 
   useEffect(() => {
-    const fetchUserId = async () => { // home 화면 오면, userId 받아서 넣을거임
+    const fetchUserId = async () => {
+      // home 화면 오면, userId 받아서 넣을거임
       try {
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        const proxyUrl = "https://cors-anywhere.herokuapp.com/";
         const targetUrl = `https://api.nuz2le.com/api/v1/user`;
 
         const response = await fetch(proxyUrl + targetUrl, {
-          method: 'GET',
+          method: "GET",
           headers: {
             'Content-Type': 'application/json',
             "Authorization": `Bearer ${accessToken}`,
@@ -46,9 +48,9 @@ const Home = () => {
         const data = await response.json();
         console.log(data);
         dispatch(setUserId(data.data.userId));//
-        dispatch(setFamilyId(9));
       } catch (error) {
         console.error('Fetch error:', error); // 왜 이러지
+
       }
     };
     fetchUserId();
@@ -76,38 +78,40 @@ const Home = () => {
 
       if (!createFamilyResponse.ok) {
         if (createFamilyResponse.status === 409) {
-          console.log('이미 가족에 포함되어 있습니다.');// 이미 가족에 포함된 경우ㅡ familyId 있음, 백엔드에 요쳥해서 받기
+          console.log("이미 가족에 포함되어 있습니다."); // 이미 가족에 포함된 경우ㅡ familyId 있음, 백엔드에 요쳥해서 받기
           const getFamilyMembersUrl = `https://api.nuz2le.com/api/family/${familyId}`;
-          const getFamilyResponse = await fetch(proxyUrl + getFamilyMembersUrl, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            "Authorization": `Bearer ${accessToken}`,
-          },
-      });
-      if (!getFamilyResponse.ok) {
-        throw new Error(`HTTP error! status: ${getFamilyResponse.status}`);
-      }
+          const getFamilyResponse = await fetch(
+            proxyUrl + getFamilyMembersUrl,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
+          if (!getFamilyResponse.ok) {
+            throw new Error(`HTTP error! status: ${getFamilyResponse.status}`);
+          }
 
-      const data = await getFamilyResponse.json();
-      console.log('가족 구성원1:', data);
-      navigate("/connect");
-          
+          const data = await getFamilyResponse.json();
+          console.log("가족 구성원1:", data);
+          navigate("/connect");
         }
         throw new Error(`HTTP error! status: ${createFamilyResponse.status}`);
       }
 
       const familyData = await createFamilyResponse.json();
-      console.log('가족이 만들어졌습니다:', familyData);
+      console.log("가족이 만들어졌습니다:", familyData);
       dispatch(setFamilyId(familyData.family_id));
 
       // 가족 구성원 목록을 불러오기 위해 familyId를 사용
       const getFamilyMembersUrl = `https://api.nuz2le.com/api/family/${familyId}`;
       const response = await fetch(proxyUrl + getFamilyMembersUrl, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          "Authorization": `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
         },
       });
 
@@ -116,11 +120,10 @@ const Home = () => {
       }
 
       const data = await response.json();
-      console.log('가족 구성원2:', data);
+      console.log("가족 구성원2:", data);
       navigate("/connect");
-
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error("Fetch error:", error);
     }
   };
 
@@ -175,10 +178,11 @@ const Home = () => {
             onClick={handleChaClick}
           />
         ) : (
-          <CharacterImage 
-            src={characterImage} 
+          <CharacterImage
+            src={characterImage}
             alt="애착이"
             ismoving={isMoving} 
+
           />
         )}
       </ImageContainer>
@@ -205,7 +209,6 @@ const Home = () => {
     </HomePage>
   );
 };
-
 
 const HomePage = styled.div`
   display: flex;
@@ -247,7 +250,8 @@ const CharacterImage = styled.img`
   transform: translateX(-50%);
   width: ${(props) => (props.ismoving ? "90%" : "100%")};
   z-index: 2;
-  top: ${(props) => (props.ismoving ? "-100px" : "0px")}; // 애니메이션을 위한 조건부 스타일
+  top: ${(props) =>
+    props.isMoving ? "-100px" : "0px"}; // 애니메이션을 위한 조건부 스타일
 `;
 
 const FirstCharacterImage = styled.img`

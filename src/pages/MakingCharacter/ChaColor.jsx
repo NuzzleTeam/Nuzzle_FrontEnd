@@ -100,12 +100,10 @@ const ChaColor = () => {
             navigate("/ChaName"); // POST 요청이 성공하면 페이지 이동
           } else {
             console.error("애착이 색 전송 실패");
-            navigate("/ChaName");
           }
         })
         .catch((error) => {
           console.error("애착이 색 전송 오류:", error);
-          navigate("/ChaName");
         });
     }
   };

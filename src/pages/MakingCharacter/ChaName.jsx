@@ -27,11 +27,12 @@ const ChaName = () => {
       headers: {
         "Authorization":`Bearer ${accessToken}`
       },
-      body: JSON.stringify({ "petName": name }),
+      body: JSON.stringify({ petName: name }),
     })
       .then((response) => {
         if (response.ok) {
           dispatch(setSavedName(name));
+          console.log(response);
           navigate("/ChaNameComplete"); // POST 요청이 성공하면 페이지 이동
         } else {
           console.error("이름 전송 실패");
@@ -161,7 +162,7 @@ const Image = styled.img`
 const Message = styled.div`
   font-size: 16px;
   text-align: center;
-  font-weight:600;
+  font-weight: 600;
   font-family: "Pretendard";
 `;
 
@@ -184,7 +185,7 @@ const StyledButton = styled.button`
   border-radius: 30px;
   width: 168px;
   font-size: 16px;
-  font-weight:bold;
+  font-weight: bold;
   font-family: "Pretendard";
   height: 50px;
   z-index: 2;

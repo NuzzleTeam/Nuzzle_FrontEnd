@@ -74,13 +74,8 @@ const Keyword = () => {
       .filter((kw) => selectedKeywords.includes(kw.keyword))
       .map((kw) => ({
         id: kw.id,
-        keyword: kw.keyword
+        keyword: kw.keyword,
       }));
-      /*
-    const requestBody = {
-      familyId,
-      keywords: selectedKeywordsWithIds, // ID와 함께 키워드 전송
-    };*/
 
     const requestBody = {
       familyId,
@@ -90,6 +85,7 @@ const Keyword = () => {
     fetch(proxyUrl + targetUrl, {
       method: "POST",
       headers:{
+        "Content-Type": "application/json",
         "Authorization":`Bearer ${accessToken}`
       },
       body: JSON.stringify(requestBody),
@@ -104,7 +100,6 @@ const Keyword = () => {
         console.log(requestBody);
         console.error("Error:", error);
         navigate("/ChaMake1"); // 요청이 성공하면 로딩페이지 이동
-
       });
   };
 
