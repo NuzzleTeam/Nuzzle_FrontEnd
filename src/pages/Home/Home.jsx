@@ -9,9 +9,10 @@ import {
 import styled from "styled-components";
 import picimg from "../../assets/msgimg.png";
 import { setUserId, setFamilyId } from "../../features/userSlice";
+import firstCha from "../../../src/assets/firstCha.png";
 
 const Home = () => {
-  const [isMoving, setIsMoving] = useState(false); // 캐릭터 애니메이션 스타일 관리 위해 추가된 상태
+  const [isMoving, setIsMoving] = useState(""); // 캐릭터 애니메이션 스타일 관리 위해 추가된 상태
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const characterImage = useSelector((state) => state.character.characterImage);
@@ -43,7 +44,8 @@ const Home = () => {
         }
 
         const data = await response.json();
-        dispatch(setUserId(data.data.userId));
+        console.log(data);
+        dispatch(setUserId(data.data.userId)); //
       } catch (error) {
         console.error("Fetch error:", error);
       }
@@ -169,10 +171,7 @@ const Home = () => {
           />
         )}
         {characterImage === "" ? (
-          <FirstCharacterImage
-            src="/src/assets/firstCha.png"
-            onClick={handleChaClick}
-          />
+          <FirstCharacterImage src={firstCha} onClick={handleChaClick} />
         ) : (
           <CharacterImage
             src={characterImage}
@@ -188,7 +187,7 @@ const Home = () => {
             style={{ bottom: "100px" }}
             onClick={handleNameBtnClick}
           >
-            애착이 생성하기
+            애착이 이름지어주기
           </MakeNameButton>
         ) : (
           <MakeNameButton
@@ -243,7 +242,7 @@ const CharacterImage = styled.img`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: ${(props) => (props.isMoving ? "90%" : "100%")};
+  width: ${(props) => (props.ismoving ? "90%" : "100%")};
   z-index: 2;
   top: ${(props) =>
     props.isMoving ? "-100px" : "0px"}; // 애니메이션을 위한 조건부 스타일

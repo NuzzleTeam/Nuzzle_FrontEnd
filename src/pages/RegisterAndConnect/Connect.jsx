@@ -35,7 +35,7 @@ function Connect() {
     const fetchInvitationCode = async () => {
       try {
         const response = await fetch(proxyUrl + targetUrl, {
-          method: "POST",
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
@@ -47,14 +47,11 @@ function Connect() {
 
         if (response.ok) {
           const data = await response.json();
-          dispatch(setInvitationCode("abcd-1234-efgh-5678"));
-          console.log("성공");
+          dispatch(setInvitationCode(data.invitation_code));
         } else if (response.status === 404) {
           console.error("가족을 찾을 수 없습니다.");
         } else {
           console.error("서버 응답 에러:", response.statusText);
-          dispatch(setInvitationCode("abcd-1234-efgh-5678")); // 일단 1이랑 초대코드 넣기
-          dispatch(setFamilyId(1)); // 이거 수정
         }
       } catch (error) {
         console.error("오류:", error);
@@ -104,7 +101,7 @@ function Connect() {
   const handleCopyCode = async (text) => {
     // 초대코드 눌렀을 때 복사되게
     try {
-      await navigator.clipboard.writeText("abcd-1234-efgh-5678");
+      await navigator.clipboard.writeText(invitationCode);
     } catch (err) {
       console.log(err);
     }
@@ -138,6 +135,7 @@ function Connect() {
   };
 
   const handleSubmit = async (event) => {
+    // 초대코드 입력 받았을 때 가족 확인
     event.preventDefault();
 
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -149,6 +147,7 @@ function Connect() {
     };
 
     try {
+      // 가족 코드로 구성원 추가 API
       const response = await fetch(proxyUrl + targetUrl, {
         method: "POST",
         headers: {

@@ -12,6 +12,7 @@ const ChaColor = () => {
   const [randomCharacter, setRandomCharacter] = useState(characterTypes[Math.floor(Math.random() * characterTypes.length)]);
   const selectedColor = useSelector((state) => state.color.selectedColor);
   const characterImage = useSelector((state) => state.character.characterImage);
+  const accessToken = useSelector((state) => state.user.accessToken);
   const familyId = useSelector((state) => state.user.familyId);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -40,14 +41,14 @@ const ChaColor = () => {
   };
 /*
   useEffect(() => {
-    // 프록시 서버를 이용한 fetch 요청
+    // 애착이 랜덤 캐릭터 설정 
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
     const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/assign-random-pet`;
 
     fetch(proxyUrl + targetUrl, {
       method: "PATCH",
       headers:{
-        "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+        "Authorization":`Bearer ${accessToken}`
       }
     })
       .then((response) => response.json())
@@ -84,26 +85,25 @@ const ChaColor = () => {
   const handleSelectClick = () => {
     if (selectedColor) {
       const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-      const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/pet-color`; // familyId는 어디서 받냐
+      const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/pet-color`; // 애착이 색상 선택(post), 수정(patch) 링크 
 
       fetch(proxyUrl + targetUrl, {
         method: "POST",
         headers:{
-          "Authorization":"Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g"
+          "Authorization":`Bearer ${accessToken}`
         },
         body: JSON.stringify({ selectedColor }),
       })
         .then((response) => {
           if (response.ok) {
+            console.log("애착이 색 설정 성공", response);
             navigate("/ChaName"); // POST 요청이 성공하면 페이지 이동
           } else {
             console.error("애착이 색 전송 실패");
-            navigate("/ChaName");
           }
         })
         .catch((error) => {
           console.error("애착이 색 전송 오류:", error);
-          navigate("/ChaName");
         });
     }
   };
