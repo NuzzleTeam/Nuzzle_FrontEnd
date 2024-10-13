@@ -2,7 +2,6 @@
   max-width: 400px;
   margin: 0 auto;
   background-color: white;
-  height: 100vh; /* 높이 지정 */
 }
 
 body {
@@ -10,12 +9,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: gray;
-}
-
-/* h1 {
-  font-size: 2em;
-  margin-bottom: 0.5em;
-  text-align: center;
+  height: 100%;
 }
 
 main {
