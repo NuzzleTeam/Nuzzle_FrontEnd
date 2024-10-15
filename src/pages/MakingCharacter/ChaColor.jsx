@@ -4,12 +4,26 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { setColor } from "../../features/colorSlice";
 import { setCharacterImage } from "../../features/characterSlice";
+import pinkrabbit from "/src/assets/chaMake/pinkrabbit.gif";
+import pinkcat from "/src/assets/chaMake/pinkcat.gif";
+import pinkbear from "/src/assets/chaMake/pinkbear.gif";
+import bluerabbit from "/src/assets/chaMake/bluerabbit.gif";
+import bluecat from "/src/assets/chaMake/bluecat.gif";
+import bluebear from "/src/assets/chaMake/bluebear.gif";
+import blackrabbit from "/src/assets/chaMake/blackrabbit.gif";
+import blackcat from "/src/assets/chaMake/blackcat.gif";
+import blackbear from "/src/assets/chaMake/blackbear.gif";
+import brownrabbit from "/src/assets/chaMake/brownrabbit.gif";
+import browncat from "/src/assets/chaMake/browncat.gif";
+import brownbear from "/src/assets/chaMake/brownbear.gif";
 
 const colors = ["#FFB1D0", "#90b4e0", "#cdb29f", "#3a2e29"]; // 핑크, 파랑, 갈색, 검정색
-const characterTypes = ['rabbit', 'cat', 'bear']; // 캐릭터 종류
+const characterTypes = ["rabbit", "cat", "bear"]; // 캐릭터 종류
 
 const ChaColor = () => {
-  const [randomCharacter, setRandomCharacter] = useState(characterTypes[Math.floor(Math.random() * characterTypes.length)]);
+  const [randomCharacter, setRandomCharacter] = useState(
+    characterTypes[Math.floor(Math.random() * characterTypes.length)]
+  );
   const selectedColor = useSelector((state) => state.color.selectedColor);
   const characterImage = useSelector((state) => state.character.characterImage);
   const accessToken = useSelector((state) => state.user.accessToken);
@@ -19,27 +33,27 @@ const ChaColor = () => {
 
   const characterImages = {
     "#FFB1D0": {
-      rabbit: "/src/assets/chaMake/pinkrabbit.gif",
-      cat: "/src/assets/chaMake/pinkcat.gif",
-      bear: "/src/assets/chaMake/pinkbear.gif",
+      rabbit: { pinkrabbit },
+      cat: { pinkcat },
+      bear: { pinkbear },
     },
     "#90b4e0": {
-      rabbit: "/src/assets/chaMake/bluerabbit.gif",
-      cat: "/src/assets/chaMake/bluecat.gif",
-      bear: "/src/assets/chaMake/bluebear.gif",
+      rabbit: { bluerabbit },
+      cat: { bluecat },
+      bear: { bluebear },
     },
     "#3a2e29": {
-      rabbit: "/src/assets/chaMake/blackrabbit.gif",
-      cat: "/src/assets/chaMake/blackcat.gif",
-      bear: "/src/assets/chaMake/blackbear.gif",
+      rabbit: { blackrabbit },
+      cat: { blackcat },
+      bear: { blackbear },
     },
     "#cdb29f": {
-      rabbit: "/src/assets/chaMake/brownrabbit.gif",
-      cat: "/src/assets/chaMake/browncat.gif",
-      bear: "/src/assets/chaMake/brownbear.gif",
+      rabbit: { brownrabbit },
+      cat: { browncat },
+      bear: { brownbear },
     },
   };
-/*
+  /*
   useEffect(() => {
     // 애착이 랜덤 캐릭터 설정 
     const proxyUrl = "https://cors-anywhere.herokuapp.com/";
@@ -75,7 +89,7 @@ const ChaColor = () => {
     const initialColor = colors[0];
     dispatch(setColor(initialColor)); // 초기 색상 설정
     dispatch(setCharacterImage(characterImages[initialColor][randomCharacter])); // 랜덤 캐릭터 이미지 설정
-  }, [dispatch, randomCharacter])
+  }, [dispatch, randomCharacter]);
 
   const handleColorClick = (color) => {
     dispatch(setColor(color));
@@ -85,12 +99,12 @@ const ChaColor = () => {
   const handleSelectClick = () => {
     if (selectedColor) {
       const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-      const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/pet-color`; // 애착이 색상 선택(post), 수정(patch) 링크 
+      const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/pet-color`; // 애착이 색상 선택(post), 수정(patch) 링크
 
       fetch(proxyUrl + targetUrl, {
         method: "POST",
-        headers:{
-          "Authorization":`Bearer ${accessToken}`
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ selectedColor }),
       })
