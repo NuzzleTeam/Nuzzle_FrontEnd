@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import chaMaking2 from "/src/assets/chaMaking2.png";
+import chaMaking1 from "/src/assets/chaMaking1.png";
 
 const ChaMake1 = () => {
   const navigate = useNavigate();
@@ -22,9 +24,9 @@ const ChaMake1 = () => {
   return (
     <Container>
       {selectedColor ? (
-        <CharacterImage src="src/assets/chaMaking2.png" alt="애착이 변신2" />
+        <CharacterImage src={chaMaking2} alt="애착이 변신2" />
       ) : (
-        <CharacterImage src="src/assets/chaMaking1.png" alt="애착이변신1" />
+        <CharacterImage src={chaMaking1} alt="애착이변신1" />
       )}
     </Container>
   );

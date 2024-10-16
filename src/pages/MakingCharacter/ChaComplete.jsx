@@ -2,6 +2,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { setCharacterImage } from "../../features/characterSlice";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import Union from "/src/assets/Union.png";
+import stars from "/src/assets/stars.png";
 
 const ChaComplete = () => {
   const characterImage = useSelector((state) => state.character.characterImage);
@@ -14,8 +16,8 @@ const ChaComplete = () => {
         도와드릴게요!
       </SpeechBubble>
       <Content>
-        <CharacterSpotlight src="/src/assets/Union.png"></CharacterSpotlight>
-        <CharacterStarImage src="/src/assets/stars.png"></CharacterStarImage>
+        <CharacterSpotlight src={Union}></CharacterSpotlight>
+        <CharacterStarImage src={stars}></CharacterStarImage>
         <CharacterImage src={characterImage} alt="character" />
       </Content>
       <SelectButton onClick={() => navigate("/")}>거실로 돌아가기</SelectButton>

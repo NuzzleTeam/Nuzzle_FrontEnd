@@ -10,6 +10,10 @@ import styled from "styled-components";
 import picimg from "../../assets/msgimg.png";
 import { setUserId, setFamilyId } from "../../features/userSlice";
 import firstCha from "../../../src/assets/firstCha.png";
+import connectIcon from "../../../src/assets/connect.png";
+import questionBubble from "/src/assets/conimg.png";
+import pictureIcon from "/src/assets/picimg.png";
+import homeBackground from "/src/assets/homeBackground.png";
 
 const Home = () => {
   const [isMoving, setIsMoving] = useState(""); // 캐릭터 애니메이션 스타일 관리 위해 추가된 상태
@@ -152,23 +156,17 @@ const Home = () => {
 
   return (
     <HomePage>
-      <AddButton
-        src="src/assets/connect.png"
-        onClick={handleAddClick}
-      ></AddButton>
+      <AddButton src={connectIcon} onClick={handleAddClick}></AddButton>
       {characterImage !== "" && (
         <MakeimgButton>
           <ImgButton src={picimg}></ImgButton>
-          <ImgButton src="/src/assets/conimg.png"></ImgButton>
-          <ImgButton src="/src/assets/picimg.png"></ImgButton>
+          <ImgButton src={questionBubble}></ImgButton>
+          <ImgButton src={pictureIcon}></ImgButton>
         </MakeimgButton>
       )}
       <ImageContainer>
         {characterImage !== "" && (
-          <BackgroundImage
-            src="src/assets/homeBackground.png"
-            alt="Home Background"
-          />
+          <BackgroundImage src={homeBackground} alt="Home Background" />
         )}
         {characterImage === "" ? (
           <FirstCharacterImage src={firstCha} onClick={handleChaClick} />
