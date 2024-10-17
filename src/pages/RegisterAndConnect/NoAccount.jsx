@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import noaccountImg from "/src/assets/img/noaccount.png";
 
 // 아이디 찾기 - 계정 X
 
@@ -17,7 +18,7 @@ function NoAccount() {
           <Title>
             <h3>가입된 계정이 없습니다</h3>
           </Title>
-          <Img src="src/assets/img/noaccount.png"></Img>
+          <Img src={noaccountImg}></Img>
           <BtnWrapper>
             <Btn
               style={{ backgroundColor: "#FFB1D0" }}

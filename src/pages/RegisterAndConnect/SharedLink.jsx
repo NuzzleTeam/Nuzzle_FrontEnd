@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import sharedLinkImg from "/src/assets/img/shared_link.png";
 
 // 공유된 링크 접속 페이지
 
@@ -16,7 +17,7 @@ function SharedLink() {
       <ConnectWrapper>
         <ConnectContentWrapper>
           <Top>
-            <Img src="src/assets/img/shared_link.png"></Img>
+            <Img src={sharedLinkImg}></Img>
           </Top>
           <Title>
             <span>_____님이 보낸 초대장이에요. </span>
