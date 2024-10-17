@@ -8,6 +8,9 @@ import {
   setUserId,
   setFamilyId,
 } from "../../features/userSlice";
+import connectImg from "/src/assets/img/connect.png";
+import linkChainImg from "/src/assets/img/link_chain.png";
+import pinkCheckImg from "/src/assets/pinkCheck.png";
 
 // 가족 연결 페이지
 
@@ -153,7 +156,7 @@ function Connect() {
         headers: {
           "Content-Type": "application/json",
           Authorization:
-            "Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g",
+            `Bearer ${accessToken}`,
         },
         body: JSON.stringify(requestBody),
       });
@@ -174,7 +177,6 @@ function Connect() {
       }
     } catch (error) {
       console.error("Fetch error:", error);
-      navigate("/connect/complete"); // 나중ㅇ ㅔ지우기
     }
   };
 
@@ -190,7 +192,7 @@ function Connect() {
             </ProgressBar>
           </Top>
           <Title>가족 연결을 해주세요</Title>
-          <Img src="src/assets/img/connect.png"></Img>
+          <Img src={connectImg}></Img>
           <Share>
             <ConnectBox
               onClick={() => {
@@ -201,7 +203,7 @@ function Connect() {
               <ConnectTitle>링크 공유하기</ConnectTitle>
               <InnerBox>버튼을 누르면 링크가 자동으로 복사돼요!</InnerBox>
               <img
-                src="src/assets/img/link_chain.png"
+                src={linkChainImg}
                 style={{ width: "44px", height: "44px", marginLeft: "135px" }}
               ></img>
             </ConnectBox>
@@ -232,7 +234,7 @@ function Connect() {
       {linkModal && (
         <ModalWrapper>
           <ModalContentWrapper>
-            <CheckImg src="/src/assets/pinkCheck.png"></CheckImg>
+            <CheckImg src={pinkCheckImg}></CheckImg>
             <ModalTitle>링크가 복사되었습니다</ModalTitle>
             <ModalBtn onClick={closeLinkModal}>확인</ModalBtn>
           </ModalContentWrapper>
@@ -241,7 +243,7 @@ function Connect() {
       {codeModal && (
         <ModalWrapper>
           <ModalContentWrapper>
-            <CheckImg src="/src/assets/pinkCheck.png"></CheckImg>
+            <CheckImg src={pinkCheckImg}></CheckImg>
             <ModalTitle>코드가 복사되었습니다</ModalTitle>
             <ModalBtn onClick={closeCodeModal}>확인</ModalBtn>
           </ModalContentWrapper>

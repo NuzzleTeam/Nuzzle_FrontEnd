@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import completeImg from "/src/assets/img/connect_complete.png"
 
 // 가족 연결 완료 페이지
 
@@ -28,7 +29,7 @@ function ConnectComplete() {
             <span>_____님과 </span>
             <span>가족 연결이 완료됐습니다!</span>
           </Title>
-          <Img src="/src/assets/img/connect_complete.png"></Img>
+          <Img src={completeImg}></Img>
           <ConnectBtnWrapper>
             <AddBtn onClick={goToConnect}>가족 추가하기</AddBtn>
             <CompleteBtn onClick={goToHome}>우리 가족 완성!</CompleteBtn>

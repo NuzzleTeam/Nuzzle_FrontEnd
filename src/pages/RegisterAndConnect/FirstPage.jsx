@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import upsideNuzzle from "/src/assets/img/upside_nuzzle.png";
+import nuzzle from "/src/assets/img/nuzzle.png";
+import mainCharacter from "/src/assets/img/main_character.png";
 
 // 사이트 접속 페이지 (첫 화면)
 
@@ -16,17 +19,17 @@ function FirstPage() {
           <img
             width={"64px"}
             height={"35px"}
-            src="src/assets/img/upside_nuzzle.png"
+            src={upsideNuzzle}
           />
           <img
             width={"69.11px"}
             height={"12px"}
-            src="src/assets/img/nuzzle.png"
+            src={nuzzle}
           />
         </Top>
         <Middle>
           <Bubble>하루 한 번, 우리 가족 일상 엿보기</Bubble>
-          <ChaImg src="src/assets/img/main_character.png"></ChaImg>
+          <ChaImg src={mainCharacter}></ChaImg>
         </Middle>
         <Bottom>
           <StartBtn onClick={startNuzzle}>너즐 시작하기</StartBtn>

@@ -6,6 +6,8 @@ import { GoStop } from "react-icons/go";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { login, selectIsLogin, setAccessToken , setPassword, setSerialId } from "../../features/userSlice";
+import kakaoImage from "/src/assets/img/kakao.png";
+
 
 // 로그인
 
@@ -195,7 +197,7 @@ function Login() {
             onClick={socialKakao}
             style={{ backgroundColor: "#F7E300", color: "#371D1E" }}
           >
-            <Img src="src/assets/img/kakao.png"></Img>카카오톡으로 로그인하기
+            <Img src={kakaoImage}></Img>카카오톡으로 로그인하기
           </Btn>
           <BtnWrapper>
             <SmallBtn onClick={goToFindId}>아이디 찾기</SmallBtn>

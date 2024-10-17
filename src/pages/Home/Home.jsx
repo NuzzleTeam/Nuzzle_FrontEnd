@@ -31,6 +31,12 @@ const Home = () => {
   useEffect(() => {
     const fetchUserId = async () => {
       // home 화면 오면, userId 받아서 넣을거임
+
+      if (!accessToken) {
+        navigate("/firstpage"); // accessToken이 없을 때 firpage로 이동
+        return;
+      }
+
       try {
         const proxyUrl = "https://cors-anywhere.herokuapp.com/";
         const targetUrl = `https://api.nuz2le.com/api/v1/user`;
@@ -174,7 +180,7 @@ const Home = () => {
           <CharacterImage
             src={characterImage}
             alt="애착이"
-            isMoving={isMoving}
+            ismoving={isMoving}
           />
         )}
       </ImageContainer>
@@ -243,7 +249,7 @@ const CharacterImage = styled.img`
   width: ${(props) => (props.ismoving ? "90%" : "100%")};
   z-index: 2;
   top: ${(props) =>
-    props.isMoving ? "-100px" : "0px"}; // 애니메이션을 위한 조건부 스타일
+    props.ismoving ? "-100px" : "0px"}; // 애니메이션을 위한 조건부 스타일
 `;
 
 const FirstCharacterImage = styled.img`
