@@ -19,14 +19,14 @@ function Connect() {
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const baseUrl = "http://localhost:3000"; // 3000으로 변경
+  const currentUrl = window.location.href;
   const familyId = useSelector((state) => state.user.familyId);
   const userId = useSelector((state) => state.user.userId);
   const invitationCode = useSelector((state) => state.user.invitationCode);
   const accessToken = useSelector((state) => state.user.accessToken);
 
   const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-  const targetUrl = "https://api.nuz2le.com/api/family/create";
+  const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/invitation-code`;
 
   const [linkModal, setLinkModal] = useState(false);
   const [codeModal, setCodeModal] = useState(false);
@@ -42,9 +42,6 @@ function Connect() {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
-          },
-          body: {
-            userId: userId,
           },
         });
 
@@ -196,7 +193,7 @@ function Connect() {
           <Share>
             <ConnectBox
               onClick={() => {
-                handleCopyClipBoard(`${baseUrl}${location.pathname}`);
+                handleCopyClipBoard(`${currentUrl}`);
                 openLinkModal();
               }}
             >
@@ -267,22 +264,6 @@ function Connect() {
           </ModalContentWrapper>
         </ModalWrapper>
       )}
-      {/* <ModalWrapper>
-                <ModalContentWrapper>
-                    <ModalTitle>비밀번호가 변경되었습니다</ModalTitle>
-                    <ModalSmallTitle>비밀번호가 변경되었습니다.</ModalSmallTitle>
-                    <ModalSmallTitle>다시 로그인해 주세요</ModalSmallTitle>
-                    <ModalBtn>확인</ModalBtn>
-                </ModalContentWrapper>
-            </ModalWrapper> */}
-      {/* <ModalWrapper>
-                <ModalContentWrapper>
-                    <ModalTitle>이미 가입된 계정이 있어요</ModalTitle>
-                    <ModalSmallTitle>이미 인증된 휴대폰번호로</ModalSmallTitle>
-                    <ModalSmallTitle>가입된 계정이 있어요.</ModalSmallTitle>
-                    <ModalBtn>확인</ModalBtn>
-                </ModalContentWrapper>
-            </ModalWrapper> */}
     </>
   );
 }

@@ -1,14 +1,27 @@
 import { useSelector, useDispatch } from "react-redux";
-import { setCharacterImage } from "../../features/characterSlice";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Union from "/src/assets/Union.png";
 import stars from "/src/assets/stars.png";
+import pinkrabbit from "/src/assets/chaMake/pinkrabbit.gif"
+import blackrabbit from "/src/assets/chaMake/blackrabbit.gif"
+import bluerabbit from "/src/assets/chaMake/bluerabbit.gif"
+import brownrabbit from "/src/assets/chaMake/brownrabbit.gif"
+import pinkcat from "/src/assets/chaMake/pinkcat.gif"
+import bluecat from "/src/assets/chaMake/bluecat.gif"
+import blackcat from "/src/assets/chaMake/blackcat.gif"
+import browncat from "/src/assets/chaMake/browncat.gif"
+import pinkbear from "/src/assets/chaMake/pinkbear.gif"
+import bluebear from "/src/assets/chaMake/bluebear.gif"
+import blackbear from "/src/assets/chaMake/blackbear.gif"
+import brownbear from "/src/assets/chaMake/brownbear.gif"
+
+
 
 const ChaComplete = () => {
   const characterImage = useSelector((state) => state.character.characterImage);
   const navigate = useNavigate();
-
+  console.log(characterImage);
   return (
     <Container>
       <SpeechBubble>

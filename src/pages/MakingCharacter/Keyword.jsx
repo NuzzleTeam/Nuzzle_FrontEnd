@@ -86,7 +86,7 @@ const Keyword = () => {
       method: "POST",
       headers: {
         Authorization:
-          "Bearer eyJKV1QiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1dWlkIjoyLCJyb2xlIjoiVVNFUiIsImlhdCI6MTcyMzg5MzA2NCwiZXhwIjoxNzI0NDk3ODY0fQ.a1hl17fFj5bmo0fRLWli4vNQtZSeg2YZYxKhyFpR5xgjqRYW58T1svkabn76kEL_t0j4PsiX7USZ9YQ0cbA03g",
+          `Bearer ${accessToken}`,
       },
       body: JSON.stringify(requestBody),
     })
