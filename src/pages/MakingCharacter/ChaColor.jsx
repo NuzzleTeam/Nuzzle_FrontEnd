@@ -33,56 +33,27 @@ const ChaColor = () => {
 
   const characterImages = {
     "#FFB1D0": {
-      rabbit: { pinkrabbit },
-      cat: { pinkcat },
-      bear: { pinkbear },
+      "rabbit":  pinkrabbit ,
+      "cat":  pinkcat ,
+      "bear":  pinkbear ,
     },
     "#90b4e0": {
-      rabbit: { bluerabbit },
-      cat: { bluecat },
-      bear: { bluebear },
+      "rabbit":  bluerabbit ,
+      "cat":  bluecat ,
+      "bear":  bluebear ,
     },
     "#3a2e29": {
-      rabbit: { blackrabbit },
-      cat: { blackcat },
-      bear: { blackbear },
+      "rabbit":  blackrabbit ,
+      "cat":  blackcat ,
+      "bear":  blackbear ,
     },
     "#cdb29f": {
-      rabbit: { brownrabbit },
-      cat: { browncat },
-      bear: { brownbear },
+      "rabbit":  brownrabbit ,
+      "cat":  browncat ,
+      "bear":  brownbear ,
     },
   };
-  /*
-  useEffect(() => {
-    // 애착이 랜덤 캐릭터 설정 
-    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-    const targetUrl = `https://api.nuz2le.com/api/family/${familyId}/assign-random-pet`;
 
-    fetch(proxyUrl + targetUrl, {
-      method: "PATCH",
-      headers:{
-        "Authorization":`Bearer ${accessToken}`
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        const fetchedCharacter = data["pet-random"]; // 캐릭터 종류 받아오고
-        setRandomCharacter(fetchedCharacter); // 일단 state 써서 저장해놓자
-
-        // 해당 캐릭터와 초기 색상에 맞는 이미지 설정
-        const initialColor = colors[0];
-        dispatch(setColor(initialColor)); // 초기 색상은 핑크로 설정
-        dispatch(
-          setCharacterImage(characterImages[initialColor][fetchedCharacter])
-        ); // fetchedCharacter 종류에 맞는 핑크색 캐릭터 띄우기
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
-*/
 
   useEffect(() => {
     // 랜덤 캐릭터의 초기 색상에 맞는 이미지 설정

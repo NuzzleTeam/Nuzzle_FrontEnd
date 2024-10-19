@@ -55,7 +55,7 @@ const Home = () => {
 
         const data = await response.json();
         console.log(data);
-        dispatch(setUserId(data.data.userId)); //
+        dispatch(setUserId(data.data.userId)); 
       } catch (error) {
         console.error("Fetch error:", error);
       }
@@ -71,7 +71,7 @@ const Home = () => {
 
   const handleAddClick = async () => {
     try {
-      // 누른 순간 가족생성 api 돌려서 없으면 생성 후 familyId 저장
+      // 누른 순간 가족생성 api 돌려서 없으면 생성 후 familyId, invitationCode 저장
       const proxyUrl = "https://cors-anywhere.herokuapp.com/";
       const createFamilyUrl = `https://api.nuz2le.com/api/family/create`;
 
@@ -103,7 +103,7 @@ const Home = () => {
           }
 
           const data = await getFamilyResponse.json();
-          console.log("가족 구성원1:", data);
+          console.log("familyId 있고 가족구성원:", data);
           navigate("/connect");
         }
         throw new Error(`HTTP error! status: ${createFamilyResponse.status}`);
@@ -128,7 +128,7 @@ const Home = () => {
       }
 
       const data = await response.json();
-      console.log("가족 구성원2:", data);
+      console.log("familyId는 없어서 생성하고 가족 구성원 목록:", data);
       navigate("/connect");
     } catch (error) {
       console.error("Fetch error:", error);
