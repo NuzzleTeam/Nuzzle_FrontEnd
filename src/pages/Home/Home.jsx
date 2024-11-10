@@ -15,14 +15,30 @@ import questionBubble from "/src/assets/conimg.png";
 import pictureIcon from "/src/assets/picimg.png";
 import homeBackground from "/src/assets/homeBackground.png";
 
+const characterImages2 = {
+  // home에서 사용하는 key value값
+  "/src/assets/chaMake/pinkrabbit.gif": "/src/assets/chaName/pinkrabbit2.gif",
+  "/src/assets/chaMake/blackrabbit.gif": "/src/assets/chaName/blackrabbit2.gif",
+  "/src/assets/chaMake/bluerabbit.gif": "/src/assets/chaName/bluerabbit2.gif",
+  "/src/assets/chaMake/brownrabbit.gif": "/src/assets/chaName/brownrabbit2.gif",
+  "/src/assets/chaMake/pinkcat.gif": "/src/assets/chaName/pinkcat2.gif",
+  "/src/assets/chaMake/bluecat.gif": "/src/assets/chaName/bluecat2.gif",
+  "/src/assets/chaMake/blackcat.gif": "/src/assets/chaName/blackcat2.gif",
+  "/src/assets/chaMake/browncat.gif": "/src/assets/chaName/browncat2.gif",
+  "/src/assets/chaMake/pinkbear.gif": "/src/assets/chaName/pinkbear2.gif",
+  "/src/assets/chaMake/bluebear.gif": "/src/assets/chaName/bluebear2.gif",
+  "/src/assets/chaMake/blackbear.gif": "/src/assets/chaName/blackbear2.gif",
+  "/src/assets/chaMake/brownbear.gif": "/src/assets/chaName/brownbear2.gif",
+};
+
 const Home = () => {
-  const [isMoving, setIsMoving] = useState(""); // 캐릭터 애니메이션 스타일 관리 위해 추가된 상태
+  const [isMoving, setIsMoving] = useState("false"); // 캐릭터 애니메이션 스타일 관리 위해 추가된 상태
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const characterImage = useSelector((state) => state.character.characterImage);
-  const characterImages2 = useSelector(
-    (state) => state.character.characterImages2
-  );
+  //const characterImages2 = useSelector(
+  //  (state) => state.character.characterImages2
+  //);
   const name = useSelector((state) => state.name.name);
   const userId = useSelector((state) => state.user.userId);
   const familyId = useSelector((state) => state.user.familyId);
@@ -147,10 +163,9 @@ const Home = () => {
     const nextImage = characterImages2[characterImage];
     if (nextImage && nextImage !== characterImage) {
       dispatch(setCharacterImage(nextImage));
-      setIsMoving(true);
-
+      setIsMoving("true");
       setTimeout(() => {
-        setIsMoving(false);
+        setIsMoving("false");
         dispatch(resetCharacterImage());
       }, 5000);
     }

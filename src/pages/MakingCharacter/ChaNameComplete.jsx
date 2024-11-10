@@ -2,12 +2,28 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+const characterImages = {
+  // namecomplete 화면에서 사용하는 key value
+  "/src/assets/chaMake/pinkrabbit.gif": "/src/assets/chaHome/pinkrabbit3.gif",
+  "/src/assets/chaMake/blackrabbit.gif": "/src/assets/chaHome/blackrabbit3.gif",
+  "/src/assets/chaMake/bluerabbit.gif": "/src/assets/chaHome/bluerabbit3.gif",
+  "/src/assets/chaMake/brownrabbit.gif": "/src/assets/chaHome/brownrabbit3.gif",
+  "/src/assets/chaMake/pinkcat.gif": "/src/assets/chaHome/pinkcat3.gif",
+  "/src/assets/chaMake/bluecat.gif": "/src/assets/chaHome/bluecat3.gif",
+  "/src/assets/chaMake/blackcat.gif": "/src/assets/chaHome/blackcat3.gif",
+  "/src/assets/chaMake/browncat.gif": "/src/assets/chaHome/browncat3.gif",
+  "/src/assets/chaMake/pinkbear.gif": "/src/assets/chaHome/pinkbear3.gif",
+  "/src/assets/chaMake/bluebear.gif": "/src/assets/chaHome/bluebear3.gif",
+  "/src/assets/chaMake/blackbear.gif": "/src/assets/chaHome/blackbear3.gif",
+  "/src/assets/chaMake/brownbear.gif": "/src/assets/chaHome/brownbear3.gif",
+};
+
 const ChaNameComplete = () => {
   const navigate = useNavigate();
   const characterImage = useSelector((state) => state.character.characterImage);
-  const characterImages = useSelector(
-    (state) => state.character.characterImages
-  );
+  //const characterImages = useSelector(
+  //  (state) => state.character.characterImages
+  //);
   const savedName = useSelector((state) => state.name.savedName);
 
   return (
