@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const characterImages = {
-  // Home 화면에서 사용하는 key value
+  // namecomplete 화면에서 사용하는 key value
   "/src/assets/chaMake/pinkrabbit.gif": "/src/assets/chaHome/pinkrabbit3.gif",
   "/src/assets/chaMake/blackrabbit.gif": "/src/assets/chaHome/blackrabbit3.gif",
   "/src/assets/chaMake/bluerabbit.gif": "/src/assets/chaHome/bluerabbit3.gif",
@@ -14,11 +14,10 @@ const characterImages = {
   "/src/assets/chaMake/bluebear.gif": "/src/assets/chaHome/bluebear3.gif",
   "/src/assets/chaMake/blackbear.gif": "/src/assets/chaHome/blackbear3.gif",
   "/src/assets/chaMake/brownbear.gif": "/src/assets/chaHome/brownbear3.gif",
-  "/src/assets/firstCha.gif": "/src/assets/firstCha.gif",
 };
 
 const characterImages2 = {
-  // Namecomplete에서 사용하는 key value값
+  // home에서 사용하는 key value값
   "/src/assets/chaMake/pinkrabbit.gif": "/src/assets/chaName/pinkrabbit2.gif",
   "/src/assets/chaMake/blackrabbit.gif": "/src/assets/chaName/blackrabbit2.gif",
   "/src/assets/chaMake/bluerabbit.gif": "/src/assets/chaName/bluerabbit2.gif",
@@ -31,7 +30,6 @@ const characterImages2 = {
   "/src/assets/chaMake/bluebear.gif": "/src/assets/chaName/bluebear2.gif",
   "/src/assets/chaMake/blackbear.gif": "/src/assets/chaName/blackbear2.gif",
   "/src/assets/chaMake/brownbear.gif": "/src/assets/chaName/brownbear2.gif",
-  "/src/assets/firstCha.gif": "/src/assets/firstCha.gif",
 };
 
 const characterSlice = createSlice({
