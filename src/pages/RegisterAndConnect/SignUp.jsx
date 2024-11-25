@@ -1,21 +1,9 @@
 import React, { useEffect } from "react";
-import { Form } from "react-router-dom";
 import styled from "styled-components";
 import { Controller, useForm } from "react-hook-form";
-import { useController } from "react-hook-form";
-import DatePicker from "react-datepicker";
 import { useState } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  login,
-  setUserId,
-  setInvitationCode,
-  setAccessToken,
-} from "../../features/userSlice";
-
-// 회원가입 페이지
 
 const years = Array.from({ length: 100 }, (_, i) => ({
   value: 2024 - i,
@@ -108,7 +96,7 @@ function SignUp() {
     defaultValues: {
       gender: "",
       role: "",
-      birthdate: new Date(),
+      birth_date: new Date(),
       email: "",
       pw: "",
       pwconfirm: "",
@@ -125,25 +113,16 @@ function SignUp() {
     "pwconfirm",
   ]);
 
-  const isFormValid = () => {
-    return (
-      watchFields.name &&
-      watchFields.gender &&
-      watchFields.role &&
-      watchFields.email &&
-      watchFields.pw &&
-      watchFields.pwconfirm &&
-      isValid
-    );
-  };
-
   const onSubmit = async (data) => {
     const payload = {
       serial_id: data.email,
       password: data.pw,
       user_name: data.name,
       gender: data.gender.toUpperCase(),
-      birth_date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`,
+      birth_date: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+        2,
+        "0"
+      )}-${String(date.getDate()).padStart(2, "0")}`,
       role: data.role.toUpperCase(),
     };
 
@@ -215,7 +194,6 @@ function SignUp() {
                 },
               })}
             />
-            {/* {errors.name && <ErrMsg>{errors.name.message}</ErrMsg>} */}
           </FormBox>
           <FormBox>
             <FormTitle>성별</FormTitle>
@@ -258,22 +236,22 @@ function SignUp() {
                 <FormBtnWrapper onChange={onChange} value={value}>
                   <FormBtn
                     type="button"
-                    onClick={() => onChange("parent")}
-                    selected={value === "parent"}
+                    onClick={() => onChange("PARENT")}
+                    selected={value === "PARENT"}
                   >
                     부모
                   </FormBtn>
                   <FormBtn
                     type="button"
-                    onClick={() => onChange("child")}
-                    selected={value === "child"}
+                    onClick={() => onChange("CHILD")}
+                    selected={value === "CHILD"}
                   >
                     자녀
                   </FormBtn>
                   <FormBtn
                     type="button"
-                    onClick={() => onChange("else")}
-                    selected={value === "else"}
+                    onClick={() => onChange("ETC")}
+                    selected={value === "ETC"}
                   >
                     기타
                   </FormBtn>
@@ -284,7 +262,7 @@ function SignUp() {
           <FormBox>
             <FormTitle>생년월일</FormTitle>
             <Controller
-              name="birthdate"
+              name="birth_date"
               control={control}
               render={({ field: { onChange, value } }) => (
                 <CustomDatePicker
@@ -493,41 +471,6 @@ const FormBtn = styled.button`
   padding-left: 10px;
 `;
 
-const BirthInputWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 7px;
-`;
-
-const BirthInput = styled.input`
-  background-color: #f3f3f3;
-  color: #959595;
-
-  width: 95px;
-  height: 57px;
-  border-radius: 12px;
-  border: none;
-  font-weight: 700;
-  font-size: 14px;
-  font-family: "Pretendard";
-  line-height: 16.8px;
-  text-align: right;
-  margin-right: 3px;
-
-  &:focus {
-    border: none;
-    outline: none;
-    color: #353535;
-    text-align: center;
-  }
-
-  &:not(:placeholder-shown) {
-    color: #353535;
-    text-align: center;
-  }
-`;
-
 const NextBtn = styled.button`
   width: 315px;
   height: 50px;
@@ -542,16 +485,4 @@ const NextBtn = styled.button`
   display: block;
   border: none;
   margin-bottom: 20px;
-`;
-
-const ErrMsg = styled.div`
-  color: #ff4545;
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14.4px;
-  text-align: left;
-  display: none;
-  top: 50%;
-  left: 50%;
-  transform: translate(0%, 0%);
 `;
