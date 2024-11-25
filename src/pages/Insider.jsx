@@ -5,6 +5,7 @@ import yellowMemo from "../assets/yellowMemo.png";
 
 const Insider = () => {
   const InsiderContainer = styled.div`
+    position: relative;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
@@ -15,7 +16,7 @@ const Insider = () => {
   const Title = styled.h1`
     position: absolute;
     left: 5%;
-    top: 10%;
+    top: 3%;
     line-height: 30px;
     font-family: "Pretendard";
     font-size: 20px;
