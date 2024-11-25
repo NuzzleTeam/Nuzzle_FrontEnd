@@ -4,7 +4,7 @@ import styled from "styled-components";
 import homeIcon from "../../assets/home.png";
 import peekIcon from "../../assets/peek.png";
 import activePeekIcon from "../../assets/activepeek.png"; // 활성화된 상태에서 사용할 아이콘
-import piggybankIcon from "../../assets/piggybank.png";
+import insiderIcon from "../../assets/insider.png";
 import calendarIcon from "../../assets/calendar.png";
 import settingIcon from "../../assets/setting.png";
 
@@ -98,12 +98,10 @@ const Footer = () => {
         </Link>
       </FooterItem>
 
-      <FooterItem
-        className={location.pathname === "/piggybank" ? "active" : ""}
-      >
-        <Link to="/piggybank">
-          <FooterIcon src={piggybankIcon} alt="PiggyBank" />
-          <p>저금통</p>
+      <FooterItem className={location.pathname === "/insider" ? "active" : ""}>
+        <Link to="/insider">
+          <FooterIcon src={insiderIcon} alt="insider" />
+          <p>소식통</p>
         </Link>
       </FooterItem>
 

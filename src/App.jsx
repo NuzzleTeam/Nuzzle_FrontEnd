@@ -24,7 +24,7 @@ import WakeUpLetterPage from "./pages/Question/WakeUpLetterPage";
 
 // import Character pages
 import Peek from "./pages/Peek";
-import Piggybank from "./pages/Piggybank";
+import Insider from "./pages/Insider";
 import Calendar from "./pages/Calendar";
 import Setting from "./pages/Setting";
 import ChaName from "./pages/MakingCharacter/ChaName";
@@ -116,7 +116,7 @@ const AppContent = () => {
           <Route path="/wake-up-letter" element={<WakeUpLetterPage />} />
           <Route path="/photo-capture" element={<PhotoCapturePage />} />
           <Route path="/peek" element={<Peek />} />
-          <Route path="/piggybank" element={<Piggybank />} />
+          <Route path="/insider" element={<Insider />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/setting" element={<Setting />} />
 

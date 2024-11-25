@@ -68,7 +68,6 @@ const WakeUpLetterPage = () => {
       resize: "none",
       background:
         "repeating-linear-gradient(to bottom, transparent, transparent 18px, #ffffff 20px)",
-      lineHeight: "25px",
       fontFamily: "Pretendard",
       fontWeight: "600",
       whiteSpace: "pre-wrap",
