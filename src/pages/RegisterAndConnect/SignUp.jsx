@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
-import { Form } from "react-router-dom";
 import styled from "styled-components";
 import { Controller, useForm } from "react-hook-form";
-import { useController } from "react-hook-form";
-import DatePicker from "react-datepicker";
 import { useState } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
@@ -12,8 +9,11 @@ import {
   login,
   setUserId,
   setInvitationCode,
-  setAccessToken,
+  setAccessToken, 
 } from "../../features/userSlice";
+import { useController } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import { Form } from "react-router-dom";
 
 // 회원가입 페이지
 
@@ -215,7 +215,7 @@ function SignUp() {
                 },
               })}
             />
-            {/* {errors.name && <ErrMsg>{errors.name.message}</ErrMsg>} */}
+            {errors.name && <ErrMsg>{errors.name.message}</ErrMsg>}
           </FormBox>
           <FormBox>
             <FormTitle>성별</FormTitle>
@@ -308,6 +308,7 @@ function SignUp() {
                 },
               })}
             />
+            {errors.email && <ErrMsg>{errors.email.message}</ErrMsg>}
           </FormBox>
           <FormBox>
             <FormTitle>비밀번호</FormTitle>
@@ -341,6 +342,7 @@ function SignUp() {
                 },
               })}
             />
+            {errors.pw && <ErrMsg>{errors.pw.message}</ErrMsg>}
           </FormBox>
           <FormBox>
             <FormTitle>비밀번호 확인</FormTitle>
@@ -409,7 +411,7 @@ const ProgressBar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px auto;
+  margin-bottom:4px;
 `;
 
 const InnerProgreeBar = styled.div`

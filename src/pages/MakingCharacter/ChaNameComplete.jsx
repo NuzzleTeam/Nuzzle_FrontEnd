@@ -2,20 +2,34 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
+import pinkrabbit from "/src/assets/chaHome/pinkrabbit3.gif";
+import pinkcat from "/src/assets/chaHome/pinkcat3.gif";
+import pinkbear from "/src/assets/chaHome/pinkbear3.gif";
+import bluerabbit from "/src/assets/chaHome/bluerabbit3.gif";
+import bluecat from "/src/assets/chaHome/bluecat3.gif";
+import bluebear from "/src/assets/chaHome/bluebear3.gif";
+import blackrabbit from "/src/assets/chaHome/blackrabbit3.gif";
+import blackcat from "/src/assets/chaHome/blackcat3.gif";
+import blackbear from "/src/assets/chaHome/blackbear3.gif";
+import brownrabbit from "/src/assets/chaHome/brownrabbit3.gif";
+import browncat from "/src/assets/chaHome/browncat3.gif";
+import brownbear from "/src/assets/chaHome/brownbear3.gif";
+
+
 const characterImages = {
   // namecomplete 화면에서 사용하는 key value
-  "/src/assets/chaMake/pinkrabbit.gif": "/src/assets/chaHome/pinkrabbit3.gif",
-  "/src/assets/chaMake/blackrabbit.gif": "/src/assets/chaHome/blackrabbit3.gif",
-  "/src/assets/chaMake/bluerabbit.gif": "/src/assets/chaHome/bluerabbit3.gif",
-  "/src/assets/chaMake/brownrabbit.gif": "/src/assets/chaHome/brownrabbit3.gif",
-  "/src/assets/chaMake/pinkcat.gif": "/src/assets/chaHome/pinkcat3.gif",
-  "/src/assets/chaMake/bluecat.gif": "/src/assets/chaHome/bluecat3.gif",
-  "/src/assets/chaMake/blackcat.gif": "/src/assets/chaHome/blackcat3.gif",
-  "/src/assets/chaMake/browncat.gif": "/src/assets/chaHome/browncat3.gif",
-  "/src/assets/chaMake/pinkbear.gif": "/src/assets/chaHome/pinkbear3.gif",
-  "/src/assets/chaMake/bluebear.gif": "/src/assets/chaHome/bluebear3.gif",
-  "/src/assets/chaMake/blackbear.gif": "/src/assets/chaHome/blackbear3.gif",
-  "/src/assets/chaMake/brownbear.gif": "/src/assets/chaHome/brownbear3.gif",
+  "/src/assets/chaMake/pinkrabbit.gif": pinkrabbit,
+  "/src/assets/chaMake/blackrabbit.gif": blackrabbit,
+  "/src/assets/chaMake/bluerabbit.gif": bluerabbit,
+  "/src/assets/chaMake/brownrabbit.gif": brownrabbit,
+  "/src/assets/chaMake/pinkcat.gif": pinkcat,
+  "/src/assets/chaMake/bluecat.gif": bluecat,
+  "/src/assets/chaMake/blackcat.gif": blackcat,
+  "/src/assets/chaMake/browncat.gif": browncat,
+  "/src/assets/chaMake/pinkbear.gif": pinkbear,
+  "/src/assets/chaMake/bluebear.gif": bluebear,
+  "/src/assets/chaMake/blackbear.gif": blackbear,
+  "/src/assets/chaMake/brownbear.gif": brownbear
 };
 
 const ChaNameComplete = () => {

@@ -15,30 +15,40 @@ import questionBubble from "/src/assets/conimg.png";
 import pictureIcon from "/src/assets/picimg.png";
 import homeBackground from "/src/assets/homeBackground.png";
 
+import pinkrabbit from "/src/assets/chaName/pinkrabbit2.gif";
+import pinkcat from "/src/assets/chaName/pinkcat2.gif";
+import pinkbear from "/src/assets/chaName/pinkbear2.gif";
+import bluerabbit from "/src/assets/chaName/bluerabbit2.gif";
+import bluecat from "/src/assets/chaName/bluecat2.gif";
+import bluebear from "/src/assets/chaName/bluebear2.gif";
+import blackrabbit from "/src/assets/chaName/blackrabbit2.gif";
+import blackcat from "/src/assets/chaName/blackcat2.gif";
+import blackbear from "/src/assets/chaName/blackbear2.gif";
+import brownrabbit from "/src/assets/chaName/brownrabbit2.gif";
+import browncat from "/src/assets/chaName/browncat2.gif";
+import brownbear from "/src/assets/chaName/brownbear2.gif";
+
 const characterImages2 = {
   // home에서 사용하는 key value값
-  "/src/assets/chaMake/pinkrabbit.gif": "/src/assets/chaName/pinkrabbit2.gif",
-  "/src/assets/chaMake/blackrabbit.gif": "/src/assets/chaName/blackrabbit2.gif",
-  "/src/assets/chaMake/bluerabbit.gif": "/src/assets/chaName/bluerabbit2.gif",
-  "/src/assets/chaMake/brownrabbit.gif": "/src/assets/chaName/brownrabbit2.gif",
-  "/src/assets/chaMake/pinkcat.gif": "/src/assets/chaName/pinkcat2.gif",
-  "/src/assets/chaMake/bluecat.gif": "/src/assets/chaName/bluecat2.gif",
-  "/src/assets/chaMake/blackcat.gif": "/src/assets/chaName/blackcat2.gif",
-  "/src/assets/chaMake/browncat.gif": "/src/assets/chaName/browncat2.gif",
-  "/src/assets/chaMake/pinkbear.gif": "/src/assets/chaName/pinkbear2.gif",
-  "/src/assets/chaMake/bluebear.gif": "/src/assets/chaName/bluebear2.gif",
-  "/src/assets/chaMake/blackbear.gif": "/src/assets/chaName/blackbear2.gif",
-  "/src/assets/chaMake/brownbear.gif": "/src/assets/chaName/brownbear2.gif",
+  "/src/assets/chaMake/pinkrabbit.gif": pinkrabbit,
+  "/src/assets/chaMake/blackrabbit.gif": blackrabbit,
+  "/src/assets/chaMake/bluerabbit.gif": bluerabbit,
+  "/src/assets/chaMake/brownrabbit.gif": brownrabbit,
+  "/src/assets/chaMake/pinkcat.gif": pinkcat,
+  "/src/assets/chaMake/bluecat.gif": bluecat,
+  "/src/assets/chaMake/blackcat.gif": blackcat,
+  "/src/assets/chaMake/browncat.gif": browncat,
+  "/src/assets/chaMake/pinkbear.gif": pinkbear,
+  "/src/assets/chaMake/bluebear.gif": bluebear,
+  "/src/assets/chaMake/blackbear.gif": blackbear,
+  "/src/assets/chaMake/brownbear.gif": brownbear
 };
 
 const Home = () => {
-  const [isMoving, setIsMoving] = useState("false"); // 캐릭터 애니메이션 스타일 관리 위해 추가된 상태
+  const [isMoving, setIsMoving] = useState(false); // 캐릭터 애니메이션 스타일 관리 위해 추가된 상태
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const characterImage = useSelector((state) => state.character.characterImage);
-  //const characterImages2 = useSelector(
-  //  (state) => state.character.characterImages2
-  //);
   const name = useSelector((state) => state.name.name);
   const userId = useSelector((state) => state.user.userId);
   const familyId = useSelector((state) => state.user.familyId);
@@ -77,7 +87,7 @@ const Home = () => {
       }
     };
     fetchUserId();
-  }, [dispatch, accessToken]);
+  }, [dispatch, accessToken, isMoving]);
 
   const handleChaClick = () => {
     if (characterImage === "") {
@@ -161,11 +171,12 @@ const Home = () => {
 
   const handleBtnClick = () => {
     const nextImage = characterImages2[characterImage];
-    if (nextImage && nextImage !== characterImage) {
+    if (nextImage) {
       dispatch(setCharacterImage(nextImage));
-      setIsMoving("true");
+      setIsMoving(true);
+      console.log()
       setTimeout(() => {
-        setIsMoving("false");
+        setIsMoving(false);
         dispatch(resetCharacterImage());
       }, 5000);
     }
@@ -191,12 +202,19 @@ const Home = () => {
         )}
         {characterImage === "" ? (
           <FirstCharacterImage src={firstCha} onClick={handleChaClick} />
-        ) : (
+        ) : isMoving ? ( // isMoving이 true일 때
           <CharacterImage
+            src={characterImage} 
+            alt="애착이"
+            data-ismoving={isMoving}
+          />
+        ) : ( // isMoving이 false일 때
+          <CharacterImage2
             src={characterImage}
             alt="애착이"
-            ismoving={isMoving}
+            data-ismoving={isMoving}
           />
+          
         )}
       </ImageContainer>
 
@@ -238,7 +256,7 @@ const AddButton = styled.img`
   cursor: pointer;
   position: absolute;
   left: 20px;
-  top: 40px;
+  top: 45px;
   z-index: 3;
 `;
 
@@ -250,10 +268,11 @@ const ImageContainer = styled.div`
 `;
 
 const BackgroundImage = styled.img`
-  width: 100%;
+  width: 364px;
   height: 100%;
   position: absolute;
-  bottom: -70px;
+  bottom: -40px;
+  margin-left: 10px;
   z-index: 1;
 `;
 
@@ -261,12 +280,19 @@ const CharacterImage = styled.img`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: ${(props) => (props.ismoving ? "90%" : "100%")};
-  z-index: 2;
-  top: ${(props) =>
-    props.ismoving ? "-100px" : "0px"}; // 애니메이션을 위한 조건부 스타일
-`;
+  width: 100%;
+  margin-top: -150px;
+  z-index: 3;
+  `;
 
+const CharacterImage2 = styled.img`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  margin-top: 20px;
+  z-index: 2;
+`;
 const FirstCharacterImage = styled.img`
   position: absolute;
   left: 50%;

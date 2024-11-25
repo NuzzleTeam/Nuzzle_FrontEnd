@@ -2,14 +2,11 @@ import React from "react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { GoStop } from "react-icons/go";
+import Stop from "/src/assets/stop.png";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { login, selectIsLogin, setAccessToken , setPassword, setSerialId } from "../../features/userSlice";
 import kakaoImage from "/src/assets/img/kakao.png";
-
-
-// 로그인
 
 function Login() {
   const dispatch = useDispatch();
@@ -176,7 +173,7 @@ function Login() {
             ></InputBox>
             {errMsg && (
               <ErrMsg style={{ display: errMsg ? "block" : "none" }}>
-                <GoStop /> 아이디/비밀번호가 일치하지 않습니다.
+                <img src={Stop}/> 아이디/비밀번호가 일치하지 않습니다.
               </ErrMsg>
             )}
 
@@ -243,7 +240,7 @@ const Title = styled.div`
   font-size: 24px;
   font-family: "Pretendard";
   line-height: 33.6px;
-  margin-bottom: 40px;
+  margin-bottom: 48px;
 `;
 
 const IdPwForm = styled.form`
@@ -296,9 +293,9 @@ const Btn = styled.button`
 `;
 
 const Img = styled.img`
-  position: relative;
-  top: 5px;
-  left: -5px;
+  position: absolute;
+  top: 331px;
+  left: 46px;
 `;
 
 const SmallBtn = styled.div`

@@ -1,13 +1,16 @@
+import { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import confirmTimer from "../../hooks/confirmTimer";
-// 아이디 찾기
 
 function FindId() {
   const navigate = useNavigate();
+  const [showErrMsg, setShowErrMsg] = useState(false); // 에러 메시지 상태 추가
+
   const backToLogin = () => {
     navigate("/login");
   };
+
   const {
     phoneNumber,
     verificationCode,
@@ -23,22 +26,29 @@ function FindId() {
     handleVerificationCodeChange,
   } = confirmTimer();
 
+  // 인증 완료 버튼 로직
+  const handleVerifyCode = () => {
+    const isVerified = verifyCode(); // 기존의 인증 로직 호출
+    setShowErrMsg(!isVerified); // 인증 실패 시 에러 메시지 표시
+  };
+
   return (
     <>
       <PageWrapper>
         <ContentWrapper>
           <Title>
-            <h3>아이디 찾기</h3>
+            아이디 찾기
           </Title>
           <Letter>
-            <h5>휴대폰 번호</h5>
+            휴대폰 번호
           </Letter>
           <ConfirmBox>
             <PhoneNumber
               placeholder="01012345678"
               type="text"
               onChange={handleChange}
-            ></PhoneNumber>
+              fontFamily={"Pretendard"}
+            />
             <ConfirmBtn
               onClick={
                 !verificationStatus.sent ? sendVerification : resendVerification
@@ -49,25 +59,19 @@ function FindId() {
             </ConfirmBtn>
           </ConfirmBox>
           <Letter>
-            <h5>인증번호</h5>
+            인증번호
           </Letter>
-          {/* {verificationStatus.sent && (
-                    <ConfirmBox>
-                        <ConfirmNumber placeholder="인증번호 4자리"
-                                        value={verificationCode}
-                                        onChange={handleVerificationCodeChange}></ConfirmNumber>
-                    </ConfirmBox>
-                )} */}
           <ConfirmBox>
             <ConfirmNumber
               placeholder="인증번호 4자리"
               value={verificationCode}
               onChange={handleVerificationCodeChange}
-            ></ConfirmNumber>
+            />
           </ConfirmBox>
-          <ErrMsg>인증번호가 일치하지 않습니다</ErrMsg>
+          {/* 인증번호 불일치 시 에러 메시지 */}
+          {showErrMsg && <ErrMsg>인증번호가 일치하지 않습니다</ErrMsg>}
           <ConfirmCompleteBtn
-            onClick={verifyCode}
+            onClick={handleVerifyCode}
             style={{ backgroundColor: btnColor }}
           >
             인증 완료
@@ -105,17 +109,22 @@ const Title = styled.div`
   font-weight: 700;
   font-size: 24px;
   line-height: 33.6px;
+  font-family: "Pretendard";
   top: 50%;
   left: 50%;
   transform: translate(0%, -5%);
+  margin-top : 0px;
+  margin-bottom: 26px;
 `;
 
 const Letter = styled.div`
   text-align: left;
   padding-left: 25px;
+  font-family: "Pretendard";
   font-weight: 600;
   font-size: 16px;
   line-height: 22.4px;
+  margin-bottom:8px;
 `;
 
 const ConfirmBox = styled.div`
@@ -134,7 +143,9 @@ const PhoneNumber = styled.input`
   background-color: #f3f3f3;
   font-family: "Pretendard";
   font-size: 14px;
+  font-weight: 600;
   line-height: 16.8px;
+  margin-bottom:20px;
   &:focus {
     border: none;
     outline: none;
@@ -170,6 +181,7 @@ const ConfirmNumber = styled.input`
   background-color: #f3f3f3;
   font-family: "Pretendard";
   font-size: 14px;
+  font-weight: 600;
   line-height: 16.8px;
   &:focus {
     border: none;
@@ -199,6 +211,7 @@ const ErrMsg = styled.div`
   color: #ff4545;
   font-weight: 400;
   font-size: 12px;
+  font-family: "Pretendard";
   line-height: 14.4px;
   text-align: left;
   display: block;

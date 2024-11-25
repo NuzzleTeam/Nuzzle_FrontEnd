@@ -29,14 +29,13 @@ function FindPw() {
   } = confirmTimer();
 
   return (
-    <>
       <FindIdWrapper>
         <FindIdContentWrapper>
           <Title>
-            <h3>비밀번호 찾기</h3>
+            비밀번호 찾기
           </Title>
           <Letter>
-            <h5>아이디</h5>
+            아이디
           </Letter>
           <ConfirmBox>
             <Id
@@ -46,7 +45,7 @@ function FindPw() {
             ></Id>
           </ConfirmBox>
           <Letter>
-            <h5>휴대폰 번호</h5>
+            휴대폰 번호
           </Letter>
           <ConfirmBox>
             <PhoneNumber
@@ -64,7 +63,7 @@ function FindPw() {
             </ConfirmBtn>
           </ConfirmBox>
           <Letter>
-            <h5>인증번호</h5>
+            인증번호
           </Letter>
           <ConfirmBox>
             <ConfirmNumber
@@ -79,7 +78,6 @@ function FindPw() {
           </ConfirmCompleteBtn>
         </FindIdContentWrapper>
       </FindIdWrapper>
-    </>
   );
 }
 
@@ -107,15 +105,25 @@ const FindIdContentWrapper = styled.div`
 
 const Title = styled.div`
   text-align: left;
+  padding-left: 0px;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 33.6px;
   font-family: "Pretendard";
-  font-weight: bold;
+  top: 50%;
+  left: 50%;
+  transform: translate(0%, -5%);
+  margin-top : 0px;
+  margin-bottom: 23px;
 `;
 
 const Letter = styled.div`
-  /* border: 1px solid black; */
   text-align: left;
   font-family: "Pretendard";
-  font-weight: semibold;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22.4px;
+  margin-bottom:8px;
 `;
 
 const ConfirmBox = styled.div`
@@ -126,7 +134,7 @@ const ConfirmBox = styled.div`
 `;
 
 const Id = styled.input`
-  width: 220px;
+  width: 300px;
   height: 60px;
   padding: 20px, 12px, 20px, 12px;
   border-radius: 12px;
@@ -136,6 +144,7 @@ const Id = styled.input`
   font-weight: 600;
   background-color: #f3f3f3;
   padding-left: 10px;
+  margin-bottom:20px;
   &:focus {
     border: none;
     outline: none;
@@ -153,6 +162,7 @@ const PhoneNumber = styled.input`
   font-weight: 600;
   background-color: #f3f3f3;
   padding-left: 10px;
+  margin-bottom:20px;
   &:focus {
     border: none;
     outline: none;
@@ -162,15 +172,21 @@ const PhoneNumber = styled.input`
 const ConfirmBtn = styled.button`
   width: 88px;
   height: 50px;
-  padding: 14px, 129px, 14px, 129px;
   border-radius: 100px;
-  background-color: #cbcbcb;
-  font-family: "Pretendard";
-  font-weight: bold;
   color: #353535;
-  font-size: small;
-  margin: 5px;
   border: none;
+  font-family: "Pretendard";
+  background-color: #dfdfdf;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 19.6px;
+  margin: 5px;
+
+  &:focus {
+    background-color: #ffe6f0;
+    border: none;
+    border: 2px solid #ffb1d0;
+  }
 `;
 
 const ConfirmNumber = styled.input`
