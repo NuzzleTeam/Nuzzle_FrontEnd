@@ -28,10 +28,10 @@ function FindId() {
       <PageWrapper>
         <ContentWrapper>
           <Title>
-            <h3>아이디 찾기</h3>
+            <div>아이디 찾기</div>
           </Title>
           <Letter>
-            <h5>휴대폰 번호</h5>
+            <div>휴대폰 번호</div>
           </Letter>
           <ConfirmBox>
             <PhoneNumber
@@ -49,7 +49,7 @@ function FindId() {
             </ConfirmBtn>
           </ConfirmBox>
           <Letter>
-            <h5>인증번호</h5>
+            <div>인증번호</div>
           </Letter>
           {/* {verificationStatus.sent && (
                     <ConfirmBox>
@@ -102,20 +102,19 @@ const ContentWrapper = styled.div`
 const Title = styled.div`
   text-align: left;
   padding-left: 25px;
-  font-weight: 700;
+  font-family: "Pretendard";
+  font-weight: bold;
   font-size: 24px;
-  line-height: 33.6px;
-  top: 50%;
-  left: 50%;
-  transform: translate(0%, -5%);
+  line-height: 50px;
 `;
 
 const Letter = styled.div`
   text-align: left;
   padding-left: 25px;
+  font-family: "Pretendard";
   font-weight: 600;
   font-size: 16px;
-  line-height: 22.4px;
+  line-height: 50px;
 `;
 
 const ConfirmBox = styled.div`

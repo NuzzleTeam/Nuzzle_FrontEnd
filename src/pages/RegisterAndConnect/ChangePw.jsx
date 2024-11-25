@@ -65,7 +65,7 @@ function ChangePw() {
           <Title>비밀번호 변경하기</Title>
           <ConfirmBox onSubmit={handleSubmit(onSubmit)}>
             <Letter>
-              <h5>변경할 비밀번호</h5>
+              <div>변경할 비밀번호</div>
             </Letter>
             <FormInput
               placeholder="01012345678"
@@ -76,7 +76,7 @@ function ChangePw() {
             ></FormInput>
 
             <Letter>
-              <h5>비밀번호 확인</h5>
+              <div>비밀번호 확인</div>
             </Letter>
             <FormInput
               placeholder="01012345678"
@@ -128,40 +128,36 @@ const ContentWrapper = styled.div`
   transform: translate(3.8%, 2%);
   display: flex;
   flex-direction: column;
+  padding-left: 25px;
 `;
 
 const Title = styled.div`
   text-align: left;
-  padding-left: 15px;
   font-family: "Pretendard";
-  font-weight: 700;
+  font-weight: bold;
   font-size: 24px;
-  line-height: 33.6px;
+  line-height: 50px;
+`;
+
+const ConfirmBox = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
 `;
 
 const Letter = styled.div`
   text-align: left;
   font-family: "Pretendard";
-  padding-left: 20px;
   font-weight: 600;
   font-size: 16px;
-  line-height: 22.4px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-7%, 5%);
-`;
-
-const ConfirmBox = styled.form`
-  padding-left: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
+  line-height: 50px;
 `;
 
 const FormInput = styled.input`
   width: 315px;
   height: 60px;
   padding-left: 12px;
+  margin: 12px 0px;
   border-radius: 12px;
   border: none;
   background-color: #f3f3f3;
@@ -184,8 +180,7 @@ const Btn = styled.button`
   font-weight: 700;
   font-size: 14px;
   line-height: 16.8px;
-  margin: 10px;
-  margin-left: 25px;
+  margin: 10px 20px;
   top: 50%;
   left: 50%;
   transform: translate(-8%, 0%);

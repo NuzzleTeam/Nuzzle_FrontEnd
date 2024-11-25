@@ -211,7 +211,7 @@ const BtnWrapper = styled.div`
 `;
 
 const AgreeBtn = styled.button`
-  width: 80%;
+  width: 300px;
   height: 50px;
   border-radius: 100px;
   background-color: #f3f3f3;

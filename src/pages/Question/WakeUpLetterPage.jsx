@@ -34,7 +34,7 @@ const WakeUpLetterPage = () => {
       borderRadius: "30px",
       width: "300px",
       textAlign: "center",
-      backgroundColor: "#ffe6ef",
+      backgroundColor: "#FFE6F0",
       marginBottom: "20px",
       fontFamily: "Pretendard",
       height: "60vh",
@@ -43,7 +43,10 @@ const WakeUpLetterPage = () => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
+      justifyContent: "left",
       fontFamily: "Pretendard",
+      fontSize: "18px",
+      fontWeight: "bold",
     },
     icon: {
       width: "80%",
@@ -67,8 +70,10 @@ const WakeUpLetterPage = () => {
         "repeating-linear-gradient(to bottom, transparent, transparent 18px, #ffffff 20px)",
       lineHeight: "25px",
       fontFamily: "Pretendard",
+      fontWeight: "600",
       whiteSpace: "pre-wrap",
-      fontSize: "16px",
+      fontSize: "20px",
+      lineHeight: "30px",
       height: "35vh",
     },
     placeholder: {
@@ -76,7 +81,7 @@ const WakeUpLetterPage = () => {
       fontFamily: "Pretendard",
     },
     button: {
-      backgroundColor: "pink",
+      backgroundColor: "#FFB1D0",
       border: "none",
       padding: "15px 70px",
       borderRadius: "20px",
@@ -130,7 +135,7 @@ const WakeUpLetterPage = () => {
         <textarea
           value={message}
           onChange={handleMessageChange}
-          placeholder="해당 부분을 클릭하여 적고 싶은 내용을 입력해주세요. 수신자는 발신자를 알 수 없습니다."
+          placeholder={`해당 부분을 클릭하여\n적고 싶은 내용을 입력해주세요.\n수신자는 발신자를 알 수 없습니다.`}
           style={styles.textarea}
         />
       </div>

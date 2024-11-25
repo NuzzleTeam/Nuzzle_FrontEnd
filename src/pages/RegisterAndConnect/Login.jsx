@@ -5,11 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { GoStop } from "react-icons/go";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { login, selectIsLogin, setAccessToken , setPassword, setSerialId } from "../../features/userSlice";
+import {
+  login,
+  selectIsLogin,
+  setAccessToken,
+  setPassword,
+  setSerialId,
+} from "../../features/userSlice";
 import kakaoImage from "/src/assets/img/kakao.png";
-
-
-// 로그인
 
 function Login() {
   const dispatch = useDispatch();
@@ -95,7 +98,7 @@ function Login() {
         dispatch(setAccessToken(result.data.access_token)); // 로그인 시 토큰 state에 저장
         console.log(result.data.access_token);
         setErrMsg(false);
-        dispatch(setSerialId(data.username)); // 로그인 id pw state 저장 
+        dispatch(setSerialId(data.username)); // 로그인 id pw state 저장
         dispatch(setPassword(data.pw));
         //dispatch(login({ username: data.username, password: data.pw }));
         navigate("/");

@@ -56,22 +56,49 @@ const CustomDatePicker = ({ selectedDate, onChange }) => {
         options={years}
         value={years.find((y) => y.value === year)}
         onChange={handleYearChange}
-        placeholder="Year"
-        styles={customStyles}
+        placeholder="년"
+        styles={{
+          ...customStyles,
+          control: (provided) => ({
+            ...provided,
+            backgroundColor: "#f3f3f3",
+            borderRadius: "12px",
+            padding: "10px 5px",
+            border: "None",
+          }),
+        }}
       />
       <Select
         options={months}
         value={months.find((m) => m.value === month)}
         onChange={handleMonthChange}
         placeholder="Month"
-        styles={customStyles}
+        styles={{
+          ...customStyles,
+          control: (provided) => ({
+            ...provided,
+            backgroundColor: "#f3f3f3",
+            borderRadius: "12px",
+            padding: "10px 5px",
+            border: "None",
+          }),
+        }}
       />
       <Select
         options={days}
         value={days.find((d) => d.value === day)}
         onChange={handleDayChange}
         placeholder="Day"
-        styles={customStyles}
+        styles={{
+          ...customStyles,
+          control: (provided) => ({
+            ...provided,
+            backgroundColor: "#f3f3f3",
+            borderRadius: "12px",
+            padding: "10px 5px",
+            border: "None",
+          }),
+        }}
       />
     </DatePickerWrapper>
   );
@@ -345,11 +372,8 @@ export default SignUp;
 
 const DatePickerWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   gap: 15px;
-  padding: 20px;
-  background-color: #f3f3f3;
-  border-radius: 10px;
 `;
 
 const SignUpWrapper = styled.div`
@@ -415,7 +439,6 @@ const SignUpForm = styled.form`
 
 const FormBox = styled.div`
   width: 316px;
-  margin-bottom: 20px;
 `;
 
 const FormTitle = styled.div`
@@ -426,6 +449,8 @@ const FormTitle = styled.div`
   text-align: left;
   margin-bottom: 5px;
   margin-left: 3px;
+  margin-top: 20px;
+  margin-bottom: 8px;
 `;
 
 const FormInput = styled.input`

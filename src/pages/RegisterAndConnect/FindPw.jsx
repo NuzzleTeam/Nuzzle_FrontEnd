@@ -33,10 +33,10 @@ function FindPw() {
       <FindIdWrapper>
         <FindIdContentWrapper>
           <Title>
-            <h3>비밀번호 찾기</h3>
+            <div>비밀번호 찾기</div>
           </Title>
           <Letter>
-            <h5>아이디</h5>
+            <div>아이디</div>
           </Letter>
           <ConfirmBox>
             <Id
@@ -46,7 +46,7 @@ function FindPw() {
             ></Id>
           </ConfirmBox>
           <Letter>
-            <h5>휴대폰 번호</h5>
+            <div>휴대폰 번호</div>
           </Letter>
           <ConfirmBox>
             <PhoneNumber
@@ -64,7 +64,7 @@ function FindPw() {
             </ConfirmBtn>
           </ConfirmBox>
           <Letter>
-            <h5>인증번호</h5>
+            <div>인증번호</div>
           </Letter>
           <ConfirmBox>
             <ConfirmNumber
@@ -98,8 +98,6 @@ const FindIdWrapper = styled.div`
 const FindIdContentWrapper = styled.div`
   width: 348px;
   height: 90%;
-  top: 50%;
-  left: 50%;
   transform: translate(3.8%, 2%);
   display: flex;
   flex-direction: column;
@@ -109,13 +107,16 @@ const Title = styled.div`
   text-align: left;
   font-family: "Pretendard";
   font-weight: bold;
+  font-size: 24px;
+  line-height: 50px;
 `;
 
 const Letter = styled.div`
-  /* border: 1px solid black; */
   text-align: left;
   font-family: "Pretendard";
-  font-weight: semibold;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 50px;
 `;
 
 const ConfirmBox = styled.div`
@@ -193,7 +194,6 @@ const ConfirmCompleteBtn = styled.button`
   width: 315px;
   height: 50px;
   border-radius: 100px;
-  padding: 14px, 129px, 14px, 129px;
   background-color: #cbcbcb;
   margin: 10px 20px;
   border: none;
@@ -202,5 +202,6 @@ const ConfirmCompleteBtn = styled.button`
   font-family: "Pretendard";
   font-weight: bold;
   position: relative;
+  top: 10px;
   left: -20px;
 `;
