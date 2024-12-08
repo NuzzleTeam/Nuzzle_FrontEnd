@@ -1,20 +1,27 @@
 import styled from "styled-components";
 import CommonTitle from "./CommonTitle";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import getBackgroundImage from "../../utils/Insider/getBackgroundImage";
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect, useRef } from "react";
 import rightarrow from "../../assets/rightarrow.png";
 import leftarrow from "../../assets/leftarrow.png";
-import meemoclose from "../../assets/memoclose.png";
+import memoclose from "../../assets/memoclose.png";
+import memochecked from "../../assets/memochecked.png";
 
 const SingleInsiderMemo = () => {
+  const navigate = useNavigate();
   const location = useLocation();
 
   const memos = location.state.memos;
   const from = location.state.from;
+
   const [currentMessage, setCurrentMessage] = useState(location.state.message);
   const [currentIndex, setCurrentIndex] = useState(location.state.index);
   const [bgImage, setBgImage] = useState("");
+  const [memoIcon, setMemoIcon] = useState(memoclose);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const inputRef = useRef(null);
 
   useEffect(() => {
     setBgImage(getBackgroundImage(currentIndex));
@@ -33,14 +40,54 @@ const SingleInsiderMemo = () => {
     }
   };
 
+  const onMemoClicked = () => {
+    setIsEditing(true);
+    setMemoIcon(memochecked);
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  };
+
+  const handleInputChange = (e) => {
+    console.log(e);
+    console.log(e.target.value);
+    setCurrentMessage(e.target.value);
+  };
+
+  const onMemoIconCliked = () => {
+    if (isEditing || memoIcon == memochecked) {
+      memos[currentIndex].message = currentMessage;
+    } else {
+      navigate("/insider", { state: { memos: [...memos], from: from } });
+    }
+    setIsEditing(false);
+    setMemoIcon(memoclose);
+  };
+
   return (
     <SingleInsiderMemoContainer>
       <CommonTitle />
       <MemoContainer>
         <MemoImg src={leftarrow} onClick={onLeftArrowClick} />
         <Memo bgImage={bgImage}>
-          <Memoclose src={meemoclose} />
-          <MemoInfo>{currentMessage}</MemoInfo>
+          <Memoclose src={memoIcon} onClick={onMemoIconCliked} />
+          {isEditing ? (
+            <textarea
+              ref={inputRef}
+              value={currentMessage}
+              onChange={handleInputChange}
+              style={{
+                fontSize: "16px",
+                outline: "none",
+                border: "none",
+                background: "none",
+                padding: 0,
+                width: "100%",
+              }}
+            />
+          ) : (
+            <MemoInfo onClick={onMemoClicked}>{currentMessage}</MemoInfo>
+          )}
           <MemoFrom>{from}</MemoFrom>
         </Memo>
         <MemoImg src={rightarrow} onClick={onRightArrowClick} />
@@ -57,6 +104,7 @@ const SingleInsiderMemoContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  font-family: "Pretendard";
 `;
 
 const MemoContainer = styled.div`
@@ -74,7 +122,9 @@ const MemoImg = styled.img`
   height: 24px;
 `;
 
-const Memo = styled.div`
+const Memo = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "bgImage",
+})`
   background-image: url(${(props) => props.bgImage});
   background-position: center;
   background-size: cover;
@@ -103,6 +153,7 @@ const MemoInfo = styled.div`
   font-size: 16px;
   font-weight: 400;
   line-height: 19.2px;
+  overflow-wrap: anywhere;
 `;
 
 const MemoFrom = styled.div`

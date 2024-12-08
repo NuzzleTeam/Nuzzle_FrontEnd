@@ -1,10 +1,11 @@
 import styled from "styled-components";
 import CommonTitle from "./CommonTitle";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import getBackgroundImage from "../../utils/Insider/getBackgroundImage";
 
 const Insider = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const InsiderContainer = styled.div`
     position: relative;
@@ -15,7 +16,7 @@ const Insider = () => {
     height: 100vh;
   `;
 
-  const memos = [
+  const memos = location.state?.memos || [
     {
       message: "조심히 다녀오시게테스트0",
       from: "아빠0",
@@ -80,6 +81,7 @@ const MemoContainer = styled.div`
   overflow: hidden;
   display: flex;
   justify-content: flex-start;
+  font-family: "Pretendard";
 `;
 
 const Memo = styled.div.withConfig({
