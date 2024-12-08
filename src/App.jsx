@@ -5,16 +5,44 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
+import styled from "styled-components";
 
-// import components/Footer
-// import component/Header
-// Added Header and Footer because they are used on more pages.
-// Pages not using these components will be handled as exceptions.
+// import Header and Footer
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 
 // import Home page that is Naming Character page
 import Home from "./pages/Home/Home";
+
+// import basic pages
+import FirstPage from "./pages/RegisterAndConnect/FirstPage";
+import Peek from "./pages/Peek";
+import Calendar from "./pages/Calendar";
+import Setting from "./pages/Setting";
+
+// import Register and connect page
+import Login from "./pages/RegisterAndConnect/Login";
+import FindId from "./pages/RegisterAndConnect/FindId";
+import FindAccount from "./pages/RegisterAndConnect/FindAccount";
+import NoAccount from "./pages/RegisterAndConnect/NoAccount";
+import SignUp from "./pages/RegisterAndConnect/SignUp";
+import FindPw from "./pages/RegisterAndConnect/FindPw";
+import ChangePw from "./pages/RegisterAndConnect/ChangePw";
+import Policy from "./pages/RegisterAndConnect/Policy";
+import KakaoLogin from "./pages/RegisterAndConnect/KakaoLogin";
+import Connect from "./pages/RegisterAndConnect/Connect";
+import EmailSignUp from "./pages/RegisterAndConnect/EmailSignUp";
+import ConnectComplete from "./pages/RegisterAndConnect/ConnectComplete";
+import SharedLink from "./pages/RegisterAndConnect/SharedLink";
+
+// import Character pages
+import ChaName from "./pages/MakingCharacter/ChaName";
+import Keyword from "./pages/MakingCharacter/Keyword";
+import ChaMake1 from "./pages/MakingCharacter/ChaMake1";
+import ChaColor from "./pages/MakingCharacter/ChaColor";
+import ChaComplete from "./pages/MakingCharacter/ChaComplete";
+import ChaNameComplete from "./pages/MakingCharacter/ChaNameComplete";
+import ChaNoName from "./pages/MakingCharacter/ChaNoName";
 
 // import Question and Photo pages
 import PastQuestionPage from "./pages/Question/PastQuestionPage";
@@ -22,36 +50,9 @@ import TodayQuestionPage from "./pages/Question/TodayQuestionPage";
 import PhotoCapturePage from "./pages/UploadPhoto/PhotoCapturePage";
 import WakeUpLetterPage from "./pages/Question/WakeUpLetterPage";
 
-// import Character pages
-import Peek from "./pages/Peek";
-import Insider from "./pages/Insider";
-import Calendar from "./pages/Calendar";
-import Setting from "./pages/Setting";
-import ChaName from "./pages/MakingCharacter/ChaName";
-import Keyword from "./pages/MakingCharacter/Keyword";
-import ChaMake1 from "./pages/MakingCharacter/ChaMake1";
-import styled from "styled-components";
-import ChaColor from "./pages/MakingCharacter/ChaColor";
-import ChaComplete from "./pages/MakingCharacter/ChaComplete";
-import ChaNameComplete from "./pages/MakingCharacter/ChaNameComplete";
-
-import FirstPage from "./pages/RegisterAndConnect/FirstPage"; // 여기부터 login
-import Login from "./pages/RegisterAndConnect/Login";
-import FindId from "./pages/RegisterAndConnect/FindId";
-import FindAccount from "./pages/RegisterAndConnect/FindAccount";
-import NoAccount from "./pages/RegisterAndConnect/NoAccount";
-
-import SignUp from "./pages/RegisterAndConnect/SignUp";
-import FindPw from "./pages/RegisterAndConnect/FindPw";
-import ChangePw from "./pages/RegisterAndConnect/ChangePw";
-
-import Policy from "./pages/RegisterAndConnect/Policy";
-import KakaoLogin from "./pages/RegisterAndConnect/KakaoLogin";
-import Connect from "./pages/RegisterAndConnect/Connect";
-import EmailSignUp from "./pages/RegisterAndConnect/EmailSignUp";
-import ConnectComplete from "./pages/RegisterAndConnect/ConnectComplete";
-import SharedLink from "./pages/RegisterAndConnect/SharedLink";
-import ChaNoName from "./pages/MakingCharacter/ChaNoName";
+// import Insider pages
+import Insider from "./pages/Insider/Insider";
+import SingleInsiderMemo from "./pages/Insider/SingleInsiderMemo";
 
 const AppContainer = styled.div`
   display: flex;
@@ -69,8 +70,10 @@ const Main = styled.main`
 const AppContent = () => {
   const location = useLocation();
 
+  // No header usage page
   const noHeaderPaths = ["/", "/ChaMake1", "/chacomplete", "/chaComplete"]; // 뒤로가기 버튼 사용하지 않는 페이지들
 
+  // No Footer usage page
   const noFooterPaths = [
     "/Peek",
     "/login",
@@ -89,7 +92,7 @@ const AppContent = () => {
     "/chacomplete",
     "/chaComplete",
     "/firstpage",
-  ]; // 네비게이션 사용하지 않는 페이지들
+  ];
 
   const showHeader = !noHeaderPaths.includes(location.pathname);
   const showFooter = !noFooterPaths.includes(location.pathname);
@@ -117,6 +120,7 @@ const AppContent = () => {
           <Route path="/photo-capture" element={<PhotoCapturePage />} />
           <Route path="/peek" element={<Peek />} />
           <Route path="/insider" element={<Insider />} />
+          <Route path="/singInsiderMemo" element={<SingleInsiderMemo />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/setting" element={<Setting />} />
 
